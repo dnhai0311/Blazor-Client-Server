@@ -1,0 +1,57 @@
+﻿@using Blazor_BookSale_Manager.Components.Pages
+@page "/add-bill"
+@inherits AddBillBase
+@rendermode InteractiveServer
+
+<h1>Add bill</h1>
+<EditForm Model="@bill" OnValidSubmit="HandleValidSubmit" FormName="addBillForm">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    @if (!string.IsNullOrEmpty(ValidationMessage))
+    {
+        <div class="alert alert-danger">@ValidationMessage</div>
+    }
+
+    <div class="mb-3">
+        <label class="form-label">Tìm kiếm sách:</label>
+        <InputText @bind-Value="searchText" class="form-control" placeholder="Nhập tên sách để tìm kiếm" onkeydown="return event.key !== 'Enter'" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Chọn sách:</label>
+        <select @bind="selectedBookSaleId" class="form-select">
+            <option value="">-- Chọn sách --</option>
+            @foreach (var bookSale in filteredBookSales)
+            {
+                <option value="@bookSale.Id">@bookSale.Title</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Số lượng:</label>
+        <InputNumber @bind-Value="quantity" class="form-control" disabled="@(selectedBookSaleId == 0)" onkeydown="return event.key !== 'Enter'" />
+    </div>
+
+    <div class="form-check mb-3">
+        <InputCheckbox @bind-Value="isDiscountApplied" class="form-check-input" />
+        <label class="form-check-label">Giảm 10% hóa đơn</label>
+    </div>
+
+    <button type="button" @onclick="AddBookToBill" class="btn btn-success" disabled="@(selectedBookSaleId == 0)">Thêm sách</button>
+
+    <h4 class="mt-4">Chi tiết hóa đơn</h4>
+    <ul class="list-group mb-3">
+        @foreach (var detail in bill.BillDetails)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @detail?.BookSale?.Title - Số lượng: @detail.Quantity.ToString("n0") - Giá: @detail.Price.ToString("c0")
+                <button type="button" @onclick="(() => RemoveBookFromBill(detail))" class="btn btn-danger btn-sm">Xóa</button>
+            </li>
+        }
+    </ul>
+
+    <p><strong>Tổng tiền:</strong> @totalPriceWithDiscount.ToString("c0")</p>
+    <button type="submit" class="btn btn-primary" disabled="@(bill.BillDetails.Count() == 0 )">Tạo hóa đơn</button>
+</EditForm>

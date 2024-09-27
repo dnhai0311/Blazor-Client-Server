@@ -1,0 +1,54 @@
+﻿<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">Booksale Manager</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="add-booksale">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Booksale
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="add-author">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Author
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="add-bill">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Bill
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="booksales/all">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list BookSales
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="authors/all">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Authors
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="bills/all">
+                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Bills
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
