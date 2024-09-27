@@ -1,7 +1,7 @@
-﻿using Blazor_BookSale_Manager.Models;
+﻿using Server.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blazor_BookSale_Manager.Repositories
+namespace Server.Repositories
 {
     public class BookSaleRepository : IBookSaleRepository
     {

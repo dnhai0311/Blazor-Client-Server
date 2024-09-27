@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Blazor_BookSale_Manager.Models
+namespace Server.Models
 {
     public class BookSalesContext : DbContext
     {

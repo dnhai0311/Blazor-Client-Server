@@ -1,8 +1,8 @@
-﻿using Blazor_BookSale_Manager.Models;
-using Blazor_BookSale_Manager.Repositories;
+﻿using Server.Models;
+using Server.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blazor_BookSale_Manager.Controllers
+namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

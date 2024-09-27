@@ -1,25 +1,25 @@
-﻿using Blazor_BookSale_Manager.Models;
-using Blazor_BookSale_Manager.Repositories;
+﻿using Server.Models;
+using Server.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blazor_BookSale_Manager.Controllers
+namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BillController : ControllerBase
     {
-        private readonly IBookSaleRepository bookSaleRepository;
+        private readonly IBookSaleRepository BookSaleRepository;
 
         public BillController(IBookSaleRepository bookSaleRepository)
         {
-            this.bookSaleRepository = bookSaleRepository;
+            this.BookSaleRepository = bookSaleRepository;
         }
 
         // GET: api/bill
         [HttpGet]
         public async Task<IActionResult> GetAllBills()
         {
-            var bills = await bookSaleRepository.GetAllBills();
+            var bills = await BookSaleRepository.GetAllBills();
             return Ok(bills);
         }
 
@@ -29,7 +29,7 @@ namespace Blazor_BookSale_Manager.Controllers
         {
             try
             {
-                var bill = await bookSaleRepository.GetAllBillDetailsByBillId(id);
+                var bill = await BookSaleRepository.GetAllBillDetailsByBillId(id);
                 return Ok(bill);
             }
             catch (Exception ex) {
@@ -46,7 +46,7 @@ namespace Blazor_BookSale_Manager.Controllers
                 return BadRequest(ModelState);
             }
 
-            await bookSaleRepository.AddBill(bill);
+            await BookSaleRepository.AddBill(bill);
             return CreatedAtAction(nameof(GetBillDetailsByBillId), new { id = bill.Id }, bill);
         }
     }

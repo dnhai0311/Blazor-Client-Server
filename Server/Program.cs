@@ -1,5 +1,5 @@
-﻿using Blazor_BookSale_Manager.Models;
-using Blazor_BookSale_Manager.Repositories;
+﻿using Server.Models;
+using Server.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

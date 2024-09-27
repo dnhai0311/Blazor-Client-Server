@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Blazor_BookSale_Manager.Repositories;
-using Blazor_BookSale_Manager.Models;
+using Client.Repositories;
+using Client.Models;
 using Unidecode.NET;
-using Microsoft.AspNetCore.Components.Forms;
 
-namespace Blazor_BookSale_Manager.Components.Pages
+namespace Client.Components.Pages
 {
     public class AddBillBase : ComponentBase
     {

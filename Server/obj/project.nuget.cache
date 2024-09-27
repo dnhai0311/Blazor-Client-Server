@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "P6Fg3P1zovM=",
+  "dgSpecHash": "285rhp4pzZQ=",
   "success": true,
-  "projectFilePath": "D:\\Codes\\Blazor-App-Server\\Server\\Server.csproj",
+  "projectFilePath": "D:\\Codes\\Blazor-Client-Server\\Server\\Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lolicious\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\Lolicious\\.nuget\\packages\\google.protobuf\\3.26.1\\google.protobuf.3.26.1.nupkg.sha512",

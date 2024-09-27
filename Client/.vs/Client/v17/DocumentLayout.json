@@ -1,71 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Codes\\Blazor-App-Server\\Client\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|d:\\codes\\blazor-app-server\\client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|d:\\codes\\blazor-app-server\\client\\components\\pages\\addbooksale.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|solutionrelative:components\\pages\\addbooksale.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|d:\\codes\\blazor-app-server\\client\\components\\pages\\addbooksalebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{37D4CFB3-113D-446E-92DE-4F9A49E2F5C8}|Client.csproj|solutionrelative:components\\pages\\addbooksalebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "WorkspaceRootPath": "D:\\Codes\\Blazor-Client-Server\\Client\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Codes\\Blazor-App-Server\\Client\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "D:\\Codes\\Blazor-App-Server\\Client\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAABqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T13:35:11.673Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AddBookSaleBase.cs",
-              "DocumentMoniker": "D:\\Codes\\Blazor-App-Server\\Client\\Components\\Pages\\AddBookSaleBase.cs",
-              "RelativeDocumentMoniker": "Components\\Pages\\AddBookSaleBase.cs",
-              "ToolTip": "D:\\Codes\\Blazor-App-Server\\Client\\Components\\Pages\\AddBookSaleBase.cs",
-              "RelativeToolTip": "Components\\Pages\\AddBookSaleBase.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-27T13:32:17.772Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AddBookSale.razor",
-              "DocumentMoniker": "D:\\Codes\\Blazor-App-Server\\Client\\Components\\Pages\\AddBookSale.razor",
-              "RelativeDocumentMoniker": "Components\\Pages\\AddBookSale.razor",
-              "ToolTip": "D:\\Codes\\Blazor-App-Server\\Client\\Components\\Pages\\AddBookSale.razor",
-              "RelativeToolTip": "Components\\Pages\\AddBookSale.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-27T13:32:15.41Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

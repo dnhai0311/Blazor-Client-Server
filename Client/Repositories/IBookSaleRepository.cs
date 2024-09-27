@@ -1,6 +1,6 @@
-﻿using Blazor_BookSale_Manager.Models;
+﻿using Client.Models;
 
-namespace Blazor_BookSale_Manager.Repositories
+namespace Client.Repositories
 {
     public interface IBookSaleRepository
     {

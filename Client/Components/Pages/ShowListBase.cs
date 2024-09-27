@@ -1,10 +1,10 @@
-﻿using Blazor_BookSale_Manager.Models;
-using Blazor_BookSale_Manager.Repositories;
+﻿using Client.Models;
+using Client.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Unidecode.NET;
 
-namespace Blazor_BookSale_Manager.Components.Pages
+namespace Client.Components.Pages
 {
     public class ShowListBase : ComponentBase
     {

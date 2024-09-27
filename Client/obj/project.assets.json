@@ -47,11 +47,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Codes\\Blazor-App-Server\\Client\\Client.csproj",
+      "projectUniqueName": "D:\\Codes\\Blazor-Client-Server\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "D:\\Codes\\Blazor-App-Server\\Client\\Client.csproj",
+      "projectPath": "D:\\Codes\\Blazor-Client-Server\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\Lolicious\\.nuget\\packages\\",
-      "outputPath": "D:\\Codes\\Blazor-App-Server\\Client\\obj\\",
+      "outputPath": "D:\\Codes\\Blazor-Client-Server\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Lolicious\\AppData\\Roaming\\NuGet\\NuGet.Config",

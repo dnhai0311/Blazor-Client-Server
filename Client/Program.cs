@@ -1,4 +1,4 @@
-using Blazor_BookSale_Manager.Repositories;
+using Client.Repositories;
 using Client.Components;
 
 var builder = WebApplication.CreateBuilder(args);

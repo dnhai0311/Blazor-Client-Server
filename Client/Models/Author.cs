@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Blazor_BookSale_Manager.Models
+namespace Client.Models
 {
     public class Author
     {

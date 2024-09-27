@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Blazor_BookSale_Manager.Models
+﻿namespace Server.Models
 {
     public class Bill
     {

@@ -1,5 +1,4 @@
-﻿
-namespace Blazor_BookSale_Manager.Models
+﻿namespace Client.Models
 {
     public class Bill
     {

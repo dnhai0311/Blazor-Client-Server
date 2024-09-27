@@ -1,7 +1,6 @@
-﻿using Blazor_BookSale_Manager.Models;
-using System.Net.Http.Json;
+﻿using Client.Models;
 
-namespace Blazor_BookSale_Manager.Repositories
+namespace Client.Repositories
 {
     public class BookSaleRepository : IBookSaleRepository
     {
