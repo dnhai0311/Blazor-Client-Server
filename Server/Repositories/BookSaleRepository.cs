@@ -70,14 +70,8 @@ namespace Server.Repositories
         }
         public async Task UpdateBookSale(BookSale bookSale)
         {
-            var existingBookSale = await bookSalesContext.BookSales.FindAsync(bookSale.Id);
-            if (existingBookSale != null)
-            {
-                existingBookSale.Title = bookSale.Title;
-                existingBookSale.Quantity = bookSale.Quantity;
-                existingBookSale.Price = bookSale.Price;
-                await bookSalesContext.SaveChangesAsync();
-            }
+            bookSalesContext.Entry(bookSale).State = EntityState.Modified;
+            await bookSalesContext.SaveChangesAsync();
         }
         public async Task DeleteBookSale(int id)
         {
@@ -109,12 +103,8 @@ namespace Server.Repositories
         }
         public async Task UpdateAuthor(Author author)
         {
-            var existingAuthor = await bookSalesContext.Authors.FindAsync(author.Id);
-            if (existingAuthor != null)
-            {
-                existingAuthor.AuthorName = author.AuthorName;
-                await bookSalesContext.SaveChangesAsync();
-            }
+            bookSalesContext.Entry(author).State = EntityState.Modified;
+            await bookSalesContext.SaveChangesAsync();
         }
         public async Task DeleteAuthor(int id)
         {

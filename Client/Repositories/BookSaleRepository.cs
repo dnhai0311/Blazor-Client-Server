@@ -1,4 +1,4 @@
-﻿using Client.Models;
+﻿using Server.Models;
 
 namespace Client.Repositories
 {

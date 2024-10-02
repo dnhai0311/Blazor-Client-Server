@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Client.Repositories;
-using Client.Models;
+using Server.Models;
 using Unidecode.NET;
 
 namespace Client.Components.Pages

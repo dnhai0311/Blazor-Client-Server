@@ -1,4 +1,4 @@
-﻿using Client.Models;
+﻿using Server.Models;
 using Client.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
