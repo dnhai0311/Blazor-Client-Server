@@ -46,7 +46,7 @@ namespace Server.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            bookSale.Author = null;
             await BooksalesRepository.AddBookSale(bookSale);
             return CreatedAtAction(nameof(GetBookSaleById), new { id = bookSale.Id }, bookSale);
         }
@@ -59,7 +59,7 @@ namespace Server.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            bookSale.Author = null;
             await BooksalesRepository.UpdateBookSale(bookSale);
             return NoContent();
         }

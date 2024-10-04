@@ -2570,16 +2570,6 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
-      },
-      "Shared/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v8.0",
-        "compile": {
-          "bin/placeholder/Shared.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Shared.dll": {}
-        }
       }
     }
   },
@@ -7616,17 +7606,11 @@
       "type": "project",
       "path": "../Server/Server.csproj",
       "msbuildProject": "../Server/Server.csproj"
-    },
-    "Shared/1.0.0": {
-      "type": "project",
-      "path": "../Shared/Shared.csproj",
-      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "Server >= 1.0.0",
-      "Shared >= 1.0.0",
       "Unidecode.NET >= 2.1.0"
     ]
   },
@@ -7636,11 +7620,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Codes\\Blazor-Client-Server\\Client\\Client.csproj",
+      "projectUniqueName": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Client.csproj",
       "projectName": "Client",
-      "projectPath": "D:\\Codes\\Blazor-Client-Server\\Client\\Client.csproj",
+      "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Client.csproj",
       "packagesPath": "C:\\Users\\Lolicious\\.nuget\\packages\\",
-      "outputPath": "D:\\Codes\\Blazor-Client-Server\\Client\\obj\\",
+      "outputPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Lolicious\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -7658,11 +7642,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Codes\\Blazor-Client-Server\\Server\\Server.csproj": {
-              "projectPath": "D:\\Codes\\Blazor-Client-Server\\Server\\Server.csproj"
-            },
-            "D:\\Codes\\Blazor-Client-Server\\Shared\\Shared.csproj": {
-              "projectPath": "D:\\Codes\\Blazor-Client-Server\\Shared\\Shared.csproj"
+            "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj": {
+              "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj"
             }
           }
         }

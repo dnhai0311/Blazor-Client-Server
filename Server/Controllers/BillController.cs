@@ -45,7 +45,9 @@ namespace Server.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            foreach (var item in bill.BillDetails) {
+                item.BookSale = null;
+            }
             await BookSaleRepository.AddBill(bill);
             return CreatedAtAction(nameof(GetBillDetailsByBillId), new { id = bill.Id }, bill);
         }

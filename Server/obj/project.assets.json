@@ -7648,11 +7648,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Codes\\Blazor-Client-Server\\Server\\Server.csproj",
+      "projectUniqueName": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "D:\\Codes\\Blazor-Client-Server\\Server\\Server.csproj",
+      "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\Lolicious\\.nuget\\packages\\",
-      "outputPath": "D:\\Codes\\Blazor-Client-Server\\Server\\obj\\",
+      "outputPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Lolicious\\AppData\\Roaming\\NuGet\\NuGet.Config",
