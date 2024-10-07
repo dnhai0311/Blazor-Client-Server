@@ -1,6 +1,7 @@
 using Shared.Repositories;
 using Client.Repositories;
 using Client.Components;
+using Client.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ var baseAddress = new Uri("https://localhost:7103");
 builder.Services.AddHttpClient<IBookSaleRepository, BookSaleRepository>(httpClient => httpClient.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IAuthorRepository, AuthorRepository>(httpClient => httpClient.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IBillRepository, BillRepository>(httpClient => httpClient.BaseAddress = baseAddress);
+
+builder.Services.AddScoped<AuthService>();
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

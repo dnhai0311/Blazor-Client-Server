@@ -1,0 +1,55 @@
+﻿@page "/register"
+@using Shared.Models
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<h3>Đăng Ký</h3>
+
+<EditForm Model="registerRequest" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="UserName" class="form-label">Name:</label>
+        <InputText id="UserName" class="form-control" @bind-Value="registerRequest.UserName" />
+        <ValidationMessage For="@(() => registerRequest.UserName)" />
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email:</label>
+        <InputText id="Email" class="form-control" @bind-Value="registerRequest.Email" />
+        <ValidationMessage For="@(() => registerRequest.Email)" />
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password:</label>
+        <InputText id="Password" class="form-control" @bind-Value="registerRequest.Password" Type="password" />
+        <ValidationMessage For="@(() => registerRequest.Password)" />
+    </div>
+    <div class="mb-3">
+        <label for="ConfirmPassword" class="form-label">Confirm Password:</label>
+        <InputText id="ConfirmPassword" class="form-control" @bind-Value="registerRequest.ConfirmPassword" Type="password" />
+        <ValidationMessage For="@(() => registerRequest.ConfirmPassword)" />
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng Ký</button>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-info mt-3">@message</div>
+    }
+</EditForm>
+
+@code {
+    private RegisterRequest registerRequest = new RegisterRequest();
+    private string message = string.Empty;
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/users/register", registerRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            message = "Đăng ký thành công!";
+        }
+        else
+        {
+            message = "Đăng ký thất bại!";
+        }
+    }
+}

@@ -38,6 +38,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAuthenticatedUser", policy =>
+        policy.RequireAuthenticatedUser());
+});
+
+
 
 // Add services to the container.
 

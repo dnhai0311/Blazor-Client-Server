@@ -1,0 +1,51 @@
+﻿@page "/login"
+@using Shared.Models
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<h3>Đăng Nhập</h3>
+
+<EditForm Model="loginRequest" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="UserName" class="form-label">Name:</label>
+        <InputText id="UserName" class="form-control" @bind-Value="loginRequest.UserName" />
+        <ValidationMessage For="@(() => loginRequest.UserName)" />
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password:</label>
+        <InputText id="Password" class="form-control" @bind-Value="loginRequest.Password" Type="password" />
+        <ValidationMessage For="@(() => loginRequest.Password)" />
+    </div>
+    <div class="mb-3">
+        <label>
+            <InputCheckbox @bind-Value="loginRequest.RememberMe" class="form-check-input" /> Lưu mật khẩu
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert alert-danger mt-3">@message</div>
+    }
+</EditForm>
+
+@code {
+    private LoginRequest loginRequest = new LoginRequest();
+    private string message = string.Empty;
+
+    private async Task HandleValidSubmit()
+    {
+        var response = await Http.PostAsJsonAsync("api/auth/login", loginRequest);
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+            message = $"Đăng nhập thành công! Token: {result?.Token}";
+        }
+        else
+        {
+            message = "Đăng nhập thất bại!";
+        }
+    }
+}

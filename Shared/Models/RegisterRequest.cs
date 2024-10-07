@@ -2,9 +2,8 @@
 
 namespace Shared.Models
 {
-    public class User
+    public class RegisterRequest
     {
-        public int Id { get; set; } = 0;
 
         [Required(ErrorMessage = "Bạn phải nhập Name")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Name có độ dài từ 5 -> 20 ký tự")]
@@ -16,6 +15,13 @@ namespace Shared.Models
 
         [Required(ErrorMessage = "Bạn phải nhập Password")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Password có độ dài từ 5 -> 20 ký tự")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = String.Empty;
+
+        [Required(ErrorMessage = "Bạn phải nhập lại Password")]
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "Password có độ dài từ 5 -> 20 ký tự")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Mật khẩu không trùng nhau")]
+        public string ConfirmPassword { get; set; } = String.Empty;
     }
 }

@@ -12,5 +12,7 @@ namespace Shared.Models
         [Required(ErrorMessage = "Bạn phải nhập Password")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Password có độ dài từ 5 -> 20 ký tự")]
         public string Password { get; set; } = String.Empty;
+
+        public bool RememberMe { get; set; }
     }
 }

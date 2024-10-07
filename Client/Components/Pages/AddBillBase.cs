@@ -44,7 +44,7 @@ namespace Client.Components.Pages
             var selectedBookSale = bookSales.FirstOrDefault(bs => bs.Id == selectedBookSaleId);
             if (selectedBookSale == null) return;
 
-            var existingBillDetail = bill.BillDetails.FirstOrDefault(bd => bd.BookSale.Id == selectedBookSale.Id);
+            var existingBillDetail = bill.BillDetails.FirstOrDefault(bd => bd.BookSale?.Id == selectedBookSale.Id);
 
             if (existingBillDetail != null)
             {

@@ -10,12 +10,10 @@ namespace Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository UserRepository;
-        private readonly ITokenService TokenService;
 
-        public UserController(IUserRepository userRepository, ITokenService tokenService)
+        public UserController(IUserRepository userRepository)
         {
             UserRepository = userRepository;
-            TokenService = tokenService;
         }
 
         [HttpGet]
@@ -26,48 +24,34 @@ namespace Server.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody]User user)
+        public async Task<ActionResult<RegisterResult>> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new RegisterResult { 
+                    Successful = false, 
+                    Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList() });
             }
 
             try
             {
+                User user = new User
+                {
+                    UserName = registerRequest.UserName,
+                    Email = registerRequest.Email,
+                    Password = registerRequest.Password
+                };
+
                 await UserRepository.AddUser(user);
-                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
+                return Ok(new RegisterResult { Successful = true });
             }
             catch (InvalidOperationException ex)
             {
-                return Conflict(ex.Message);
+                return Conflict(new RegisterResult { Successful = false, Errors = new List<string> { ex.Message } });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
-            }
-        }
-
-        [HttpPost("login")]
-        public async Task<ActionResult<object>> Login([FromBody] LoginRequest loginRequest)
-        {
-            try
-            {
-                var authenticatedUser = await UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
-                var token = TokenService.GenerateToken(authenticatedUser.Id, authenticatedUser.UserName);
-                return Ok(new { Token = token });
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+                return StatusCode(500, new RegisterResult { Successful = false, Errors = new List<string> { $"Có lỗi xảy ra: {ex.Message}" } });
             }
         }
 
