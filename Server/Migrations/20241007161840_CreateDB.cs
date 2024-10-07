@@ -51,7 +51,7 @@ namespace Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     UserName = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
-                    Email = table.Column<string>(type: "longtext", nullable: false),
+                    Email = table.Column<string>(type: "varchar(255)", nullable: false),
                     Password = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
                 },
                 constraints: table =>
@@ -137,6 +137,12 @@ namespace Server.Migrations
                 name: "UX_BookSale_Title",
                 table: "BookSales",
                 column: "Title",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "UX_User_Email",
+                table: "Users",
+                column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(

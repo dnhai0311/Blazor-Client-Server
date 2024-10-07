@@ -11,7 +11,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(BookSalesContext))]
-    [Migration("20241007135429_CreateDB")]
+    [Migration("20241007161840_CreateDB")]
     partial class CreateDB
     {
         /// <inheritdoc />
@@ -125,7 +125,7 @@ namespace Server.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -138,6 +138,10 @@ namespace Server.Migrations
                         .HasColumnType("varchar(20)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique()
+                        .HasDatabaseName("UX_User_Email");
 
                     b.HasIndex("UserName")
                         .IsUnique()

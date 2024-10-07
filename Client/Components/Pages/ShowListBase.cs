@@ -146,6 +146,16 @@ namespace Client.Components.Pages
                     items.RemoveAll(item => (item as BookSale)?.Id == id);
                     UpdatePaged();
                 }
+            } else if (Type == "authors")
+            {
+                bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Bạn muốn xóa Author với ID: {id}?" +
+                    $"\nĐiều này sẽ xóa toàn bộ BookSale thuộc Author này!!!");
+                if (confirmed)
+                {
+                    await AuthorRepository.DeleteAuthor(id);
+                    items.RemoveAll(item => (item as Author)?.Id == id);
+                    UpdatePaged();
+                }
             }
         }
 

@@ -35,6 +35,10 @@ namespace Server.Models
                 .HasIndex(u => u.UserName)
                 .IsUnique()
                 .HasDatabaseName("UX_User_UserName");
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique()
+                .HasDatabaseName("UX_User_Email");
         }
     }
 }

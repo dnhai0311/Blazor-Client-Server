@@ -1,5 +1,6 @@
 
 -- Nếu xài Studio thì Tools -> NuGet... -> ...Console
+-- dotnet restore cả 2 client, server
 -- Update-Database
 -- Cái này cho VS Code
 -- dotnet ef database update
@@ -78,7 +79,7 @@ INSERT INTO `booksales` (`Id`, `Title`, `Quantity`, `Price`, `AuthorId`) VALUES
 (49, 'Tên Của Bạn Là Tập 9', 500, 150000, 5),
 (50, 'Tên Của Bạn Là Tập 10', 1000, 150000, 5),
 (51, 'Hãy Theo Dõi Nào', 1000, 50000, 2),
-(53, 'Hành Trình Đến Hạnh Phúc', 500, 100000, 2),
-(56, 'Đường Hầm Mùa Hạ Tập 11', 1000, 120000, 1);
+(52, 'Hành Trình Đến Hạnh Phúc', 500, 100000, 2),
+(53, 'Đường Hầm Mùa Hạ Tập 11', 1000, 120000, 1);
 
 -- --------------------------------------------------------

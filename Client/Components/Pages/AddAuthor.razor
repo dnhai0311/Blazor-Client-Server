@@ -5,6 +5,11 @@
 
 <h1>@(author.Id != 0 ? "Edit" : "Add") Author</h1>
 
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
 <EditForm Model="author" OnValidSubmit="HandleValidSubmit" FormName="addAuthorForm">
     <DataAnnotationsValidator />
     <ValidationMessage For="@(() => author.AuthorName)" class="alert alert-danger" />

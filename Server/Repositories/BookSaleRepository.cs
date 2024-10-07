@@ -33,9 +33,18 @@ namespace Server.Repositories
 
         public async Task AddBookSale(BookSale bookSale)
         {
+            var existingBookSale = await bookSalesContext.BookSales
+                .FirstOrDefaultAsync(b => b.Title == bookSale.Title);
+
+            if (existingBookSale != null)
+            {
+                throw new InvalidOperationException("BookSale với tiêu đề này đã tồn tại.");
+            }
+
             bookSalesContext.Add(bookSale);
             await bookSalesContext.SaveChangesAsync();
         }
+
 
         public async Task UpdateBookSale(BookSale bookSale)
         {
@@ -45,6 +54,13 @@ namespace Server.Repositories
                 throw new KeyNotFoundException($"BookSale với ID: {bookSale.Id} không tìm thấy.");
             }
 
+            var otherBookSale = await bookSalesContext.BookSales
+                .FirstOrDefaultAsync(b => b.Title == bookSale.Title && b.Id != bookSale.Id);
+
+            if (otherBookSale != null)
+            {
+                throw new InvalidOperationException("BookSale với tiêu đề này đã tồn tại.");
+            }
             bookSalesContext.Entry(existingBookSale).CurrentValues.SetValues(bookSale);
             await bookSalesContext.SaveChangesAsync();
         }

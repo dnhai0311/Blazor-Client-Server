@@ -43,9 +43,18 @@ namespace Server.Repositories
 
         public async Task AddAuthor(Author author)
         {
+            var existingAuthor = await bookSalesContext.Authors
+                .FirstOrDefaultAsync(a => a.AuthorName == author.AuthorName);
+
+            if (existingAuthor != null)
+            {
+                throw new InvalidOperationException("Author với tên này đã tồn tại.");
+            }
+
             bookSalesContext.Add(author);
             await bookSalesContext.SaveChangesAsync();
         }
+
 
         public async Task UpdateAuthor(Author author)
         {
@@ -54,9 +63,19 @@ namespace Server.Repositories
             {
                 throw new KeyNotFoundException($"Author với ID: {author.Id} không tìm thấy.");
             }
+
+            var otherAuthor = await bookSalesContext.Authors
+                .FirstOrDefaultAsync(a => a.AuthorName == author.AuthorName && a.Id != author.Id);
+
+            if (otherAuthor != null)
+            {
+                throw new InvalidOperationException("Author với tên này đã tồn tại.");
+            }
+
             bookSalesContext.Entry(existingAuthor).CurrentValues.SetValues(author);
             await bookSalesContext.SaveChangesAsync();
         }
+
 
         public async Task DeleteAuthor(int id)
         {

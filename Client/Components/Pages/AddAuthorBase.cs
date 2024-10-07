@@ -7,13 +7,14 @@ namespace Client.Components.Pages
     public class AddAuthorBase : ComponentBase
     {
         [Inject]
-        public required IAuthorRepository AuthorRepository { get; set; } 
+        public required IAuthorRepository AuthorRepository { get; set; }
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
         [Parameter]
         public int? Id { get; set; }
 
         public Author author { get; set; } = new Author();
+        public string errorMessage { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,15 +26,29 @@ namespace Client.Components.Pages
 
         public async Task HandleValidSubmit()
         {
-            if (author.Id == 0)
+            errorMessage = string.Empty;
+
+            try
             {
-                await AuthorRepository.AddAuthor(author); 
+                if (author.Id == 0)
+                {
+                    await AuthorRepository.AddAuthor(author);
+                }
+                else
+                {
+                    await AuthorRepository.UpdateAuthor(author);
+                }
+
+                NavigationManager.NavigateTo("/authors/all");
             }
-            else
+            catch (ApplicationException ex)
             {
-                await AuthorRepository.UpdateAuthor(author); 
+                errorMessage = ex.Message;
             }
-            NavigationManager.NavigateTo("/authors/all"); 
+            catch (Exception ex)
+            {
+                errorMessage = $"Có lỗi xảy ra: {ex.Message}";
+            }
         }
     }
 }

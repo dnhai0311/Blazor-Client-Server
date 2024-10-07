@@ -57,6 +57,10 @@ namespace Server.Controllers
                 await BookSalesRepository.AddBookSale(bookSale);
                 return CreatedAtAction(nameof(GetBookSaleById), new { id = bookSale.Id }, bookSale);
             }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
@@ -86,6 +90,10 @@ namespace Server.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

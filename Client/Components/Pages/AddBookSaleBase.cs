@@ -20,9 +20,11 @@ namespace Client.Components.Pages
         public BookSale bookSale { get; set; } = new BookSale();
         public List<Author> authors { get; set; } = new List<Author>();
 
+        public string errorMessage { get; set; } = string.Empty;
+
         protected override async Task OnInitializedAsync()
         {
-            authors = await AuthorRepository.GetAllAuthors(); 
+            authors = await AuthorRepository.GetAllAuthors();
 
             if (Id.HasValue)
             {
@@ -32,15 +34,28 @@ namespace Client.Components.Pages
 
         public async Task HandleValidSubmit()
         {
-            if (bookSale.Id == 0)
+            errorMessage = string.Empty;
+
+            try
             {
-                await BookSaleRepository.AddBookSale(bookSale);
+                if (bookSale.Id == 0)
+                {
+                    await BookSaleRepository.AddBookSale(bookSale);
+                }
+                else
+                {
+                    await BookSaleRepository.UpdateBookSale(bookSale);
+                }
+                NavigationManager.NavigateTo("/booksales/all");
             }
-            else
+            catch (ApplicationException ex)
             {
-                await BookSaleRepository.UpdateBookSale(bookSale);
+                errorMessage = ex.Message;
             }
-            NavigationManager.NavigateTo("/booksales/all");
+            catch (Exception ex)
+            {
+                errorMessage = $"Có lỗi xảy ra: {ex.Message}";
+            }
         }
     }
 }

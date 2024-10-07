@@ -32,10 +32,19 @@ namespace Server.Repositories
 
         public async Task AddUser(User user)
         {
+            var existingUser = await bookSalesContext.Users
+                .FirstOrDefaultAsync(u => u.UserName == user.UserName || u.Email == user.Email);
+
+            if (existingUser != null)
+            {
+                throw new InvalidOperationException("User với UserName hoặc Email này đã tồn tại.");
+            }
+
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
             bookSalesContext.Users.Add(user);
             await bookSalesContext.SaveChangesAsync();
         }
+
 
         public async Task UpdateUser(User user)
         {
@@ -43,6 +52,14 @@ namespace Server.Repositories
             if (existingUser == null)
             {
                 throw new KeyNotFoundException($"User với ID: {user.Id} không tìm thấy.");
+            }
+
+            var otherUser = await bookSalesContext.Users
+                .FirstOrDefaultAsync(u => (u.UserName == user.UserName || u.Email == user.Email) && u.Id != user.Id);
+
+            if (otherUser != null)
+            {
+                throw new InvalidOperationException("User với UserName hoặc Email này đã tồn tại.");
             }
 
             if (!string.IsNullOrEmpty(user.Password))
@@ -54,6 +71,7 @@ namespace Server.Repositories
 
             await bookSalesContext.SaveChangesAsync();
         }
+
 
 
         public async Task DeleteUser(int id)

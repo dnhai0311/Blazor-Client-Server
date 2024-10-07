@@ -14,17 +14,15 @@ namespace Client.Repositories
 
         public async Task<List<Bill>> GetAllBills()
         {
-            return await httpClient.GetFromJsonAsync<List<Bill>>("api/bill");
+            var bills = await httpClient.GetFromJsonAsync<List<Bill>>("api/bill");
+            return bills ?? new List<Bill>();
         }
+
 
         public async Task<Bill> GetAllBillDetailsByBillId(int id)
         {
             var bill = await httpClient.GetFromJsonAsync<Bill>($"api/bill/{id}");
-            if (bill == null)
-            {
-                throw new Exception($"Bill với ID: {id} không thấy.");
-            }
-            return bill;
+            return bill ?? new Bill();
         }
 
         public async Task AddBill(Bill bill)

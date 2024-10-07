@@ -53,6 +53,10 @@ namespace Server.Controllers
                 await AuthorRepository.AddAuthor(author);
                 return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, author);
             }
+            catch(InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
@@ -80,6 +84,10 @@ namespace Server.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

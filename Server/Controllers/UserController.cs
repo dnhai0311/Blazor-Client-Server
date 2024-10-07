@@ -38,6 +38,10 @@ namespace Server.Controllers
                 await UserRepository.AddUser(user);
                 return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
@@ -107,6 +111,10 @@ namespace Server.Controllers
             catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(ex.Message);
             }
             catch (Exception ex)
             {

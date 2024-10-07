@@ -4,6 +4,13 @@
 @rendermode InteractiveServer
 
 <h1>@(@bookSale.Id != 0 ? "Edit" : "Add") Book Sale</h1>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
 <EditForm Model="bookSale" OnValidSubmit="HandleValidSubmit" FormName="addBookSaleForm">
     <DataAnnotationsValidator />
 

@@ -1,0 +1,137 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Unidecode.NET/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Unidecode.NET.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Unidecode.NET.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Unidecode.NET/2.1.0": {
+      "sha512": "AY7AC9+8wOgKY/RNol7BTiVk6BO46l0+O2TtwUdhRneixRzxYW278bd+AtCe13P1iU8hG1hdICa2UJyHzx95nA==",
+      "type": "package",
+      "path": "unidecode.net/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard1.2/Unidecode.NET.dll",
+        "lib/netstandard1.2/Unidecode.NET.xml",
+        "lib/netstandard2.0/Unidecode.NET.dll",
+        "lib/netstandard2.0/Unidecode.NET.xml",
+        "lib/netstandard2.1/Unidecode.NET.dll",
+        "lib/netstandard2.1/Unidecode.NET.xml",
+        "unidecode.net.2.1.0.nupkg.sha512",
+        "unidecode.net.nuspec"
+      ]
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Shared >= 1.0.0",
+      "Unidecode.NET >= 2.1.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\Lolicious\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Client.csproj",
+      "projectName": "Client",
+      "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Client.csproj",
+      "packagesPath": "C:\\Users\\Lolicious\\.nuget\\packages\\",
+      "outputPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\Lolicious\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj": {
+              "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "dependencies": {
+          "Unidecode.NET": {
+            "target": "Package",
+            "version": "[2.1.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
