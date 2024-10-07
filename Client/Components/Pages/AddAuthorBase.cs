@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Client.Repositories;
-using Server.Models;
+using Shared.Repositories;
+using Shared.Models;
 
 namespace Client.Components.Pages
 {
     public class AddAuthorBase : ComponentBase
     {
         [Inject]
-        public required IBookSaleRepository bookSaleRepository { get; set; } 
+        public required IAuthorRepository AuthorRepository { get; set; } 
         [Inject]
-        public required NavigationManager navigationManager { get; set; }
+        public required NavigationManager NavigationManager { get; set; }
         [Parameter]
         public int? Id { get; set; }
 
@@ -19,7 +19,7 @@ namespace Client.Components.Pages
         {
             if (Id.HasValue)
             {
-                author = await bookSaleRepository.GetAuthorById(Id.Value);
+                author = await AuthorRepository.GetAuthorById(Id.Value);
             }
         }
 
@@ -27,13 +27,13 @@ namespace Client.Components.Pages
         {
             if (author.Id == 0)
             {
-                await bookSaleRepository.AddAuthor(author); 
+                await AuthorRepository.AddAuthor(author); 
             }
             else
             {
-                await bookSaleRepository.UpdateAuthor(author); 
+                await AuthorRepository.UpdateAuthor(author); 
             }
-            navigationManager.NavigateTo("/authors/all"); 
+            NavigationManager.NavigateTo("/authors/all"); 
         }
     }
 }

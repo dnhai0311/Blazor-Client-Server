@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Client.Repositories;
-using Server.Models;
+using Shared.Repositories;
+using Shared.Models;
 using Unidecode.NET;
 
 namespace Client.Components.Pages
@@ -8,9 +8,11 @@ namespace Client.Components.Pages
     public class AddBillBase : ComponentBase
     {
         [Inject]
-        public required IBookSaleRepository bookSaleRepository { get; set; }
+        public required IBillRepository BillRepository { get; set; }
         [Inject]
-        public required NavigationManager navigationManager { get; set; }
+        public required IBookSaleRepository BookSaleRepository { get; set; }
+        [Inject]
+        public required NavigationManager NavigationManager { get; set; }
 
         public Bill bill { get; set; } = new Bill();
         public List<BookSale> bookSales { get; set; } = new List<BookSale>();
@@ -28,7 +30,7 @@ namespace Client.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            bookSales = await bookSaleRepository.GetAllBookSales();
+            bookSales = await BookSaleRepository.GetAllBookSales();
         }
 
         public async Task AddBookToBill()
@@ -111,8 +113,8 @@ namespace Client.Components.Pages
                 detail.BookSale = null;
             }
             bill.TotalPrice = totalPriceWithDiscount;
-            await bookSaleRepository.AddBill(bill);
-            navigationManager.NavigateTo("/bills/all");
+            await BillRepository.AddBill(bill);
+            NavigationManager.NavigateTo("/bills/all");
         }
     }
 }

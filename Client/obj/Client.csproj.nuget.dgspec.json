@@ -29,8 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj": {
-                "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj"
+              "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj": {
+                "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj"
               }
             }
           }
@@ -78,14 +78,14 @@
         }
       }
     },
-    "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj": {
+    "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj",
-        "projectName": "Server",
-        "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Server.csproj",
+        "projectUniqueName": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Shared.csproj",
         "packagesPath": "C:\\Users\\Lolicious\\.nuget\\packages\\",
-        "outputPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\obj\\",
+        "outputPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Lolicious\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -119,30 +119,6 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "dependencies": {
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.8, )"
-            },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
-              "target": "Package",
-              "version": "[8.0.5, )"
-            },
-            "MySql.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.5, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.8.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -155,9 +131,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

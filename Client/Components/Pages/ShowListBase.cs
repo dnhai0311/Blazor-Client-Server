@@ -1,5 +1,5 @@
-﻿using Server.Models;
-using Client.Repositories;
+﻿using Shared.Models;
+using Shared.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Unidecode.NET;
@@ -13,10 +13,14 @@ namespace Client.Components.Pages
         [Parameter]
         public int? AuthorId { get; set; }
         [Inject]
-        public required IBookSaleRepository bookSaleRepository { get; set; }
+        public required IBookSaleRepository BookSaleRepository { get; set; }
+        [Inject]
+        public required IAuthorRepository AuthorRepository { get; set; }
+        [Inject]
+        public required IBillRepository BillRepository { get; set; }
 
         [Inject]
-        public required NavigationManager navigationManager { get; set; }
+        public required NavigationManager NavigationManager { get; set; }
 
         [Inject]
         public required IJSRuntime JS { get; set; }
@@ -86,7 +90,7 @@ namespace Client.Components.Pages
         public Bill? SelectedBill { get; set; }
         public async Task ShowBillDetails(int billId)
         {
-            SelectedBill = await bookSaleRepository.GetAllBillDetailsByBillId(billId);
+            SelectedBill = await BillRepository.GetAllBillDetailsByBillId(billId);
             IsModalVisible = true;
         }
 
@@ -98,23 +102,23 @@ namespace Client.Components.Pages
         {
             if (Type == "booksales")
             {
-                var bookSales = await bookSaleRepository.GetAllBookSales();
+                var bookSales = await BookSaleRepository.GetAllBookSales();
                 items.AddRange(bookSales);
             }
             else if (Type == "authors")
             {
-                var authors = await bookSaleRepository.GetAllAuthors();
+                var authors = await AuthorRepository.GetAllAuthors();
                 items.AddRange(authors);
             }
             else if (Type == "bills")
             {
-                var bills = await bookSaleRepository.GetAllBills();
+                var bills = await BillRepository.GetAllBills();
                 items.AddRange(bills);
             }
             else if (AuthorId.HasValue)
             {
                 Type = "booksales";
-                var bookSales = await bookSaleRepository.GetAllBookSalesFromAuthor(AuthorId ?? 0);
+                var bookSales = await AuthorRepository.GetAllBookSalesFromAuthor(AuthorId ?? 0);
                 items.AddRange(bookSales);
             }
             UpdatePaged();
@@ -123,12 +127,12 @@ namespace Client.Components.Pages
 
         public void ShowAllBookSalesFromAuthor(int id)
         {
-            navigationManager.NavigateTo($"/{Type}/{id}/booksales");
+            NavigationManager.NavigateTo($"/{Type}/{id}/booksales");
         }
 
         public void UpdateItem(int id)
         {
-            navigationManager.NavigateTo($"/{Type}/{id}");
+            NavigationManager.NavigateTo($"/{Type}/{id}");
         }
 
         public async Task DeleteItem(int id)
@@ -138,7 +142,7 @@ namespace Client.Components.Pages
                 bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Bạn muốn xóa Booksale với ID: {id}?");
                 if (confirmed)
                 {
-                    await bookSaleRepository.DeleteBookSale(id);
+                    await BookSaleRepository.DeleteBookSale(id);
                     items.RemoveAll(item => (item as BookSale)?.Id == id);
                     UpdatePaged();
                 }

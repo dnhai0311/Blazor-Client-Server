@@ -1,5 +1,5 @@
 ﻿@using System.Linq;
-@using Server.Models;
+@using Shared.Models;
 
 @if (IsVisible)
 {
@@ -25,7 +25,7 @@
                             @foreach (var detail in SelectedBill.BillDetails)
                             {
                                 <li>
-                                    @detail?.BookSale?.Title - SL: @detail.Quantity.ToString("n0") - Giá: @detail.Price.ToString("c0")
+                                    @detail?.BookSale?.Title - SL: @detail?.Quantity.ToString("n0") - Giá: @detail?.Price.ToString("c0")
                                 </li>
                             }
                         </ul>

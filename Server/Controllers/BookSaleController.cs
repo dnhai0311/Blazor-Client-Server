@@ -1,5 +1,5 @@
-﻿using Server.Models;
-using Server.Repositories;
+﻿using Shared.Models;
+using Shared.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers
@@ -8,18 +8,18 @@ namespace Server.Controllers
     [ApiController]
     public class BookSaleController : ControllerBase
     {
-        private readonly IBookSaleRepository BooksalesRepository;
+        private readonly IBookSaleRepository BookSalesRepository;
 
         public BookSaleController(IBookSaleRepository bookSaleRepository)
         {
-            BooksalesRepository = bookSaleRepository;
+            BookSalesRepository = bookSaleRepository;
         }
 
         // GET: api/booksale
         [HttpGet]
-        public async Task<IActionResult> GetAllbooksales()
+        public async Task<IActionResult> GetAllBooksales()
         {
-            var bookSales = await BooksalesRepository.GetAllBookSales();
+            var bookSales = await BookSalesRepository.GetAllBookSales();
             return Ok(bookSales);
         }
 
@@ -29,12 +29,16 @@ namespace Server.Controllers
         {
             try
             {
-                var bookSale = await BooksalesRepository.GetBookSaleById(id);
+                var bookSale = await BookSalesRepository.GetBookSaleById(id);
                 return Ok(bookSale);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}"); 
             }
         }
 
@@ -46,30 +50,66 @@ namespace Server.Controllers
             {
                 return BadRequest(ModelState);
             }
-            bookSale.Author = null;
-            await BooksalesRepository.AddBookSale(bookSale);
-            return CreatedAtAction(nameof(GetBookSaleById), new { id = bookSale.Id }, bookSale);
+
+            try
+            {
+                bookSale.Author = null;
+                await BookSalesRepository.AddBookSale(bookSale);
+                return CreatedAtAction(nameof(GetBookSaleById), new { id = bookSale.Id }, bookSale);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
         }
 
         // PUT: api/booksale/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBookSale(int id, [FromBody] BookSale bookSale)
         {
-            if (!ModelState.IsValid || bookSale.Id != id)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            bookSale.Author = null;
-            await BooksalesRepository.UpdateBookSale(bookSale);
-            return NoContent();
+
+            if (id != bookSale.Id)
+            {
+                return BadRequest("ID trong URL không khớp với ID của sách.");
+            }
+
+            try
+            {
+                bookSale.Author = null;
+                await BookSalesRepository.UpdateBookSale(bookSale);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
         }
 
         // DELETE: api/booksale/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBookSale(int id)
         {
-            await BooksalesRepository.DeleteBookSale(id);
-            return NoContent();
+            try
+            {
+                await BookSalesRepository.DeleteBookSale(id);
+                return NoContent(); 
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message); 
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}"); 
+            }
         }
     }
 }

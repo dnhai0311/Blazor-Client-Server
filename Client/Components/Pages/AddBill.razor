@@ -45,8 +45,8 @@
         @foreach (var detail in bill.BillDetails)
         {
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                @detail?.BookSale?.Title - Số lượng: @detail.Quantity.ToString("n0") - Giá: @detail.Price.ToString("c0")
-                <button type="button" @onclick="(() => RemoveBookFromBill(detail))" class="btn btn-danger btn-sm">Xóa</button>
+                @detail?.BookSale?.Title - Số lượng: @detail?.Quantity.ToString("n0") - Giá: @detail?.Price.ToString("c0")
+                <button type="button" @onclick="(() => RemoveBookFromBill(detail!))" class="btn btn-danger btn-sm">Xóa</button>
             </li>
         }
     </ul>

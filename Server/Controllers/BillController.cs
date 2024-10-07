@@ -1,5 +1,5 @@
-﻿using Server.Models;
-using Server.Repositories;
+﻿using Shared.Models;
+using Shared.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers
@@ -8,18 +8,18 @@ namespace Server.Controllers
     [ApiController]
     public class BillController : ControllerBase
     {
-        private readonly IBookSaleRepository BookSaleRepository;
+        private readonly IBillRepository BillRepository;
 
-        public BillController(IBookSaleRepository bookSaleRepository)
+        public BillController(IBillRepository billRepository)
         {
-            this.BookSaleRepository = bookSaleRepository;
+            this.BillRepository = billRepository;
         }
 
         // GET: api/bill
         [HttpGet]
         public async Task<IActionResult> GetAllBills()
         {
-            var bills = await BookSaleRepository.GetAllBills();
+            var bills = await BillRepository.GetAllBills();
             return Ok(bills);
         }
 
@@ -29,11 +29,16 @@ namespace Server.Controllers
         {
             try
             {
-                var bill = await BookSaleRepository.GetAllBillDetailsByBillId(id);
+                var bill = await BillRepository.GetAllBillDetailsByBillId(id);
                 return Ok(bill);
             }
-            catch (Exception ex) {
-                return NotFound(ex.Message);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Có lỗi xảy ra: " + ex.Message });
             }
         }
 
@@ -45,11 +50,29 @@ namespace Server.Controllers
             {
                 return BadRequest(ModelState);
             }
-            foreach (var item in bill.BillDetails) {
-                item.BookSale = null;
+
+            try
+            {
+                foreach (var item in bill.BillDetails)
+                {
+                    item.BookSale = null;
+                }
+
+                await BillRepository.AddBill(bill);
+                return CreatedAtAction(nameof(GetBillDetailsByBillId), new { id = bill.Id }, bill);
             }
-            await BookSaleRepository.AddBill(bill);
-            return CreatedAtAction(nameof(GetBillDetailsByBillId), new { id = bill.Id }, bill);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Có lỗi xảy ra: " + ex.Message });
+            }
         }
     }
 }

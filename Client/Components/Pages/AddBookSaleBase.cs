@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Client.Repositories;
-using Server.Models;
+using Shared.Repositories;
+using Shared.Models;
 
 namespace Client.Components.Pages
 {
     public class AddBookSaleBase : ComponentBase
     {
         [Inject]
-        public required IBookSaleRepository bookSaleRepository { get; set; }
+        public required IAuthorRepository AuthorRepository { get; set; }
+        [Inject]
+        public required IBookSaleRepository BookSaleRepository { get; set; }
 
         [Inject]
-        public required NavigationManager navigationManager { get; set; }
+        public required NavigationManager NavigationManager { get; set; }
 
         [Parameter]
         public int? Id { get; set; }
@@ -20,11 +22,11 @@ namespace Client.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            authors = await bookSaleRepository.GetAllAuthors(); 
+            authors = await AuthorRepository.GetAllAuthors(); 
 
             if (Id.HasValue)
             {
-                bookSale = await bookSaleRepository.GetBookSaleById(Id.Value);
+                bookSale = await BookSaleRepository.GetBookSaleById(Id.Value);
             }
         }
 
@@ -32,13 +34,13 @@ namespace Client.Components.Pages
         {
             if (bookSale.Id == 0)
             {
-                await bookSaleRepository.AddBookSale(bookSale);
+                await BookSaleRepository.AddBookSale(bookSale);
             }
             else
             {
-                await bookSaleRepository.UpdateBookSale(bookSale);
+                await BookSaleRepository.UpdateBookSale(bookSale);
             }
-            navigationManager.NavigateTo("/booksales/all");
+            NavigationManager.NavigateTo("/booksales/all");
         }
     }
 }

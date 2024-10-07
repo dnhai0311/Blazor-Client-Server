@@ -19,7 +19,7 @@ namespace Server.Migrations
                 .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("Server.Models.Author", b =>
+            modelBuilder.Entity("Shared.Models.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,10 +32,14 @@ namespace Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AuthorName")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Author_AuthorName");
+
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Server.Models.Bill", b =>
+            modelBuilder.Entity("Shared.Models.Bill", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +56,7 @@ namespace Server.Migrations
                     b.ToTable("Bills");
                 });
 
-            modelBuilder.Entity("Server.Models.BillDetail", b =>
+            modelBuilder.Entity("Shared.Models.BillDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,7 +83,7 @@ namespace Server.Migrations
                     b.ToTable("BillDetails");
                 });
 
-            modelBuilder.Entity("Server.Models.BookSale", b =>
+            modelBuilder.Entity("Shared.Models.BookSale", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,15 +114,44 @@ namespace Server.Migrations
                     b.ToTable("BookSales");
                 });
 
-            modelBuilder.Entity("Server.Models.BillDetail", b =>
+            modelBuilder.Entity("Shared.Models.User", b =>
                 {
-                    b.HasOne("Server.Models.Bill", "Bill")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserName")
+                        .IsUnique()
+                        .HasDatabaseName("UX_User_UserName");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Shared.Models.BillDetail", b =>
+                {
+                    b.HasOne("Shared.Models.Bill", "Bill")
                         .WithMany("BillDetails")
                         .HasForeignKey("BillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Server.Models.BookSale", "BookSale")
+                    b.HasOne("Shared.Models.BookSale", "BookSale")
                         .WithMany("BillDetails")
                         .HasForeignKey("BookSaleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -129,9 +162,9 @@ namespace Server.Migrations
                     b.Navigation("BookSale");
                 });
 
-            modelBuilder.Entity("Server.Models.BookSale", b =>
+            modelBuilder.Entity("Shared.Models.BookSale", b =>
                 {
-                    b.HasOne("Server.Models.Author", "Author")
+                    b.HasOne("Shared.Models.Author", "Author")
                         .WithMany("BookSales")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -140,17 +173,17 @@ namespace Server.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Server.Models.Author", b =>
+            modelBuilder.Entity("Shared.Models.Author", b =>
                 {
                     b.Navigation("BookSales");
                 });
 
-            modelBuilder.Entity("Server.Models.Bill", b =>
+            modelBuilder.Entity("Shared.Models.Bill", b =>
                 {
                     b.Navigation("BillDetails");
                 });
 
-            modelBuilder.Entity("Server.Models.BookSale", b =>
+            modelBuilder.Entity("Shared.Models.BookSale", b =>
                 {
                     b.Navigation("BillDetails");
                 });

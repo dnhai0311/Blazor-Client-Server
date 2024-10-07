@@ -1,92 +1,126 @@
-﻿using Server.Models;
-using Server.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Shared.Models;
+using Shared.Repositories;
 
 namespace Server.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthorController : ControllerBase
     {
-        private readonly IBookSaleRepository BookSaleRepository;
+        private readonly IAuthorRepository AuthorRepository;
 
-        public AuthorController(IBookSaleRepository bookSaleRepository)
+        public AuthorController(IAuthorRepository authorRepository)
         {
-            BookSaleRepository = bookSaleRepository;
+            AuthorRepository = authorRepository;
         }
 
-        // GET: api/author
         [HttpGet]
-        public async Task<IActionResult> GetAllAuthors()
+        public async Task<ActionResult<List<Author>>> GetAllAuthors()
         {
-            var authors = await BookSaleRepository.GetAllAuthors();
+            var authors = await AuthorRepository.GetAllAuthors();
             return Ok(authors);
         }
 
-        // GET: api/author/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAuthorById(int id)
+        public async Task<ActionResult<Author>> GetAuthorById(int id)
         {
             try
             {
-                var author = await BookSaleRepository.GetAuthorById(id);
+                var author = await AuthorRepository.GetAuthorById(id);
                 return Ok(author);
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
         }
 
-        // POST: api/author
         [HttpPost]
-        public async Task<IActionResult> AddAuthor([FromBody] Author author)
+        public async Task<ActionResult> AddAuthor([FromBody] Author author)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await BookSaleRepository.AddAuthor(author);
-            return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, author);
+            try
+            {
+                await AuthorRepository.AddAuthor(author);
+                return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, author);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
         }
 
-        // PUT: api/author/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] Author author)
+        public async Task<ActionResult> UpdateAuthor(int id, [FromBody] Author author)
         {
-            if (!ModelState.IsValid || author.Id != id)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await BookSaleRepository.UpdateAuthor(author);
-            return NoContent();
-        }
+            if (id != author.Id)
+            {
+                return BadRequest("ID trong URL không khớp với ID của tác giả.");
+            }
 
-        // DELETE: api/author/{id}
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAuthor(int id)
-        {
-            await BookSaleRepository.DeleteAuthor(id);
-            return NoContent();
-        }
-
-        // GET: api/author/{id}/booksales
-        [HttpGet("{id}/booksales")]
-        public async Task<IActionResult> GetAllBookSalesFromAuthor(int id)
-        {
             try
             {
-                var bookSales = await BookSaleRepository.GetAllBookSalesFromAuthor(id);
-                return Ok(bookSales);
+                await AuthorRepository.UpdateAuthor(author);
+                return NoContent();
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
                 return NotFound(ex.Message);
             }
-
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAuthor(int id)
+        {
+            try
+            {
+                await AuthorRepository.DeleteAuthor(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}/booksales")]
+        public async Task<ActionResult<List<BookSale>>> GetAllBookSalesFromAuthor(int id)
+        {
+            try
+            {
+                var bookSales = await AuthorRepository.GetAllBookSalesFromAuthor(id);
+                return Ok(bookSales);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
     }
 }
