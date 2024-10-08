@@ -10,6 +10,7 @@ namespace Server.Models
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<BookSale> BookSales { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Bill> Bills { get; set; }
@@ -39,6 +40,10 @@ namespace Server.Models
                 .HasIndex(u => u.Email)
                 .IsUnique()
                 .HasDatabaseName("UX_User_Email");
+            modelBuilder.Entity<Role>()
+                .HasIndex(u => u.RoleName)
+                .IsUnique()
+                .HasDatabaseName("UX_Role_RoleName");
         }
     }
 }

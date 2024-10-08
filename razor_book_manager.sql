@@ -83,3 +83,7 @@ INSERT INTO `booksales` (`Id`, `Title`, `Quantity`, `Price`, `AuthorId`) VALUES
 (53, 'Đường Hầm Mùa Hạ Tập 11', 1000, 120000, 1);
 
 -- --------------------------------------------------------
+
+insert into Roles (RoleName) values ('Admin');
+insert into Roles (RoleName) values ('Staff');
+insert into Roles (RoleName) values ('Seller');

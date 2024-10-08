@@ -1,6 +1,8 @@
 ﻿@page "/register"
 @using Shared.Models
-@inject HttpClient Http
+@using Shared.Repositories
+@inject IUserClientRepository UserRepository
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <h3>Đăng Ký</h3>
@@ -28,6 +30,18 @@
         <InputText id="ConfirmPassword" class="form-control" @bind-Value="registerRequest.ConfirmPassword" Type="password" />
         <ValidationMessage For="@(() => registerRequest.ConfirmPassword)" />
     </div>
+
+    <div class="mb-3">
+        <label for="Role" class="form-label">Role:</label>
+        <InputSelect id="Role" class="form-control" @bind-Value="registerRequest.RoleId">
+            <option value="">Chọn vai trò...</option>
+            <option value="1">Admin</option>
+            <option value="2">Staff</option>
+            <option value="3">Seller</option>
+        </InputSelect>
+        <ValidationMessage For="@(() => registerRequest.RoleId)" />
+    </div>
+
     <button type="submit" class="btn btn-primary">Đăng Ký</button>
 
     @if (!string.IsNullOrEmpty(message))
@@ -42,14 +56,14 @@
 
     private async Task HandleValidSubmit()
     {
-        var response = await Http.PostAsJsonAsync("api/users/register", registerRequest);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            message = "Đăng ký thành công!";
+            await UserRepository.AddUser(registerRequest);
+            NavigationManager.NavigateTo("/login");
         }
-        else
+        catch (Exception ex)
         {
-            message = "Đăng ký thất bại!";
+            message = ex.Message;
         }
     }
 }

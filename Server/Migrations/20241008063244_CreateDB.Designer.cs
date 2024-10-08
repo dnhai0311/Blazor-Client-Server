@@ -11,7 +11,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(BookSalesContext))]
-    [Migration("20241007161840_CreateDB")]
+    [Migration("20241008063244_CreateDB")]
     partial class CreateDB
     {
         /// <inheritdoc />
@@ -117,6 +117,26 @@ namespace Server.Migrations
                     b.ToTable("BookSales");
                 });
 
+            modelBuilder.Entity("Shared.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleName")
+                        .IsUnique()
+                        .HasDatabaseName("UX_Role_RoleName");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -132,6 +152,9 @@ namespace Server.Migrations
                         .HasMaxLength(60)
                         .HasColumnType("varchar(60)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -142,6 +165,8 @@ namespace Server.Migrations
                     b.HasIndex("Email")
                         .IsUnique()
                         .HasDatabaseName("UX_User_Email");
+
+                    b.HasIndex("RoleId");
 
                     b.HasIndex("UserName")
                         .IsUnique()
@@ -180,6 +205,17 @@ namespace Server.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Shared.Models.User", b =>
+                {
+                    b.HasOne("Shared.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Shared.Models.Author", b =>
                 {
                     b.Navigation("BookSales");
@@ -193,6 +229,11 @@ namespace Server.Migrations
             modelBuilder.Entity("Shared.Models.BookSale", b =>
                 {
                     b.Navigation("BillDetails");
+                });
+
+            modelBuilder.Entity("Shared.Models.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

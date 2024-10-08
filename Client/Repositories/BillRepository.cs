@@ -5,29 +5,29 @@ namespace Client.Repositories
 {
     public class BillRepository : IBillRepository
     {
-        private readonly HttpClient httpClient;
+        private readonly HttpClient HttpClient;
 
         public BillRepository(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            this.HttpClient = httpClient;
         }
 
         public async Task<List<Bill>> GetAllBills()
         {
-            var bills = await httpClient.GetFromJsonAsync<List<Bill>>("api/bill");
+            var bills = await HttpClient.GetFromJsonAsync<List<Bill>>("api/bill");
             return bills ?? new List<Bill>();
         }
 
 
         public async Task<Bill> GetAllBillDetailsByBillId(int id)
         {
-            var bill = await httpClient.GetFromJsonAsync<Bill>($"api/bill/{id}");
+            var bill = await HttpClient.GetFromJsonAsync<Bill>($"api/bill/{id}");
             return bill ?? new Bill();
         }
 
         public async Task AddBill(Bill bill)
         {
-            var response = await httpClient.PostAsJsonAsync("api/bill", bill);
+            var response = await HttpClient.PostAsJsonAsync("api/bill", bill);
             response.EnsureSuccessStatusCode();
         }
     }

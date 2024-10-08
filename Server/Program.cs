@@ -16,7 +16,7 @@ builder.Services.AddScoped<IBookSaleRepository, BookSaleRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBillRepository, BillRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserServerRepository, UserRepository>();
 
 
 builder.Services.AddAuthentication(options =>

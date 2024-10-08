@@ -1,18 +1,61 @@
-﻿namespace Client.Services
-{
-    public class AuthService
-    {
-        public bool IsLoggedIn { get; private set; }
+﻿using Client.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+using Blazored.LocalStorage;
+using System.Net.Http.Headers;
+using Shared.Models;
 
-        public void Login()
+public class AuthService : IAuthService
+{
+    private readonly HttpClient HttpClient;
+    private readonly ILocalStorageService LocalStorage;
+    private readonly AuthenticationStateProvider AuthenticationStateProvider;
+    private const string TokenKey = "authToken";
+
+    public AuthService(HttpClient httpClient,
+                       ILocalStorageService localStorage,
+                       AuthenticationStateProvider authenticationStateProvider)
+    {
+        HttpClient = httpClient;
+        LocalStorage = localStorage;
+        AuthenticationStateProvider = authenticationStateProvider;
+    }
+
+    public bool IsLoggedIn { get; private set; }
+
+    public async Task Login(LoginRequest loginRequest)
+    {
+        var response = await HttpClient.PostAsJsonAsync("api/auth/login", loginRequest);
+
+        var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+        if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
         {
             IsLoggedIn = true;
+            await SaveToken(loginResult.Token);
+            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult.Token);
         }
-
-        public void Logout()
+        else
         {
-            IsLoggedIn = false;
+            throw new ApplicationException(loginResult?.Error);
         }
     }
 
+    public void Logout()
+    {
+        IsLoggedIn = false;
+        RemoveToken().GetAwaiter().GetResult();
+        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+        HttpClient.DefaultRequestHeaders.Authorization = null;
+    }
+
+    public async Task SaveToken(string token)
+    {
+        await LocalStorage.SetItemAsync(TokenKey, token);
+    }
+
+    public async Task RemoveToken()
+    {
+        await LocalStorage.RemoveItemAsync(TokenKey);
+    }
 }

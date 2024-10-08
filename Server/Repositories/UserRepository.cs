@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Server.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserServerRepository
     {
         private readonly BookSalesContext bookSalesContext;
 
@@ -34,10 +34,16 @@ namespace Server.Repositories
         {
             var existingUser = await bookSalesContext.Users
                 .FirstOrDefaultAsync(u => u.UserName == user.UserName || u.Email == user.Email);
-
             if (existingUser != null)
             {
                 throw new InvalidOperationException("User với UserName hoặc Email này đã tồn tại.");
+            }
+
+            var role = await bookSalesContext.Roles.FindAsync(user.RoleId);
+            if (role == null)
+            {
+                throw new KeyNotFoundException($"Role với ID: {user.RoleId} không tìm thấy.");
+
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -56,10 +62,16 @@ namespace Server.Repositories
 
             var otherUser = await bookSalesContext.Users
                 .FirstOrDefaultAsync(u => (u.UserName == user.UserName || u.Email == user.Email) && u.Id != user.Id);
-
             if (otherUser != null)
             {
                 throw new InvalidOperationException("User với UserName hoặc Email này đã tồn tại.");
+            }
+
+            var role = await bookSalesContext.Roles.FindAsync(user.RoleId);
+            if (role == null)
+            {
+                throw new KeyNotFoundException($"Role với ID: {user.RoleId} không tìm thấy.");
+
             }
 
             if (!string.IsNullOrEmpty(user.Password))

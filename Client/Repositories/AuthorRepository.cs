@@ -5,22 +5,22 @@ namespace Client.Repositories
 {
     public class AuthorRepository : IAuthorRepository
     {
-        private readonly HttpClient httpClient;
+        private readonly HttpClient HttpClient;
 
         public AuthorRepository(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            HttpClient = httpClient;
         }
 
         public async Task<List<Author>> GetAllAuthors()
         {
-            var authors = await httpClient.GetFromJsonAsync<List<Author>>("api/author");
+            var authors = await HttpClient.GetFromJsonAsync<List<Author>>("api/author");
             return authors ?? new List<Author>();
         }
 
         public async Task<Author> GetAuthorById(int id)
         {
-            var response = await httpClient.GetAsync($"api/author/{id}");
+            var response = await HttpClient.GetAsync($"api/author/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -36,7 +36,7 @@ namespace Client.Repositories
 
         public async Task<List<BookSale>> GetAllBookSalesFromAuthor(int authorId)
         {
-            var response = await httpClient.GetAsync($"api/author/{authorId}/booksales");
+            var response = await HttpClient.GetAsync($"api/author/{authorId}/booksales");
 
             if (response.IsSuccessStatusCode)
             {
@@ -53,7 +53,7 @@ namespace Client.Repositories
 
         public async Task AddAuthor(Author author)
         {
-            var response = await httpClient.PostAsJsonAsync("api/author", author);
+            var response = await HttpClient.PostAsJsonAsync("api/author", author);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -65,7 +65,7 @@ namespace Client.Repositories
 
         public async Task UpdateAuthor(Author author)
         {
-            var response = await httpClient.PutAsJsonAsync($"api/author/{author.Id}", author);
+            var response = await HttpClient.PutAsJsonAsync($"api/author/{author.Id}", author);
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
@@ -75,7 +75,7 @@ namespace Client.Repositories
 
         public async Task DeleteAuthor(int id)
         {
-            var response = await httpClient.DeleteAsync($"api/author/{id}");
+            var response = await HttpClient.DeleteAsync($"api/author/{id}");
             response.EnsureSuccessStatusCode();
         }
     }

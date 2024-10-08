@@ -1,6 +1,8 @@
 ﻿@page "/login"
 @using Shared.Models
-@inject HttpClient Http
+@using Client.Services
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <h3>Đăng Nhập</h3>
@@ -9,12 +11,12 @@
     <DataAnnotationsValidator />
 
     <div class="mb-3">
-        <label for="UserName" class="form-label">Name:</label>
+        <label for="UserName" class="form-label">Tên:</label>
         <InputText id="UserName" class="form-control" @bind-Value="loginRequest.UserName" />
         <ValidationMessage For="@(() => loginRequest.UserName)" />
     </div>
     <div class="mb-3">
-        <label for="Password" class="form-label">Password:</label>
+        <label for="Password" class="form-label">Mật khẩu:</label>
         <InputText id="Password" class="form-control" @bind-Value="loginRequest.Password" Type="password" />
         <ValidationMessage For="@(() => loginRequest.Password)" />
     </div>
@@ -37,15 +39,14 @@
 
     private async Task HandleValidSubmit()
     {
-        var response = await Http.PostAsJsonAsync("api/auth/login", loginRequest);
-        if (response.IsSuccessStatusCode)
+        try
         {
-            var result = await response.Content.ReadFromJsonAsync<LoginResult>();
-            message = $"Đăng nhập thành công! Token: {result?.Token}";
+            await AuthService.Login(loginRequest);
+            NavigationManager.NavigateTo("/");
         }
-        else
+        catch (Exception ex)
         {
-            message = "Đăng nhập thất bại!";
+            message = ex.Message;
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿@page "/checkauth"
+@inject CustomAuthenticationStateProvider CustomAuthenticationStateProvider
+@using System.Security.Claims
+@rendermode InteractiveServer
+
+<h3>Check Authentication</h3>
+
+@if (isLoggedIn)
+{
+    <p>Welcome back, @username!</p>
+}
+else
+{
+    <p>You are not logged in.</p>
+}
+
+@code {
+    private bool isLoggedIn = false;
+    private ClaimsPrincipal user;
+    private string username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await CustomAuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+
+        if (user?.Identity != null)
+        {
+            isLoggedIn = user.Identity.IsAuthenticated;
+
+            var nameClaim = user.Claims.FirstOrDefault(c => c.Type == "unique_name");
+            if (nameClaim != null)
+            {
+                username = nameClaim.Value;
+            }
+        }
+    }
+}

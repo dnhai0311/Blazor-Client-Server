@@ -35,10 +35,15 @@ namespace Server.Repositories
         {
             var existingBookSale = await bookSalesContext.BookSales
                 .FirstOrDefaultAsync(b => b.Title == bookSale.Title);
-
             if (existingBookSale != null)
             {
                 throw new InvalidOperationException("BookSale với tiêu đề này đã tồn tại.");
+            }
+
+            var existingAuthor = await bookSalesContext.Authors.FindAsync(bookSale.AuthorId);
+            if (existingAuthor == null)
+            {
+                throw new KeyNotFoundException($"Author với ID: {bookSale.AuthorId} không tìm thấy.");
             }
 
             bookSalesContext.Add(bookSale);
@@ -56,11 +61,17 @@ namespace Server.Repositories
 
             var otherBookSale = await bookSalesContext.BookSales
                 .FirstOrDefaultAsync(b => b.Title == bookSale.Title && b.Id != bookSale.Id);
-
             if (otherBookSale != null)
             {
                 throw new InvalidOperationException("BookSale với tiêu đề này đã tồn tại.");
             }
+
+            var existingAuthor = await bookSalesContext.Authors.FindAsync(bookSale.AuthorId);
+            if (existingAuthor == null)
+            {
+                throw new KeyNotFoundException($"Author với ID: {bookSale.AuthorId} không tìm thấy.");
+            }
+
             bookSalesContext.Entry(existingBookSale).CurrentValues.SetValues(bookSale);
             await bookSalesContext.SaveChangesAsync();
         }

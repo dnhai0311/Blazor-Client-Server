@@ -1,4 +1,7 @@
 ﻿@page "/"
+@inject CustomAuthenticationStateProvider CustomAuthenticationStateProvider
+@using System.Security.Claims
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -8,3 +11,13 @@
 <ShowList Type="authors" />
 
 <ShowList Type="bills" />
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CustomAuthenticationStateProvider.InitializeAsync();
+        }
+    }
+}

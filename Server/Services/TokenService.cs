@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -15,7 +16,7 @@ namespace Server.Services
             ExpiryInDays = configuration.GetValue<int>("Jwt:ExpiryInDays");
         }
 
-        public string GenerateToken(int userId, string username)
+        public string GenerateToken(int userId, string username, int roleId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var keyBytes = Encoding.UTF8.GetBytes(Key);
@@ -24,7 +25,8 @@ namespace Server.Services
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Role, roleId.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(ExpiryInDays),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)

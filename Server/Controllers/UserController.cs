@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
 using Shared.Repositories;
-using Server.Services;
 
 namespace Server.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository UserRepository;
+        private readonly IUserServerRepository UserRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserServerRepository userRepository)
         {
             UserRepository = userRepository;
         }
@@ -23,7 +22,7 @@ namespace Server.Controllers
             return Ok(users);
         }
 
-        [HttpPost("register")]
+        [HttpPost]
         public async Task<ActionResult<RegisterResult>> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
@@ -39,7 +38,8 @@ namespace Server.Controllers
                 {
                     UserName = registerRequest.UserName,
                     Email = registerRequest.Email,
-                    Password = registerRequest.Password
+                    Password = registerRequest.Password,
+                    RoleId = registerRequest.RoleId,
                 };
 
                 await UserRepository.AddUser(user);

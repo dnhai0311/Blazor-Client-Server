@@ -7,6 +7,7 @@ namespace Shared.Models
     {
         [Required(ErrorMessage = "Bạn phải nhập Name")]
         [StringLength(20, MinimumLength = 5, ErrorMessage = "Name có độ dài từ 5 -> 20 ký tự")]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Name chỉ cho phép các ký tự a-z, A-Z và số, không cho phép khoảng trắng.")]
         public string UserName { get; set; } = String.Empty;
 
         [Required(ErrorMessage = "Bạn phải nhập Password")]

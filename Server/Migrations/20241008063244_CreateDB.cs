@@ -45,18 +45,16 @@ namespace Server.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    UserName = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
-                    Email = table.Column<string>(type: "varchar(255)", nullable: false),
-                    Password = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                    RoleName = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -78,6 +76,29 @@ namespace Server.Migrations
                         name: "FK_BookSales_Authors_AuthorId",
                         column: x => x.AuthorId,
                         principalTable: "Authors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    UserName = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
+                    Email = table.Column<string>(type: "varchar(255)", nullable: false),
+                    Password = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -140,6 +161,17 @@ namespace Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "UX_Role_RoleName",
+                table: "Roles",
+                column: "RoleName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_RoleId",
+                table: "Users",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "UX_User_Email",
                 table: "Users",
                 column: "Email",
@@ -166,6 +198,9 @@ namespace Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "BookSales");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Authors");

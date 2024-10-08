@@ -5,21 +5,21 @@ namespace Client.Repositories
 {
     public class BookSaleRepository : IBookSaleRepository
     {
-        private readonly HttpClient httpClient;
+        private readonly HttpClient HttpClient;
 
         public BookSaleRepository(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            HttpClient = httpClient;
         }
 
         public async Task<List<BookSale>> GetAllBookSales()
         {
-            return await httpClient.GetFromJsonAsync<List<BookSale>>("api/booksale") ?? new List<BookSale>();
+            return await HttpClient.GetFromJsonAsync<List<BookSale>>("api/booksale") ?? new List<BookSale>();
         }
 
         public async Task<BookSale> GetBookSaleById(int id)
         {
-            var response = await httpClient.GetAsync($"api/booksale/{id}");
+            var response = await HttpClient.GetAsync($"api/booksale/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -34,7 +34,7 @@ namespace Client.Repositories
 
         public async Task AddBookSale(BookSale bookSale)
         {
-            var response = await httpClient.PostAsJsonAsync("api/booksale", bookSale);
+            var response = await HttpClient.PostAsJsonAsync("api/booksale", bookSale);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -45,7 +45,7 @@ namespace Client.Repositories
 
         public async Task UpdateBookSale(BookSale bookSale)
         {
-            var response = await httpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
+            var response = await HttpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -56,7 +56,7 @@ namespace Client.Repositories
 
         public async Task DeleteBookSale(int id)
         {
-            var response = await httpClient.DeleteAsync($"api/booksale/{id}");
+            var response = await HttpClient.DeleteAsync($"api/booksale/{id}");
             response.EnsureSuccessStatusCode();
         }
     }

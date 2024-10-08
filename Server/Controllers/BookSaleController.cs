@@ -61,6 +61,10 @@ namespace Server.Controllers
             {
                 return Conflict(ex.Message);
             }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
