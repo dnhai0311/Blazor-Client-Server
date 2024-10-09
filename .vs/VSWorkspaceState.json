@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Client"
+    "\\Client",
+    "\\Client\\Components",
+    "\\Client\\Components\\Layout"
   ],
   "SelectedNode": "\\Client\\Client.sln",
   "PreviewInSolutionExplorer": false

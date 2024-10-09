@@ -1,52 +1,61 @@
 ﻿@page "/login"
-@using Shared.Models
-@using Client.Services
 @inject IAuthService AuthService
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
-<h3>Đăng Nhập</h3>
 
-<EditForm Model="loginRequest" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
+<h1>Login</h1>
 
-    <div class="mb-3">
-        <label for="UserName" class="form-label">Tên:</label>
-        <InputText id="UserName" class="form-control" @bind-Value="loginRequest.UserName" />
-        <ValidationMessage For="@(() => loginRequest.UserName)" />
+@if (ShowErrors)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>@Error</p>
     </div>
-    <div class="mb-3">
-        <label for="Password" class="form-label">Mật khẩu:</label>
-        <InputText id="Password" class="form-control" @bind-Value="loginRequest.Password" Type="password" />
-        <ValidationMessage For="@(() => loginRequest.Password)" />
-    </div>
-    <div class="mb-3">
-        <label>
-            <InputCheckbox @bind-Value="loginRequest.RememberMe" class="form-check-input" /> Lưu mật khẩu
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+}
 
-    @if (!string.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-danger mt-3">@message</div>
-    }
-</EditForm>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Please enter your details</h5>
+        <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <InputText Id="username" Class="form-control" @bind-Value="loginModel.UserName" />
+                <ValidationMessage For="@(() => loginModel.UserName)" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <InputText Id="password" type="password" Class="form-control" @bind-Value="loginModel.Password" />
+                <ValidationMessage For="@(() => loginModel.Password)" />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </EditForm>
+    </div>
+</div>
 
 @code {
-    private LoginRequest loginRequest = new LoginRequest();
-    private string message = string.Empty;
 
-    private async Task HandleValidSubmit()
+    private LoginRequest loginModel = new LoginRequest();
+    private bool ShowErrors;
+    private string Error = "";
+
+    private async Task HandleLogin()
     {
-        try
+        ShowErrors = false;
+
+        var result = await AuthService.Login(loginModel);
+
+        if (result.Successful)
         {
-            await AuthService.Login(loginRequest);
             NavigationManager.NavigateTo("/");
         }
-        catch (Exception ex)
+        else
         {
-            message = ex.Message;
+            Error = result.Error;
+            ShowErrors = true;
         }
     }
+
 }

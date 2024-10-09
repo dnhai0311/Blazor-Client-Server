@@ -6,17 +6,22 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Server.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<BookSalesContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DBConnection")!));
 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<BookSalesContext>()
+    .AddDefaultTokenProviders();
+
+
 builder.Services.AddScoped<IBookSaleRepository, BookSaleRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IBillRepository, BillRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserServerRepository, UserRepository>();
 
 
 builder.Services.AddAuthentication(options =>
@@ -38,13 +43,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAuthenticatedUser", policy =>
-        policy.RequireAuthenticatedUser());
-});
-
-
 
 // Add services to the container.
 
@@ -64,6 +62,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

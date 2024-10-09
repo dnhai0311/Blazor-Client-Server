@@ -1,16 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 
 namespace Server.Models
 {
-    public class BookSalesContext : DbContext
+    public class BookSalesContext : IdentityDbContext<IdentityUser>
     {
         public BookSalesContext(DbContextOptions<BookSalesContext> options)
            : base(options)
         {
         }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<BookSale> BookSales { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Bill> Bills { get; set; }
@@ -18,10 +18,8 @@ namespace Server.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .Property(u => u.Password)
-                .HasMaxLength(60)
-                .IsRequired();
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<BookSale>()
                 .HasIndex(bs => bs.Title)
                 .IsUnique()
@@ -31,19 +29,6 @@ namespace Server.Models
                 .HasIndex(a => a.AuthorName)
                 .IsUnique()
                 .HasDatabaseName("UX_Author_AuthorName");
-
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.UserName)
-                .IsUnique()
-                .HasDatabaseName("UX_User_UserName");
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique()
-                .HasDatabaseName("UX_User_Email");
-            modelBuilder.Entity<Role>()
-                .HasIndex(u => u.RoleName)
-                .IsUnique()
-                .HasDatabaseName("UX_Role_RoleName");
         }
     }
 }

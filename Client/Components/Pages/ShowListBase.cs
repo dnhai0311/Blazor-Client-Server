@@ -100,7 +100,12 @@ namespace Client.Components.Pages
         }
         protected override async Task OnInitializedAsync()
         {
-            if (Type == "booksales")
+            if (Type == "booksales" && AuthorId.HasValue)
+            {
+                var bookSales = await AuthorRepository.GetAllBookSalesFromAuthor(AuthorId.Value);
+                items.AddRange(bookSales);
+            }
+            else if (Type == "booksales")
             {
                 var bookSales = await BookSaleRepository.GetAllBookSales();
                 items.AddRange(bookSales);
@@ -114,12 +119,6 @@ namespace Client.Components.Pages
             {
                 var bills = await BillRepository.GetAllBills();
                 items.AddRange(bills);
-            }
-            else if (AuthorId.HasValue)
-            {
-                Type = "booksales";
-                var bookSales = await AuthorRepository.GetAllBookSalesFromAuthor(AuthorId ?? 0);
-                items.AddRange(bookSales);
             }
             UpdatePaged();
         }

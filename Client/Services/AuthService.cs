@@ -20,32 +20,33 @@ public class AuthService : IAuthService
         AuthenticationStateProvider = authenticationStateProvider;
     }
 
-    public bool IsLoggedIn { get; private set; }
-
-    public async Task Login(LoginRequest loginRequest)
+    public async Task<RegisterResult> Register(RegisterRequest registerRequest)
     {
-        var response = await HttpClient.PostAsJsonAsync("api/auth/login", loginRequest);
+        var response = await HttpClient.PostAsJsonAsync("api/account", registerRequest);
+        var registerResult = await response.Content.ReadFromJsonAsync<RegisterResult>();
 
-        var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
-
-        if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
-        {
-            IsLoggedIn = true;
-            await SaveToken(loginResult.Token);
-            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult.Token);
-        }
-        else
-        {
-            throw new ApplicationException(loginResult?.Error);
-        }
+        return registerResult!;
     }
 
-    public void Logout()
+    public async Task<LoginResult> Login(LoginRequest loginRequest)
     {
-        IsLoggedIn = false;
-        RemoveToken().GetAwaiter().GetResult();
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+        var response = await HttpClient.PostAsJsonAsync("api/auth", loginRequest);
+        var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            return loginResult!;
+        }
+        await LocalStorage.SetItemAsync(TokenKey, loginResult!.Token);
+        ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginRequest.UserName);
+        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
+        return loginResult;
+    }
+
+    public async Task Logout()
+    {
+        await RemoveToken();
+        ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
         HttpClient.DefaultRequestHeaders.Authorization = null;
     }
 

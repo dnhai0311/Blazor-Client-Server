@@ -1,6 +1,4 @@
-﻿@using Shared.Models;
-@page "/{Type}/all"
-@page "/authors/{AuthorId:int}/booksales"
+﻿﻿@using Shared.Models;
 @inherits ShowListBase
 @rendermode InteractiveServer
 
@@ -131,4 +129,3 @@ else
     </div>
 }
 <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal" />
-

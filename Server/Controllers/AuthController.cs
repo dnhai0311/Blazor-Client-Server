@@ -1,45 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Server.Services;
-using Shared.Repositories;
 using Shared.Models;
+using System.IdentityModel.Tokens.Jwt;
 
-[ApiController]
-[Route("api/[controller]")]
-public class AuthController : ControllerBase
+namespace Server.Controllers
 {
-    private readonly IUserServerRepository UserRepository;
-    private readonly ITokenService TokenService;
-
-    public AuthController(IUserServerRepository userRepository, ITokenService tokenService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        UserRepository = userRepository;
-        TokenService = tokenService;
-    }
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
-    [HttpPost("login")]
-    public async Task<ActionResult<LoginResult>> Login([FromBody] LoginRequest loginRequest)
-    {
-        try
+        public AuthController(SignInManager<IdentityUser> signInManager, ITokenService tokenService)
         {
-            var authenticatedUser = await UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
-            var token = TokenService.GenerateToken(authenticatedUser.Id, authenticatedUser.UserName, authenticatedUser.RoleId);
-            if (loginRequest.RememberMe)
-            {
-                
-            }
+            _signInManager = signInManager;
+            _tokenService = tokenService; 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        {
+            var result = await _signInManager.PasswordSignInAsync(loginRequest.UserName, loginRequest.Password, false, false);
+
+            if (!result.Succeeded)
+                return BadRequest(new LoginResult { Successful = false, Error = "Username and password are invalid." });
+
+            var token = _tokenService.GenerateToken(loginRequest.UserName);
+
             return Ok(new LoginResult { Successful = true, Token = token });
-        }
-        catch (KeyNotFoundException ex)
-        {
-            return Unauthorized(new LoginResult { Successful = false, Error = ex.Message });
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            return Unauthorized(new LoginResult { Successful = false, Error = ex.Message });
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new LoginResult { Successful = false, Error = $"Có lỗi xảy ra: {ex.Message}" });
         }
     }
 }

@@ -4,8 +4,9 @@ namespace Client.Services
 {
     public interface IAuthService
     {
-        Task Login(LoginRequest loginRequest);
-        void Logout();
+        Task<RegisterResult> Register(RegisterRequest registerRequest);
+        Task<LoginResult> Login(LoginRequest loginRequest);
+        Task Logout();
         Task SaveToken(string token);
         Task RemoveToken();
     }

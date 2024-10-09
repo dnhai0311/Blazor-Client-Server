@@ -1,23 +1,14 @@
 ﻿@page "/"
-@inject CustomAuthenticationStateProvider CustomAuthenticationStateProvider
-@using System.Security.Claims
-@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<CascadingAuthenticationState>
+    <AuthorizeView>
+        <Authorized>
+            <h1>Welcome, authorized user! @context.User.Identity.Name!</h1>
+        </Authorized>
+        <NotAuthorized>
+            <h1>You are not authorized to view this page.</h1>
+        </NotAuthorized>
+    </AuthorizeView>
+</CascadingAuthenticationState>
 
 
-<ShowList Type="booksales" />
-
-<ShowList Type="authors" />
-
-<ShowList Type="bills" />
-
-@code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            await CustomAuthenticationStateProvider.InitializeAsync();
-        }
-    }
-}
