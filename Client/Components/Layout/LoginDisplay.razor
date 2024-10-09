@@ -1,0 +1,10 @@
+﻿<AuthorizeView>
+    <Authorized>
+        Hello, @context?.User?.Identity?.Name!
+        <a href="/logout" class="btn btn-link">Đăng xuất</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="/register" class="btn btn-link">Đăng ký</a>
+        <a href="/login" class="btn btn-link">Đăng nhập</a>
+    </NotAuthorized>
+</AuthorizeView>

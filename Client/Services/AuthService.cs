@@ -20,8 +20,6 @@ public class AuthService : IAuthService
         AuthenticationStateProvider = authenticationStateProvider;
     }
 
-    public bool IsLoggedIn { get; private set; }
-
     public async Task Login(LoginRequest loginRequest)
     {
         var response = await HttpClient.PostAsJsonAsync("api/auth/login", loginRequest);
@@ -30,7 +28,6 @@ public class AuthService : IAuthService
 
         if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
         {
-            IsLoggedIn = true;
             await SaveToken(loginResult.Token);
             ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult.Token);
@@ -41,10 +38,9 @@ public class AuthService : IAuthService
         }
     }
 
-    public void Logout()
+    public async Task Logout()
     {
-        IsLoggedIn = false;
-        RemoveToken().GetAwaiter().GetResult();
+        await  RemoveToken();
         ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
         HttpClient.DefaultRequestHeaders.Authorization = null;
     }

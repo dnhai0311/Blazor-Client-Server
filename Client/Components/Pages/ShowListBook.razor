@@ -1,0 +1,9 @@
+﻿@page "/booksales"
+@page "/authors/{AuthorId:int}/booksales"
+
+@code {
+    [Parameter]
+    public int? AuthorId { get; set; }
+}
+
+<ShowList Type="booksales" AuthorId="@AuthorId" />

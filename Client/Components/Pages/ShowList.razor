@@ -1,6 +1,4 @@
-﻿@using Shared.Models;
-@page "/{Type}/all"
-@page "/authors/{AuthorId:int}/booksales"
+﻿﻿@using Shared.Models;
 @inherits ShowListBase
 @rendermode InteractiveServer
 
@@ -18,117 +16,136 @@
         </div>
 
         @if (Type != "bills")
+
         {
-            <InputText @bind-Value="searchText" class="form-control" placeholder="Tìm kiếm" />
+                <InputText @bind-Value="searchText" class="form-control" placeholder="Tìm kiếm" />
         }
     </div>
 </div>
 
 @if (items == null)
+
 {
-    <p><em>Loading...</em></p>
+        <p><em>Loading...</em></p>
 }
+
 else if (!items.Any())
+
 {
-    <p>Không có  dữ liệu~~</p>
+        <p>Không có  dữ liệu~~</p>
 }
+
 else
+
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
                 @if (Type == "booksales")
                 {
-                    <th>Title</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Author Name</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                            <th>Title</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Author Name</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                 }
                 else if (Type == "authors")
                 {
-                    <th>Author Name</th>
-                    <th>List booksales</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                            <th>Author Name</th>
+                            <th>List booksales</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                 }
                 else if (Type == "bills")
                 {
-                    <th>Total price</th>
-                    <th>Date Created</th>
-                    <th>Detail</th>
+                            <th>Total price</th>
+                            <th>Date Created</th>
+                            <th>Detail</th>
                 }
-            </tr>
-        </thead>
-        <tbody>
+                </tr>
+            </thead>
+            <tbody>
             @if (Type == "booksales")
+
             {
+
                 foreach (BookSale sale in pagedItems)
+
                 {
-                    <tr>
-                        <td>@sale.Id</td>
-                        <td>@sale.Title</td>
-                        <td>@sale.Quantity.ToString("n0")</td>
-                        <td>@sale.Price.ToString("c0")</td>
-                        <td>@sale.Author?.AuthorName</td>
-                        <td>
-                            <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" @onclick="() => DeleteItem(sale.Id)">Delete</button>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>@sale.Id</td>
+                                    <td>@sale.Title</td>
+                                    <td>@sale.Quantity.ToString("n0")</td>
+                                    <td>@sale.Price.ToString("c0")</td>
+                                    <td>@sale.Author?.AuthorName</td>
+                                    <td>
+                                        <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => DeleteItem(sale.Id)">Delete</button>
+                                    </td>
+                                </tr>
                 }
+
             }
+
             else if (Type == "authors")
+
             {
+
                 foreach (Author author in pagedItems)
+
                 {
-                    <tr>
-                        <td>@author.Id</td>
-                        <td>@author.AuthorName</td>
-                        <td>
-                            <button class="btn btn-info" @onclick="() => ShowAllBookSalesFromAuthor(author.Id)">Show</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-success" @onclick="() => UpdateItem(author.Id)">Edit</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger" @onclick="() => DeleteItem(author.Id)">Delete</button>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>@author.Id</td>
+                                    <td>@author.AuthorName</td>
+                                    <td>
+                                        <button class="btn btn-info" @onclick="() => ShowAllBookSalesFromAuthor(author.Id)">Show</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-success" @onclick="() => UpdateItem(author.Id)">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" @onclick="() => DeleteItem(author.Id)">Delete</button>
+                                    </td>
+                                </tr>
                 }
+
             }
+
             else if (Type == "bills")
+
             {
+
                 foreach (Bill bill in pagedItems)
+
                 {
-                    <tr>
-                        <td>@bill.Id</td>
-                        <td>@bill.TotalPrice.ToString("c0")</td>
-                        <td>@bill.DateCreated</td>
-                        <td>
-                            <button class="btn btn-success" @onclick="() => ShowBillDetails(bill.Id)">Detail</button>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>@bill.Id</td>
+                                    <td>@bill.TotalPrice.ToString("c0")</td>
+                                    <td>@bill.DateCreated</td>
+                                    <td>
+                                        <button class="btn btn-success" @onclick="() => ShowBillDetails(bill.Id)">Detail</button>
+                                    </td>
+                                </tr>
                 }
+
             }
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <div class="d-flex justify-content-center align-items-center">
-        <button class="btn btn-secondary me-2" @onclick="PreviousPage" disabled="@(currentPage == 1)">Prev</button>
-        <span class="text-center py-2">Page @currentPage of @((totalItems + pageSize - 1) / pageSize)</span>
-        <button class="btn btn-secondary ms-2" @onclick="NextPage" disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)">Next</button>
-    </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <button class="btn btn-secondary me-2" @onclick="PreviousPage" disabled="@(currentPage == 1)">Prev</button>
+            <span class="text-center py-2">Page @currentPage of @((totalItems + pageSize - 1) / pageSize)</span>
+            <button class="btn btn-secondary ms-2" @onclick="NextPage" disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)">Next</button>
+        </div>
 
-    <div class="d-flex justify-content-center align-items-center mt-3">
-        <label for="pageNumber" class="me-2">Đi đến trang:</label>
-        <input type="number" id="pageNumber" min="1" max="@((totalItems + pageSize - 1) / pageSize)" @bind="currentPage" class="form-control" style="width: 75px;" />
-    </div>
+        <div class="d-flex justify-content-center align-items-center mt-3">
+            <label for="pageNumber" class="me-2">Đi đến trang:</label>
+            <input type="number" id="pageNumber" min="1" max="@((totalItems + pageSize - 1) / pageSize)" @bind="currentPage" class="form-control" style="width: 75px;" />
+        </div>
 }
 <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal" />
-

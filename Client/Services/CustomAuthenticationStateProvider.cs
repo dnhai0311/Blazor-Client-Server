@@ -6,7 +6,6 @@ using System.Text.Json;
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly ILocalStorageService LocalStorage;
-    private bool _isInitialized = false;
 
     public CustomAuthenticationStateProvider(ILocalStorageService localStorage)
     {
@@ -15,11 +14,6 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        if (!_isInitialized)
-        {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-        }
-
         var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
 
         if (string.IsNullOrWhiteSpace(savedToken))
@@ -29,13 +23,6 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
         var claims = ParseClaimsFromJwt(savedToken);
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt")));
-    }
-
-    public async Task InitializeAsync()
-    {
-        _isInitialized = true;
-        var authState = await GetAuthenticationStateAsync();
-        NotifyAuthenticationStateChanged(Task.FromResult(authState));
     }
 
     public void MarkUserAsAuthenticated(string token)

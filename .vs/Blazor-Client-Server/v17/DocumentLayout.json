@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\components\\pages\\checkauth.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\checkauth.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +14,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -28,22 +28,9 @@
               "RelativeDocumentMoniker": "Client\\Components\\Pages\\Home.razor",
               "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\Home.razor",
               "RelativeToolTip": "Client\\Components\\Pages\\Home.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-08T18:12:18.462Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CheckAuth.razor",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\CheckAuth.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\CheckAuth.razor",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\CheckAuth.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\CheckAuth.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-08T18:03:03.842Z",
+              "WhenOpened": "2024-10-09T15:35:48.989Z",
               "EditorCaption": ""
             }
           ]
