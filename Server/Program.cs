@@ -18,7 +18,6 @@ builder.Services.AddScoped<IBillRepository, BillRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserServerRepository, UserRepository>();
 
-
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -38,24 +37,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAuthenticatedUser", policy =>
-        policy.RequireAuthenticatedUser());
-});
-
-
-
-// Add services to the container.
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -63,9 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

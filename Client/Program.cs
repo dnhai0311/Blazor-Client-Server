@@ -1,15 +1,21 @@
-using Shared.Repositories;
+﻿using Shared.Repositories;
 using Client.Repositories;
 using Client.Components;
 using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthentication("CustomScheme")
+    .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("CustomScheme", null);
+
 builder.Services.AddAuthorizationCore();
+
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());
 
@@ -40,6 +46,17 @@ app.UseAuthorization();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseStatusCodePages(context =>
+{
+    var response = context.HttpContext.Response;
+    if (response.StatusCode == 404)
+    {
+        response.Redirect("/not-found"); 
+    }
+    return Task.CompletedTask; 
+});
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

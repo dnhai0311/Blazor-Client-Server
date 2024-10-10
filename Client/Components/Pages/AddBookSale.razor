@@ -2,6 +2,7 @@
 @page "/booksales/{Id:int}"
 @inherits AddBookSaleBase
 @rendermode InteractiveServer
+@attribute [Authorize]
 
 <h1>@(bookSale.Id != 0 ? "Edit" : "Add") Book Sale</h1>
 

@@ -1,11 +1,13 @@
 ﻿using Shared.Models;
 using Shared.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class BookSaleController : ControllerBase
     {
         private readonly IBookSaleRepository BookSalesRepository;

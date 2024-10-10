@@ -1,6 +1,7 @@
 ﻿@page "/add-bill"
 @inherits AddBillBase
 @rendermode InteractiveServer
+@attribute [Authorize]
 
 <h1>Add bill</h1>
 <EditForm Model="@bill" OnValidSubmit="HandleValidSubmit" FormName="addBillForm">
