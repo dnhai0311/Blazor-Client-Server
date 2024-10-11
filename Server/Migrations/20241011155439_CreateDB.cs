@@ -137,6 +137,21 @@ namespace Server.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "Id", "AuthorName" },
+                values: new object[,]
+                {
+                    { 1, "Dương Ngọc Hải" },
+                    { 2, "Trần Hiếu Nghĩa" },
+                    { 3, "Tô Hoài" },
+                    { 4, "Tố Hữu" },
+                    { 5, "Nguyễn Trần Phương Tứng" },
+                    { 6, "Hồ Quỳnh Hương" },
+                    { 7, "Tun Phạm" },
+                    { 8, "Tuấn Trần" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "RoleName" },
                 values: new object[,]
@@ -144,6 +159,65 @@ namespace Server.Migrations
                     { 1, "Admin" },
                     { 2, "Staff" },
                     { 3, "Seller" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BookSales",
+                columns: new[] { "Id", "AuthorId", "Price", "Quantity", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 1" },
+                    { 2, 1, 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 2" },
+                    { 3, 1, 120000.0, 500, "Đường Hầm Mùa Hạ Tập 3" },
+                    { 4, 1, 120000.0, 2000, "Đường Hầm Mùa Hạ Tập 4" },
+                    { 5, 1, 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 5" },
+                    { 6, 1, 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 6" },
+                    { 7, 1, 120000.0, 500, "Đường Hầm Mùa Hạ Tập 7" },
+                    { 8, 1, 120000.0, 2000, "Đường Hầm Mùa Hạ Tập 8" },
+                    { 9, 1, 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 9" },
+                    { 10, 1, 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 10" },
+                    { 11, 2, 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 1" },
+                    { 12, 2, 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 2" },
+                    { 13, 2, 130000.0, 1500, "Dế Mèo Phiêu Lưu Ký Tập 3" },
+                    { 14, 2, 130000.0, 2000, "Dế Mèo Phiêu Lưu Ký Tập 4" },
+                    { 15, 2, 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 5" },
+                    { 16, 2, 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 6" },
+                    { 17, 2, 130000.0, 1500, "Dế Mèo Phiêu Lưu Ký Tập 7" },
+                    { 18, 2, 130000.0, 2000, "Dế Mèo Phiêu Lưu Ký Tập 8" },
+                    { 19, 2, 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 9" },
+                    { 20, 2, 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 10" },
+                    { 21, 3, 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 1" },
+                    { 22, 3, 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 2" },
+                    { 23, 3, 140000.0, 500, "Hành Trình Đến Bắc Cực Tập 3" },
+                    { 24, 3, 140000.0, 1000, "Hành Trình Đến Bắc Cực Tập 4" },
+                    { 25, 3, 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 5" },
+                    { 26, 3, 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 6" },
+                    { 27, 3, 140000.0, 500, "Hành Trình Đến Bắc Cực Tập 7" },
+                    { 28, 3, 140000.0, 1000, "Hành Trình Đến Bắc Cực Tập 8" },
+                    { 29, 3, 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 9" },
+                    { 30, 3, 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 10" },
+                    { 31, 4, 150000.0, 500, "Thế Giới Huyền Bí Tập 1" },
+                    { 32, 4, 150000.0, 1000, "Thế Giới Huyền Bí Tập 2" },
+                    { 33, 4, 150000.0, 1500, "Thế Giới Huyền Bí Tập 3" },
+                    { 34, 4, 150000.0, 2000, "Thế Giới Huyền Bí Tập 4" },
+                    { 35, 4, 150000.0, 500, "Thế Giới Huyền Bí Tập 5" },
+                    { 36, 4, 150000.0, 1000, "Thế Giới Huyền Bí Tập 6" },
+                    { 37, 4, 150000.0, 1500, "Thế Giới Huyền Bí Tập 7" },
+                    { 38, 4, 150000.0, 2000, "Thế Giới Huyền Bí Tập 8" },
+                    { 39, 4, 150000.0, 500, "Thế Giới Huyền Bí Tập 9" },
+                    { 40, 4, 150000.0, 1000, "Thế Giới Huyền Bí Tập 10" },
+                    { 41, 5, 150000.0, 500, "Tên Của Bạn Là Tập 1" },
+                    { 42, 5, 150000.0, 1000, "Tên Của Bạn Là Tập 2" },
+                    { 43, 5, 150000.0, 1500, "Tên Của Bạn Là Tập 3" },
+                    { 44, 5, 150000.0, 2000, "Tên Của Bạn Là Tập 4" },
+                    { 45, 5, 150000.0, 500, "Tên Của Bạn Là Tập 5" },
+                    { 46, 5, 150000.0, 1000, "Tên Của Bạn Là Tập 6" },
+                    { 47, 5, 150000.0, 1500, "Tên Của Bạn Là Tập 7" },
+                    { 48, 5, 150000.0, 2000, "Tên Của Bạn Là Tập 8" },
+                    { 49, 5, 150000.0, 500, "Tên Của Bạn Là Tập 9" },
+                    { 50, 5, 150000.0, 1000, "Tên Của Bạn Là Tập 10" },
+                    { 51, 6, 160000.0, 1500, "Bên Kia Sông" },
+                    { 52, 7, 170000.0, 500, "Lạc Trôi" }
                 });
 
             migrationBuilder.CreateIndex(

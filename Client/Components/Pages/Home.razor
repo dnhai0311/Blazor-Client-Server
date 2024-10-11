@@ -8,7 +8,7 @@
             <h2>Role: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</h2>
         </Authorized>
         <NotAuthorized>
-            <h1>Bạn không có quyền truy cập~~</h1>
+            <h1>Hãy đăng nhập~~</h1>
         </NotAuthorized>
     </AuthorizeView>
 </CascadingAuthenticationState>
