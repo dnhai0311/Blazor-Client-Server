@@ -23,6 +23,8 @@ namespace Shared.Models
         [Required(ErrorMessage = "Bạn phải chọn Role")]
         public int RoleId { get; set; } = 0;
 
+        public bool isActive { get; set; } = true;
+
         public Role? Role { get; set; }
     }
 }

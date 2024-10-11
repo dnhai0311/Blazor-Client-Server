@@ -18,6 +18,7 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<Role>>> GetAllRoles()
         {
             var roles = await roleRepository.GetAllRoles();
@@ -25,6 +26,7 @@ namespace Server.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<Role>> GetRoleById(int id)
         {
             try

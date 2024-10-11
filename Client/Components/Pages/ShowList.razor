@@ -40,7 +40,6 @@ else
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Author Name</th>
-                    @* Chỉ hiển thị cột Edit và Delete nếu người dùng có quyền *@
                     <AuthorizeView Roles="Admin,Staff">
                         <th>Edit</th>
                         <th>Delete</th>
@@ -61,6 +60,13 @@ else
                     <th>Date Created</th>
                     <th>Detail</th>
                 }
+                else if (Type == "users")
+                {
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -74,7 +80,6 @@ else
                         <td>@sale.Quantity.ToString("n0")</td>
                         <td>@sale.Price.ToString("c0")</td>
                         <td>@sale.Author?.AuthorName</td>
-                        @* Chỉ hiển thị nút Edit và Delete nếu người dùng có quyền *@
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
                                 <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Edit</button>

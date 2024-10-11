@@ -16,7 +16,7 @@ namespace Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Shared.Models.Author", b =>
@@ -132,6 +132,23 @@ namespace Server.Migrations
                         .HasDatabaseName("UX_Role_RoleName");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            RoleName = "Staff"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            RoleName = "Seller"
+                        });
                 });
 
             modelBuilder.Entity("Shared.Models.User", b =>
@@ -156,6 +173,9 @@ namespace Server.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("varchar(20)");
+
+                    b.Property<bool>("isActive")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

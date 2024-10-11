@@ -25,6 +25,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<RegisterResult>> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)

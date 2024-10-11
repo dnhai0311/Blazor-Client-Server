@@ -9,7 +9,6 @@ public class AuthService : IAuthService
     private readonly HttpClient HttpClient;
     private readonly ILocalStorageService LocalStorage;
     private readonly AuthenticationStateProvider AuthenticationStateProvider;
-    private const string TokenKey = "authToken";
 
     public AuthService(HttpClient httpClient,
                        ILocalStorageService localStorage,
@@ -47,11 +46,11 @@ public class AuthService : IAuthService
 
     public async Task SaveToken(string token)
     {
-        await LocalStorage.SetItemAsync(TokenKey, token);
+        await LocalStorage.SetItemAsync("authToken", token);
     }
 
     public async Task RemoveToken()
     {
-        await LocalStorage.RemoveItemAsync(TokenKey);
+        await LocalStorage.RemoveItemAsync("authToken");
     }
 }

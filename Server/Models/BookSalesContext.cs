@@ -44,6 +44,12 @@ namespace Server.Models
                 .HasIndex(u => u.RoleName)
                 .IsUnique()
                 .HasDatabaseName("UX_Role_RoleName");
+
+            modelBuilder.Entity<Role>().HasData(
+                new Role { Id = 1, RoleName = "Admin" },
+                new Role { Id = 2, RoleName = "Staff" },
+                new Role { Id = 3, RoleName = "Seller" }
+            );
         }
     }
 }

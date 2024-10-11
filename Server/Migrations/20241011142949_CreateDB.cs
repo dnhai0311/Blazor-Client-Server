@@ -4,6 +4,8 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Server.Migrations
 {
     /// <inheritdoc />
@@ -90,7 +92,8 @@ namespace Server.Migrations
                     UserName = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "varchar(255)", nullable: false),
                     Password = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
+                    RoleId = table.Column<int>(type: "int", nullable: false),
+                    isActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -132,6 +135,16 @@ namespace Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Id", "RoleName" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Staff" },
+                    { 3, "Seller" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "UX_Author_AuthorName",

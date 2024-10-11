@@ -5,6 +5,7 @@ using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components.Server.Circuits;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +18,30 @@ builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());
 
+builder.Services.AddScoped<CircuitServicesAccessor>();
+builder.Services.AddScoped<CircuitHandler, ServicesAccessorCircuitHandler>();
+
+builder.Services.AddTransient<TokenHandler>();
+
 var baseAddress = new Uri("https://localhost:7103");
-builder.Services.AddHttpClient<IBookSaleRepository, BookSaleRepository>(httpClient => httpClient.BaseAddress = baseAddress);
-builder.Services.AddHttpClient<IAuthorRepository, AuthorRepository>(httpClient => httpClient.BaseAddress = baseAddress);
-builder.Services.AddHttpClient<IBillRepository, BillRepository>(httpClient => httpClient.BaseAddress = baseAddress);
-builder.Services.AddHttpClient<IUserClientRepository, UserRepository>(httpClient => httpClient.BaseAddress = baseAddress);
-builder.Services.AddHttpClient<IRoleRepository, RoleRepository>(httpClient => httpClient.BaseAddress = baseAddress);
-builder.Services.AddHttpClient<IAuthService, AuthService>(httpClient => httpClient.BaseAddress = baseAddress);
+
+void AddHttpClients<TInterface, TImplementation>()
+    where TImplementation : class, TInterface
+    where TInterface : class
+{
+    builder.Services.AddHttpClient<TInterface, TImplementation>(httpClient =>
+    {
+        httpClient.BaseAddress = baseAddress;
+    }).AddHttpMessageHandler<TokenHandler>();
+}
+
+AddHttpClients<IBookSaleRepository, BookSaleRepository>();
+AddHttpClients<IAuthorRepository, AuthorRepository>();
+AddHttpClients<IBillRepository, BillRepository>();
+AddHttpClients<IUserClientRepository, UserRepository>();
+AddHttpClients<IRoleRepository, RoleRepository>();
+AddHttpClients<IAuthService, AuthService>();
+
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
