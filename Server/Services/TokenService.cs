@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Shared.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,11 +13,12 @@ namespace Server.Services
         public string Audience { get; private set; } = configuration.GetValue<string>("Jwt:Audience")!;
         public int ExpiryInDays { get; private set; } = configuration.GetValue<int>("Jwt:ExpiryInDays");
 
-        public string GenerateToken(string username)
+        public string GenerateToken(string username, string roleName)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username)
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, roleName)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

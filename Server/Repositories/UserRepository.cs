@@ -101,7 +101,8 @@ namespace Server.Repositories
         public async Task<User> Authenticate(string username, string password)
         {
             var user = await bookSalesContext.Users
-                .FirstOrDefaultAsync(u => u.UserName == username);
+               .Include(u => u.Role) 
+               .FirstOrDefaultAsync(u => u.UserName == username);
 
             if (user == null)
             {

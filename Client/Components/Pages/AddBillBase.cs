@@ -114,7 +114,7 @@ namespace Client.Components.Pages
             }
             bill.TotalPrice = totalPriceWithDiscount;
             await BillRepository.AddBill(bill);
-            NavigationManager.NavigateTo("/bills/all");
+            NavigationManager.NavigateTo("/bills");
         }
     }
 }

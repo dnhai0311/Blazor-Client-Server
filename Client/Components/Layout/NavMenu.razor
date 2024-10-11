@@ -13,45 +13,46 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
+        <AuthorizeView Roles="Admin,Staff">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="add-booksale">
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Booksale
+                </NavLink>
+            </div>
+
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="add-author">
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Author
+                </NavLink>
+            </div>
+        </AuthorizeView>
         <AuthorizeView>
-    <Authorized>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="add-booksale">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Booksale
-            </NavLink>
-        </div>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="add-bill">
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Bill
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="booksales">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list BookSales
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="add-author">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Author
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="authors">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Authors
+                    </NavLink>
+                </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="add-bill">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Bill
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="booksales">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list BookSales
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="authors">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Authors
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="bills">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Bills
-            </NavLink>
-        </div>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="bills">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Bills
+                    </NavLink>
+                </div>
             </Authorized>
         </AuthorizeView>
+
     </nav>
 </div>
 

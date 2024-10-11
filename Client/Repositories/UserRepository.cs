@@ -42,7 +42,7 @@ namespace Client.Repositories
             {
                 throw new ApplicationException(registerResult?.Errors[0]);
             }
-            else
+            if(!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 throw new ApplicationException($"Lỗi từ API: {errorMessage}");

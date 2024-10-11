@@ -7,7 +7,7 @@ namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class BookSaleController : ControllerBase
     {
         private readonly IBookSaleRepository BookSalesRepository;
@@ -46,6 +46,7 @@ namespace Server.Controllers
 
         // POST: api/booksale
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> AddBookSale([FromBody] BookSale bookSale)
         {
             if (!ModelState.IsValid)
@@ -75,6 +76,7 @@ namespace Server.Controllers
 
         // PUT: api/booksale/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> UpdateBookSale(int id, [FromBody] BookSale bookSale)
         {
             if (!ModelState.IsValid)
@@ -109,6 +111,7 @@ namespace Server.Controllers
 
         // DELETE: api/booksale/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin,Staff")]
         public async Task<IActionResult> DeleteBookSale(int id)
         {
             try

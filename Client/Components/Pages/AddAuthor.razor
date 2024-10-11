@@ -1,8 +1,7 @@
 ﻿@page "/add-author"
 @page "/authors/{Id:int}"
 @inherits AddAuthorBase
-@rendermode InteractiveServer
-@attribute [Authorize]
+@attribute [Authorize(Roles = "Admin,Staff")]
 
 <h1>@(author.Id != 0 ? "Edit" : "Add") Author</h1>
 

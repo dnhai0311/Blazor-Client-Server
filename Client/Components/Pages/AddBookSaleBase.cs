@@ -46,7 +46,7 @@ namespace Client.Components.Pages
                 {
                     await BookSaleRepository.UpdateBookSale(bookSale);
                 }
-                NavigationManager.NavigateTo("/booksales/all");
+                NavigationManager.NavigateTo("/booksales");
             }
             catch (ApplicationException ex)
             {

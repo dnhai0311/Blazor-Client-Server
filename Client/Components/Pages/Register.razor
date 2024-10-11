@@ -1,13 +1,9 @@
 ﻿@page "/register"
-@using Shared.Models
-@using Shared.Repositories
-@inject IUserClientRepository UserRepository
-@inject NavigationManager NavigationManager
-@rendermode InteractiveServer
+@inherits RegisterBase
 
 <h3>Đăng Ký</h3>
 
-<EditForm Model="registerRequest" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="registerRequest" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
 
     <div class="mb-3">
@@ -35,9 +31,10 @@
         <label for="Role" class="form-label">Role:</label>
         <InputSelect id="Role" class="form-control" @bind-Value="registerRequest.RoleId">
             <option value="">Chọn vai trò...</option>
-            <option value="1">Admin</option>
-            <option value="2">Staff</option>
-            <option value="3">Seller</option>
+            @foreach (var role in Roles)
+            {
+                <option value="@role.Id">@role.RoleName</option>
+            }
         </InputSelect>
         <ValidationMessage For="@(() => registerRequest.RoleId)" />
     </div>
@@ -50,20 +47,3 @@
     }
 </EditForm>
 
-@code {
-    private RegisterRequest registerRequest = new RegisterRequest();
-    private string message = string.Empty;
-
-    private async Task HandleValidSubmit()
-    {
-        try
-        {
-            await UserRepository.AddUser(registerRequest);
-            NavigationManager.NavigateTo("/login");
-        }
-        catch (Exception ex)
-        {
-            message = ex.Message;
-        }
-    }
-}

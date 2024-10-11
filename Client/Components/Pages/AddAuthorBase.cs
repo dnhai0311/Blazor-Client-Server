@@ -39,7 +39,7 @@ namespace Client.Components.Pages
                     await AuthorRepository.UpdateAuthor(author);
                 }
 
-                NavigationManager.NavigateTo("/authors/all");
+                NavigationManager.NavigateTo("/authors");
             }
             catch (ApplicationException ex)
             {

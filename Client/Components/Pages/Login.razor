@@ -1,11 +1,9 @@
 ﻿@page "/login"
-@inject IAuthService AuthService
-@inject NavigationManager NavigationManager
-@rendermode InteractiveServer
+@inherits LoginBase
 
 <h3>Đăng Nhập</h3>
 
-<EditForm Model="loginRequest" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="loginRequest" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
 
     <div class="mb-3">
@@ -30,21 +28,3 @@
         <div class="alert alert-danger mt-3">@message</div>
     }
 </EditForm>
-
-@code {
-    private LoginRequest loginRequest = new LoginRequest();
-    private string message = string.Empty;
-
-    private async Task HandleValidSubmit()
-    {
-        try
-        {
-            await AuthService.Login(loginRequest);
-            NavigationManager.NavigateTo("/");
-        }
-        catch (Exception ex)
-        {
-            message = ex.Message;
-        }
-    }
-}

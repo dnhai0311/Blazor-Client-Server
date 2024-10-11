@@ -8,12 +8,10 @@ using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthentication("CustomScheme")
     .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("CustomScheme", null);
-
 builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
@@ -24,39 +22,41 @@ builder.Services.AddHttpClient<IBookSaleRepository, BookSaleRepository>(httpClie
 builder.Services.AddHttpClient<IAuthorRepository, AuthorRepository>(httpClient => httpClient.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IBillRepository, BillRepository>(httpClient => httpClient.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IUserClientRepository, UserRepository>(httpClient => httpClient.BaseAddress = baseAddress);
+builder.Services.AddHttpClient<IRoleRepository, RoleRepository>(httpClient => httpClient.BaseAddress = baseAddress);
 builder.Services.AddHttpClient<IAuthService, AuthService>(httpClient => httpClient.BaseAddress = baseAddress);
 
-// Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
+app.Use(async (context, next) =>
+{
+    await next.Invoke();
+    if (context.Response.StatusCode == 404)
+    {
+        context.Response.Redirect("/not-found");
+    }
+    else if (context.Response.StatusCode == 403)
+    {
+        context.Response.Redirect("/access-denied");
+    }
+});
+
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
-app.UseStatusCodePages(context =>
-{
-    var response = context.HttpContext.Response;
-    if (response.StatusCode == 404)
-    {
-        response.Redirect("/not-found"); 
-    }
-    return Task.CompletedTask; 
-});
-
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

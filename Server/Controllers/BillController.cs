@@ -7,6 +7,7 @@ namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class BillController : ControllerBase
     {
         private readonly IBillRepository BillRepository;

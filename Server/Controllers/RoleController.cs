@@ -7,30 +7,30 @@ namespace Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
-    public class AuthorController : ControllerBase
+    [Authorize(Roles = "Admin")]
+    public class RoleController : ControllerBase
     {
-        private readonly IAuthorRepository AuthorRepository;
+        private readonly IRoleRepository roleRepository;
 
-        public AuthorController(IAuthorRepository authorRepository)
+        public RoleController(IRoleRepository roleRepository)
         {
-            AuthorRepository = authorRepository;
+            this.roleRepository = roleRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Author>>> GetAllAuthors()
+        public async Task<ActionResult<List<Role>>> GetAllRoles()
         {
-            var authors = await AuthorRepository.GetAllAuthors();
-            return Ok(authors);
+            var roles = await roleRepository.GetAllRoles();
+            return Ok(roles);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Author>> GetAuthorById(int id)
+        public async Task<ActionResult<Role>> GetRoleById(int id)
         {
             try
             {
-                var author = await AuthorRepository.GetAuthorById(id);
-                return Ok(author);
+                var role = await roleRepository.GetRoleById(id);
+                return Ok(role);
             }
             catch (KeyNotFoundException ex)
             {
@@ -43,8 +43,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Staff")]
-        public async Task<ActionResult> AddAuthor([FromBody] Author author)
+        public async Task<ActionResult> AddRole([FromBody] Role role)
         {
             if (!ModelState.IsValid)
             {
@@ -53,8 +52,8 @@ namespace Server.Controllers
 
             try
             {
-                await AuthorRepository.AddAuthor(author);
-                return CreatedAtAction(nameof(GetAuthorById), new { id = author.Id }, author);
+                await roleRepository.AddRole(role);
+                return CreatedAtAction(nameof(GetRoleById), new { id = role.Id }, role);
             }
             catch (InvalidOperationException ex)
             {
@@ -67,22 +66,21 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin,Staff")]
-        public async Task<ActionResult> UpdateAuthor(int id, [FromBody] Author author)
+        public async Task<ActionResult> UpdateRole(int id, [FromBody] Role role)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != author.Id)
+            if (id != role.Id)
             {
-                return BadRequest("ID trong URL không khớp với ID của tác giả.");
+                return BadRequest("ID trong URL không khớp với ID của vai trò.");
             }
 
             try
             {
-                await AuthorRepository.UpdateAuthor(author);
+                await roleRepository.UpdateRole(role);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
@@ -100,31 +98,12 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin,Staff")]
-        public async Task<ActionResult> DeleteAuthor(int id)
+        public async Task<ActionResult> DeleteRole(int id)
         {
             try
             {
-                await AuthorRepository.DeleteAuthor(id);
+                await roleRepository.DeleteRole(id);
                 return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
-            }
-        }
-
-        [HttpGet("{id}/booksales")]
-        public async Task<ActionResult<List<BookSale>>> GetAllBookSalesFromAuthor(int id)
-        {
-            try
-            {
-                var bookSales = await AuthorRepository.GetAllBookSalesFromAuthor(id);
-                return Ok(bookSales);
             }
             catch (KeyNotFoundException ex)
             {
