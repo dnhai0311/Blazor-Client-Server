@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
 using Shared.Repositories;
+using System.Security.Claims;
 
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserServerRepository UserRepository;
@@ -18,6 +19,7 @@ namespace Server.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<User>>> GetAllUsers()
         {
             var users = await UserRepository.GetAllUsers();
@@ -58,12 +60,20 @@ namespace Server.Controllers
             }
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             try
             {
+                var userIdFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+
+                var isAdmin = User.IsInRole("Admin");
+
+                if (!isAdmin && userIdFromToken != id)
+                {
+                    return Unauthorized("Bạn không có quyền truy cập thông tin của người dùng khác.");
+                }
+
                 var user = await UserRepository.GetUserById(id);
                 return Ok(user);
             }
@@ -76,6 +86,7 @@ namespace Server.Controllers
                 return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
             }
         }
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
@@ -92,6 +103,15 @@ namespace Server.Controllers
 
             try
             {
+                var userIdFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+
+                var isAdmin = User.IsInRole("Admin");
+
+                if (!isAdmin && userIdFromToken != id)
+                {
+                    return Unauthorized("Bạn không có quyền cập nhật thông tin của người dùng khác.");
+                }
+
                 await UserRepository.UpdateUser(user);
                 return NoContent();
             }
@@ -109,12 +129,72 @@ namespace Server.Controllers
             }
         }
 
+
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteUser(int id)
         {
             try
             {
                 await UserRepository.DeleteUser(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}/change-password")]
+        [Authorize]
+        public async Task<ActionResult> ChangePassword(int id, [FromBody] ChangePasswordRequest changePasswordRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userIdFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+
+            if (userIdFromToken != id)
+            {
+                return Unauthorized("Bạn không có quyền thay đổi mật khẩu của người dùng khác.");
+            }
+
+            try
+            {
+                await UserRepository.ChangePassword(id, changePasswordRequest);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}/status")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> UpdateUserStatus(int id, [FromBody] bool isActive)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await UserRepository.UpdateUserStatus(id, isActive);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

@@ -3,84 +3,24 @@
   "WorkspaceRootPath": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\migrations\\20241011155439_createdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\migrations\\20241011155439_createdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\models\\booksalescontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\models\\booksalescontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\repositories\\booksalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\repositories\\booksalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\customauthenticationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\customauthenticationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\circuitservicesaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\circuitservicesaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\servicesaccessorcircuithandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\servicesaccessorcircuithandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\delegatinghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\delegatinghandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\repositories\\authorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\repositories\\authorrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\repositories\\booksalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\repositories\\booksalerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|d:\\codes\\client-server\\blazor-client-server\\client\\services\\customauthenticationstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A6907F96-2877-4024-AB22-6C09B62E0C0B}|Client\\Client.csproj|solutionrelative:client\\services\\customauthenticationstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\controllers\\booksalecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\controllers\\booksalecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\services\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\services\\tokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\controllers\\rolecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|d:\\codes\\client-server\\blazor-client-server\\server\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DB1BBF2B-2D00-4C6C-9FF0-0713C2F83204}|Server\\Server.csproj|solutionrelative:server\\controllers\\authorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{92ACB9A1-95D1-47DA-9D40-2646537B2194}|Shared\\Shared.csproj|d:\\codes\\client-server\\blazor-client-server\\shared\\repositories\\ibaseuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{92ACB9A1-95D1-47DA-9D40-2646537B2194}|Shared\\Shared.csproj|solutionrelative:shared\\repositories\\ibaseuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -90,34 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Home.razor",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\Home.razor",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\Home.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-11T15:57:34.668Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Login.razor",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\Login.razor",
-              "RelativeDocumentMoniker": "Client\\Components\\Pages\\Login.razor",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Components\\Pages\\Login.razor",
-              "RelativeToolTip": "Client\\Components\\Pages\\Login.razor",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-11T15:57:31.676Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
@@ -125,221 +39,67 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "20241011155439_CreateDB.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Migrations\\20241011155439_CreateDB.cs",
-              "RelativeDocumentMoniker": "Server\\Migrations\\20241011155439_CreateDB.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Migrations\\20241011155439_CreateDB.cs",
-              "RelativeToolTip": "Server\\Migrations\\20241011155439_CreateDB.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Server\\Repositories\\UserRepository.cs",
+              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Server\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAHwAAAAAAAAAAAAqwJQAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T15:54:40.107Z",
+              "WhenOpened": "2024-10-11T16:54:15.209Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "BookSalesContext.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Models\\BookSalesContext.cs",
-              "RelativeDocumentMoniker": "Server\\Models\\BookSalesContext.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Models\\BookSalesContext.cs",
-              "RelativeToolTip": "Server\\Models\\BookSalesContext.cs",
-              "ViewState": "AgIAAGYAAAAAAAAAAADwv3UAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T15:42:55.261Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ServicesAccessorCircuitHandler.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\ServicesAccessorCircuitHandler.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\ServicesAccessorCircuitHandler.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\ServicesAccessorCircuitHandler.cs",
-              "RelativeToolTip": "Client\\Services\\ServicesAccessorCircuitHandler.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAuwB4AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T15:26:14.867Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CircuitServicesAccessor.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CircuitServicesAccessor.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\CircuitServicesAccessor.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CircuitServicesAccessor.cs",
-              "RelativeToolTip": "Client\\Services\\CircuitServicesAccessor.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T15:26:09.405Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
               "Title": "BookSaleRepository.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\BookSaleRepository.cs",
-              "RelativeDocumentMoniker": "Client\\Repositories\\BookSaleRepository.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\BookSaleRepository.cs",
-              "RelativeToolTip": "Client\\Repositories\\BookSaleRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Repositories\\BookSaleRepository.cs",
+              "RelativeDocumentMoniker": "Server\\Repositories\\BookSaleRepository.cs",
+              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Repositories\\BookSaleRepository.cs",
+              "RelativeToolTip": "Server\\Repositories\\BookSaleRepository.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T15:17:03.963Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "AuthorRepository.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\AuthorRepository.cs",
-              "RelativeDocumentMoniker": "Client\\Repositories\\AuthorRepository.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\AuthorRepository.cs",
-              "RelativeToolTip": "Client\\Repositories\\AuthorRepository.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAqwA8AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:59:37.751Z"
+              "WhenOpened": "2024-10-11T16:54:09.165Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IAuthService.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\IAuthService.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\IAuthService.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\IAuthService.cs",
-              "RelativeToolTip": "Client\\Services\\IAuthService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Title": "IBaseUserRepository.cs",
+              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Repositories\\IBaseUserRepository.cs",
+              "RelativeDocumentMoniker": "Shared\\Repositories\\IBaseUserRepository.cs",
+              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Shared\\Repositories\\IBaseUserRepository.cs",
+              "RelativeToolTip": "Shared\\Repositories\\IBaseUserRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:53:06.767Z",
+              "WhenOpened": "2024-10-11T16:53:16.827Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "ITokenService.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Services\\ITokenService.cs",
-              "RelativeDocumentMoniker": "Server\\Services\\ITokenService.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Services\\ITokenService.cs",
-              "RelativeToolTip": "Server\\Services\\ITokenService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Server\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAqwKkAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:51:55.468Z"
+              "WhenOpened": "2024-10-11T16:51:22.004Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "TokenService.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Services\\TokenService.cs",
-              "RelativeDocumentMoniker": "Server\\Services\\TokenService.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Services\\TokenService.cs",
-              "RelativeToolTip": "Server\\Services\\TokenService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "UserRepository.cs",
+              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\UserRepository.cs",
+              "RelativeDocumentMoniker": "Client\\Repositories\\UserRepository.cs",
+              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Repositories\\UserRepository.cs",
+              "RelativeToolTip": "Client\\Repositories\\UserRepository.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowAUAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:51:54.782Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Program.cs",
-              "RelativeDocumentMoniker": "Client\\Program.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Program.cs",
-              "RelativeToolTip": "Client\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAUwBsAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:43:37.83Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DelegatingHandler.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\DelegatingHandler.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\DelegatingHandler.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\DelegatingHandler.cs",
-              "RelativeToolTip": "Client\\Services\\DelegatingHandler.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAYwBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:42:24.602Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\AuthService.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\AuthService.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\AuthService.cs",
-              "RelativeToolTip": "Client\\Services\\AuthService.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAA1wB8AAABiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:41:01.813Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "CustomAuthenticationStateProvider.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CustomAuthenticationStateProvider.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\CustomAuthenticationStateProvider.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CustomAuthenticationStateProvider.cs",
-              "RelativeToolTip": "Client\\Services\\CustomAuthenticationStateProvider.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAgwBEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:40:42.059Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CustomAuthenticationHandler.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CustomAuthenticationHandler.cs",
-              "RelativeDocumentMoniker": "Client\\Services\\CustomAuthenticationHandler.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Client\\Services\\CustomAuthenticationHandler.cs",
-              "RelativeToolTip": "Client\\Services\\CustomAuthenticationHandler.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:40:36.694Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "RoleController.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\RoleController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\RoleController.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\RoleController.cs",
-              "RelativeToolTip": "Server\\Controllers\\RoleController.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:40:28.34Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "BookSaleController.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\BookSaleController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\BookSaleController.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\BookSaleController.cs",
-              "RelativeToolTip": "Server\\Controllers\\BookSaleController.cs",
-              "ViewState": "AgIAAHgAAAAAAAAAAAAAAIQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:40:22.694Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "BillController.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\BillController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\BillController.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\BillController.cs",
-              "RelativeToolTip": "Server\\Controllers\\BillController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:40:15.387Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "AuthorController.cs",
-              "DocumentMoniker": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\AuthorController.cs",
-              "RelativeDocumentMoniker": "Server\\Controllers\\AuthorController.cs",
-              "ToolTip": "D:\\Codes\\Client-Server\\Blazor-Client-Server\\Server\\Controllers\\AuthorController.cs",
-              "RelativeToolTip": "Server\\Controllers\\AuthorController.cs",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-11T14:39:49.635Z"
+              "WhenOpened": "2024-10-11T16:49:14.016Z",
+              "EditorCaption": ""
             }
           ]
         }

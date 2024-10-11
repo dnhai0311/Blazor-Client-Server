@@ -70,5 +70,27 @@ namespace Client.Repositories
                 throw new ApplicationException($"Lỗi từ API: {errorMessage}");
             }
         }
+
+        public async Task ChangePassword(int id, ChangePasswordRequest changePasswordRequest)
+        {
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-password", changePasswordRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+            }
+        }
+
+        public async Task UpdateUserStatus(int id, bool isActive)
+        {
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/status", isActive);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+            }
+        }
     }
 }

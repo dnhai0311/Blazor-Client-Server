@@ -17,12 +17,22 @@ namespace Server.Repositories
 
         public async Task<List<User>> GetAllUsers()
         {
-            return await bookSalesContext.Users.ToListAsync();
+            var users = await bookSalesContext.Users
+                            .Include(user => user.Role)
+                            .ToListAsync();
+            foreach (var user in users)
+            {
+                user.Password = null;
+            }
+            return users;
         }
 
         public async Task<User> GetUserById(int id)
         {
             var user = await bookSalesContext.Users.FindAsync(id);
+
+            user.Password = null;
+
             if (user == null)
             {
                 throw new KeyNotFoundException($"User với ID: {id} không tìm thấy.");
@@ -101,7 +111,7 @@ namespace Server.Repositories
         public async Task<User> Authenticate(string username, string password)
         {
             var user = await bookSalesContext.Users
-               .Include(u => u.Role) 
+               .Include(u => u.Role)
                .FirstOrDefaultAsync(u => u.UserName == username);
 
             if (user == null)
@@ -115,6 +125,39 @@ namespace Server.Repositories
             }
 
             return user;
+        }
+
+        public async Task ChangePassword(int userId, ChangePasswordRequest changePasswordRequest)
+        {
+            var user = await bookSalesContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User với ID: {userId} không tìm thấy.");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(changePasswordRequest.OldPassword, user.Password))
+            {
+                throw new UnauthorizedAccessException("Mật khẩu cũ không chính xác.");
+            }
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordRequest.NewPassword);
+
+            bookSalesContext.Users.Update(user);
+            await bookSalesContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateUserStatus(int userId, bool newStatus)
+        {
+            var user = await bookSalesContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User với ID: {userId} không tìm thấy.");
+            }
+
+            user.isActive = newStatus;
+
+            bookSalesContext.Users.Update(user);
+            await bookSalesContext.SaveChangesAsync();
         }
     }
 }
