@@ -4,3 +4,6 @@ Client/obj/
 Client/bin/
 Shared/obj/
 Shared/bin/
+.vs
+Server/.vs
+Client/.vs

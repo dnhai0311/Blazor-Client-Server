@@ -1,0 +1,51 @@
+﻿@page "/chat"
+@inject CustomAuthenticationStateProvider AuthenticationStateProvider
+@inject HubService HubService
+
+<PageTitle>Chat</PageTitle>
+
+<div class="container mt-4">
+    <h2>Chat Room</h2>
+
+    <EditForm Model="@messageModel" OnValidSubmit="Send">
+        <div class="form-group">
+            <label>
+                Message:
+                <InputText @bind-Value="messageModel.Message" size="50" class="form-control" />
+            </label>
+        </div>
+        <button type="submit" disabled="@(!HubService.IsConnected)" class="btn btn-primary mt-3">Send</button>
+    </EditForm>
+
+    <hr>
+
+    <ul id="messagesList" class="list-group mt-3">
+        @foreach (var message in HubService.GetMessages())
+        {
+            <li class="list-group-item">@message</li>
+        }
+    </ul>
+</div>
+
+@code {
+    private ChatMessageModel messageModel = new();
+    private string? userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        userName = authState.User.Identity?.Name ?? "Anonymous";
+        await HubService.Initialize(userName);
+
+        HubService.OnMessageReceived += (message) =>
+        {
+            InvokeAsync(StateHasChanged);
+        };
+    }
+
+    private async Task Send()
+    {
+        await HubService.SendMessage(userName, messageModel.Message);
+        messageModel.Message = string.Empty;
+    }
+}

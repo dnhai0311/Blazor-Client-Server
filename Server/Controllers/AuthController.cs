@@ -10,6 +10,7 @@ public class AuthController : ControllerBase
     private readonly IUserServerRepository UserRepository;
     private readonly ITokenService TokenService;
 
+
     public AuthController(IUserServerRepository userRepository, ITokenService tokenService)
     {
         UserRepository = userRepository;

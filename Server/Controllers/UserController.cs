@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Server.Hubs;
 using Shared.Models;
 using Shared.Repositories;
 using System.Security.Claims;
@@ -12,10 +14,12 @@ namespace Server.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserServerRepository UserRepository;
+        private readonly IHubContext<NotificationHub> HubContext;
 
-        public UserController(IUserServerRepository userRepository)
+        public UserController(IUserServerRepository userRepository, IHubContext<NotificationHub> hubContext)
         {
             UserRepository = userRepository;
+            HubContext = hubContext;
         }
 
         [HttpGet]
@@ -218,6 +222,7 @@ namespace Server.Controllers
             try
             {
                 await UserRepository.ChangeRole(id, roleId);
+                await HubContext.Clients.All.SendAsync("RoleChanged");
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

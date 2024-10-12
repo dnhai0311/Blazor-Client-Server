@@ -42,6 +42,7 @@ AddHttpClients<IUserClientRepository, UserRepository>();
 AddHttpClients<IRoleRepository, RoleRepository>();
 AddHttpClients<IAuthService, AuthService>();
 
+builder.Services.AddScoped<HubService>();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
