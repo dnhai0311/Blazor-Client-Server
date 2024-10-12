@@ -18,6 +18,10 @@ namespace Client.Components.Pages
         public required IAuthorRepository AuthorRepository { get; set; }
         [Inject]
         public required IBillRepository BillRepository { get; set; }
+        [Inject]
+        public required IUserClientRepository UserRepository { get; set; }
+        [Inject]
+        public required IRoleRepository RoleRepository { get; set; }
 
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
@@ -88,9 +92,16 @@ namespace Client.Components.Pages
 
         public bool IsModalVisible { get; set; }
         public Bill? SelectedBill { get; set; }
+        public User? SelectedUser { get; set; }
         public async Task ShowBillDetails(int billId)
         {
             SelectedBill = await BillRepository.GetAllBillDetailsByBillId(billId);
+            IsModalVisible = true;
+        }
+
+        public async Task ShowChangeRole(int userId)
+        {
+            SelectedUser = await UserRepository.GetUserById(userId);
             IsModalVisible = true;
         }
 
@@ -120,6 +131,11 @@ namespace Client.Components.Pages
                 var bills = await BillRepository.GetAllBills();
                 items.AddRange(bills);
             }
+            else if (Type == "users")
+            {
+                var users = await UserRepository.GetAllUsers();
+                items.AddRange(users);
+            }
             UpdatePaged();
         }
 
@@ -132,6 +148,51 @@ namespace Client.Components.Pages
         public void UpdateItem(int id)
         {
             NavigationManager.NavigateTo($"/{Type}/{id}");
+        }
+
+        public async Task SetUserStatus(int id, bool IsActive)
+        {
+            bool confirmed = await JS.InvokeAsync<bool>("confirm",
+                $"Bạn muốn {(IsActive ? "Mở khóa" : "Khóa")} user với ID: {id}?");
+            if (confirmed)
+            {
+                await UserRepository.SetUserStatus(id, IsActive);
+
+                var user = (User)pagedItems.FirstOrDefault(item => ((User)item).Id == id);
+                if (user != null)
+                {
+                    user.IsActive = IsActive;
+                }
+
+                StateHasChanged();
+            }
+        }
+
+        public async Task HandleChangeRole((int id, int roleId) args)
+        {
+            int id = args.id;
+            int roleId = args.roleId;
+
+            await ChangeRole(id, roleId);
+
+            IsModalVisible = false;
+        }
+
+        public async Task ChangeRole(int id, int roleId)
+        {
+            await UserRepository.ChangeRole(id, roleId);
+
+            var role = await RoleRepository.GetRoleById(roleId);
+
+            string roleName = role.RoleName;
+
+            var user = (User)pagedItems.FirstOrDefault(item => ((User)item).Id == id);
+            if (user != null)
+            {
+                user.Role.RoleName = roleName;
+            }
+
+            StateHasChanged();
         }
 
         public async Task DeleteItem(int id)

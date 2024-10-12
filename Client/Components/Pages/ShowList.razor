@@ -65,7 +65,10 @@ else
                     <th>User Name</th>
                     <th>Email</th>
                     <th>Role</th>
-                    <th>Status</th>
+                    <th>Status</th>            
+                    <th>Change role</th>
+                    <th>Lock</th>
+
                 }
             </tr>
         </thead>
@@ -126,6 +129,25 @@ else
                     </tr>
                 }
             }
+            else if (Type == "users")
+            {
+                foreach (User user in pagedItems)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Role?.RoleName</td>
+                        <td class="@(user.IsActive ? "" : "text-danger")">@(user.IsActive ? "Đang hoạt động" : "Bị khóa")</td>
+                        <td>
+                            <button class="btn btn-success" @onclick="() => ShowChangeRole(user.Id)">Change</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-warning" @onclick="() => SetUserStatus(user.Id, !user.IsActive)">@(user.IsActive ? "Lock" : "Unlock")</button>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 
@@ -141,4 +163,11 @@ else
     </div>
 }
 
-<BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal" />
+@if (Type == "users")
+{
+    <ChageRoleModal IsVisible="IsModalVisible" OnClose="CloseModal" SelectedUser="SelectedUser" OnChangeRole="HandleChangeRole" />
+}
+else if (Type == "bills")
+{
+    <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal"/>
+}

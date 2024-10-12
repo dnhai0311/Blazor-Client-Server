@@ -81,7 +81,6 @@ namespace Server.Repositories
             if (role == null)
             {
                 throw new KeyNotFoundException($"Role với ID: {user.RoleId} không tìm thấy.");
-
             }
 
             if (!string.IsNullOrEmpty(user.Password))
@@ -124,6 +123,11 @@ namespace Server.Repositories
                 throw new UnauthorizedAccessException("Mật khẩu sai.");
             }
 
+            if(!user.IsActive)
+            {
+                throw new UnauthorizedAccessException("Tài khoản đã bị khóa");
+            }
+
             return user;
         }
 
@@ -146,7 +150,7 @@ namespace Server.Repositories
             await bookSalesContext.SaveChangesAsync();
         }
 
-        public async Task UpdateUserStatus(int userId, bool newStatus)
+        public async Task SetUserStatus(int userId, bool newStatus)
         {
             var user = await bookSalesContext.Users.FindAsync(userId);
             if (user == null)
@@ -154,10 +158,31 @@ namespace Server.Repositories
                 throw new KeyNotFoundException($"User với ID: {userId} không tìm thấy.");
             }
 
-            user.isActive = newStatus;
+            user.IsActive = newStatus;
 
             bookSalesContext.Users.Update(user);
             await bookSalesContext.SaveChangesAsync();
         }
+
+        public async Task ChangeRole(int userId, int newRoleId)
+        {
+            var user = await bookSalesContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User với ID: {userId} không tìm thấy.");
+            }
+
+            var role = await bookSalesContext.Roles.FindAsync(user.RoleId);
+            if (role == null)
+            {
+                throw new KeyNotFoundException($"Role với ID: {user.RoleId} không tìm thấy.");
+            }
+
+            user.RoleId = newRoleId;
+
+            bookSalesContext.Users.Update(user);
+            await bookSalesContext.SaveChangesAsync();
+        }
+
     }
 }

@@ -13,10 +13,11 @@ namespace Server.Services
         public string Audience { get; private set; } = configuration.GetValue<string>("Jwt:Audience")!;
         public int ExpiryInDays { get; private set; } = configuration.GetValue<int>("Jwt:ExpiryInDays");
 
-        public string GenerateToken(string username, string roleName)
+        public string GenerateToken(int id ,string username, string roleName)
         {
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()),
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, roleName)
             };

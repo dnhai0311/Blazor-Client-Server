@@ -9,6 +9,7 @@ namespace Shared.Repositories
         Task UpdateUser(User user);
         Task DeleteUser(int id);
         Task ChangePassword(int userId, ChangePasswordRequest changePasswordRequest);
-        Task UpdateUserStatus(int userId, bool isActive);
+        Task SetUserStatus(int userId, bool IsActive);
+        Task ChangeRole(int userId, int newRoleId);
     }
 }

@@ -93,7 +93,7 @@ namespace Server.Migrations
                     Email = table.Column<string>(type: "varchar(255)", nullable: false),
                     Password = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false),
-                    isActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

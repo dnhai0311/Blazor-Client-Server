@@ -184,9 +184,9 @@ namespace Server.Controllers
             }
         }
 
-        [HttpPut("{id}/status")]
+        [HttpPut("{id}/set-status")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> UpdateUserStatus(int id, [FromBody] bool isActive)
+        public async Task<ActionResult> SetUserStatus(int id, [FromBody] bool IsActive)
         {
             if (!ModelState.IsValid)
             {
@@ -194,7 +194,30 @@ namespace Server.Controllers
             }
             try
             {
-                await UserRepository.UpdateUserStatus(id, isActive);
+                await UserRepository.SetUserStatus(id, IsActive);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}/change-role")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> ChangeRole(int id, [FromBody] int roleId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                await UserRepository.ChangeRole(id, roleId);
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

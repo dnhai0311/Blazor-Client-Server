@@ -1,6 +1,7 @@
 ﻿<AuthorizeView>
     <Authorized>
         Hello, @context?.User?.Identity?.Name!
+        <a href="/change-password" class="btn btn-link">Đổi mật khẩu</a>
         <a href="/logout" class="btn btn-link">Đăng xuất</a>
     </Authorized>
     <NotAuthorized>

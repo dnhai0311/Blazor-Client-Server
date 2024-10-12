@@ -35,6 +35,7 @@ namespace Client.Components.Pages
 
         public async Task HandleValidSubmit()
         {
+            message = string.Empty;
             try
             {
                 await UserRepository.AddUser(registerRequest);

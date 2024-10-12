@@ -82,9 +82,20 @@ namespace Client.Repositories
             }
         }
 
-        public async Task UpdateUserStatus(int id, bool isActive)
+        public async Task SetUserStatus(int id, bool IsActive)
         {
-            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/status", isActive);
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/set-status", IsActive);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+            }
+        }
+
+        public async Task ChangeRole(int id, int roleId)
+        {
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-role", roleId);
 
             if (!response.IsSuccessStatusCode)
             {

@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
         try
         {
             var authenticatedUser = await UserRepository.Authenticate(loginRequest.UserName, loginRequest.Password);
-            var token = TokenService.GenerateToken(authenticatedUser.UserName, authenticatedUser.Role?.RoleName);
+            var token = TokenService.GenerateToken(authenticatedUser.Id, authenticatedUser.UserName, authenticatedUser.Role?.RoleName);
             if (loginRequest.RememberMe)
             {
                 
