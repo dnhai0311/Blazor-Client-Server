@@ -12,6 +12,8 @@ namespace Client.Components.Pages
         public required NavigationManager NavigationManager { get; set; }
         [Inject]
         public required IRoleRepository RoleRepository { get; set; }
+        [Inject]
+        public required CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         public RegisterRequest registerRequest = new RegisterRequest();
         public string message = string.Empty;
@@ -19,6 +21,11 @@ namespace Client.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (user.User.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/");
+            }
             try
             {
                 Roles = await RoleRepository.GetAllRoles();

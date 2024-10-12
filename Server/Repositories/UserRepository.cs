@@ -29,7 +29,9 @@ namespace Server.Repositories
 
         public async Task<User> GetUserById(int id)
         {
-            var user = await bookSalesContext.Users.FindAsync(id);
+            var user = await bookSalesContext.Users
+                            .Include(u => u.Role)
+                            .FirstOrDefaultAsync(u => u.Id == id);
 
             user.Password = null;
 

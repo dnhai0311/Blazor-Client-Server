@@ -10,6 +10,8 @@ namespace Client.Components.Pages
         public required IAuthService AuthService { get; set; }
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public required CustomAuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
         public LoginRequest loginRequest = new LoginRequest();
         public string message = string.Empty;
@@ -27,5 +29,15 @@ namespace Client.Components.Pages
                 message = ex.Message;
             }
         }
+
+        protected override async Task OnInitializedAsync()
+        {
+            var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            if (user.User.Identity.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/");
+            }
+        }
+
     }
 }
