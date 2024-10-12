@@ -9,19 +9,22 @@ using Microsoft.AspNetCore.Components.Server.Circuits;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<HubService>();
+
 builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthentication("CustomScheme")
     .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("CustomScheme", null);
 builder.Services.AddAuthorizationCore();
 
+builder.Services.AddScoped<CircuitServicesAccessor>();
+builder.Services.AddScoped<CircuitHandler, ServicesAccessorCircuitHandler>();
+builder.Services.AddTransient<TokenHandler>();
+
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());
 
-builder.Services.AddScoped<CircuitServicesAccessor>();
-builder.Services.AddScoped<CircuitHandler, ServicesAccessorCircuitHandler>();
 
-builder.Services.AddTransient<TokenHandler>();
 
 var baseAddress = new Uri("https://localhost:7103");
 
@@ -42,7 +45,6 @@ AddHttpClients<IUserClientRepository, UserRepository>();
 AddHttpClients<IRoleRepository, RoleRepository>();
 AddHttpClients<IAuthService, AuthService>();
 
-builder.Services.AddScoped<HubService>();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

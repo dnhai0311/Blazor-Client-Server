@@ -7,7 +7,7 @@
     <DataAnnotationsValidator />
 
     <div class="mb-3">
-        <label for="UserName" class="form-label">Name:</label>
+        <label for="UserName" class="form-label">Tên đăng nhập:</label>
         <InputText id="UserName" class="form-control" @bind-Value="registerRequest.UserName" />
         <ValidationMessage For="@(() => registerRequest.UserName)" />
     </div>
@@ -17,18 +17,18 @@
         <ValidationMessage For="@(() => registerRequest.Email)" />
     </div>
     <div class="mb-3">
-        <label for="Password" class="form-label">Password:</label>
+        <label for="Password" class="form-label">Mật khẩu:</label>
         <InputText id="Password" class="form-control" @bind-Value="registerRequest.Password" Type="password" />
         <ValidationMessage For="@(() => registerRequest.Password)" />
     </div>
     <div class="mb-3">
-        <label for="ConfirmPassword" class="form-label">Confirm Password:</label>
+        <label for="ConfirmPassword" class="form-label">Nhập lại mật khẩu:</label>
         <InputText id="ConfirmPassword" class="form-control" @bind-Value="registerRequest.ConfirmPassword" Type="password" />
         <ValidationMessage For="@(() => registerRequest.ConfirmPassword)" />
     </div>
 
     <div class="mb-3">
-        <label for="Role" class="form-label">Role:</label>
+        <label for="Role" class="form-label">Vai trò:</label>
         <InputSelect id="Role" class="form-control" @bind-Value="registerRequest.RoleId">
             <option value="">Chọn vai trò...</option>
             @foreach (var role in Roles)

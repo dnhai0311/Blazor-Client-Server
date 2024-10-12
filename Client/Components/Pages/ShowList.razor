@@ -36,38 +36,38 @@ else
                 <th>ID</th>
                 @if (Type == "booksales")
                 {
-                    <th>Title</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Author Name</th>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tên tác giả</th>
                     <AuthorizeView Roles="Admin,Staff">
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Sửa</th>
+                        <th>Xóa</th>
                     </AuthorizeView>
                 }
                 else if (Type == "authors")
                 {
-                    <th>Author Name</th>
-                    <th>List booksales</th>
+                    <th>Tên tác giả</th>
+                    <th>Xem Sách</th>
                     <AuthorizeView Roles="Admin,Staff">
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th>Sửa</th>
+                        <th>Xóa</th>
                     </AuthorizeView>
                 }
                 else if (Type == "bills")
                 {
-                    <th>Total price</th>
-                    <th>Date Created</th>
-                    <th>Detail</th>
+                    <th>Tổng giá</th>
+                    <th>Ngày tạo</th>
+                    <th>Chi tiết</th>
                 }
                 else if (Type == "users")
                 {
-                    <th>User Name</th>
+                    <th>Tên đăng nhập</th>
                     <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>            
-                    <th>Change role</th>
-                    <th>Lock</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>            
+                    <th>Thay đổi vai trò</th>
+                    <th>Khóa</th>
 
                 }
             </tr>

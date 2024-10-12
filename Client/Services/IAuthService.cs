@@ -6,7 +6,6 @@ namespace Client.Services
     {
         Task Login(LoginRequest loginRequest);
         Task Logout();
-        Task SaveToken(string token);
-        Task RemoveToken();
+
     }
 }

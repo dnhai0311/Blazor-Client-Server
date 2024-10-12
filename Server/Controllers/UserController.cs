@@ -222,7 +222,6 @@ namespace Server.Controllers
             try
             {
                 await UserRepository.ChangeRole(id, roleId);
-                await HubContext.Clients.All.SendAsync("RoleChanged");
                 return NoContent();
             }
             catch (KeyNotFoundException ex)

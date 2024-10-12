@@ -4,7 +4,7 @@
 <CascadingAuthenticationState>
     <AuthorizeView>
         <Authorized>
-            <h1>Welcome, @context?.User?.Identity?.Name!</h1>
+            <h1>Xin chào, @context?.User?.Identity?.Name!</h1>
             <h2>Role: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</h2>
         </Authorized>
         <NotAuthorized>

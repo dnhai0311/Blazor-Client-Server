@@ -1,11 +1,10 @@
 ﻿@page "/chat"
+@attribute [Authorize]
 @inject CustomAuthenticationStateProvider AuthenticationStateProvider
 @inject HubService HubService
 
-<PageTitle>Chat</PageTitle>
-
 <div class="container mt-4">
-    <h2>Chat Room</h2>
+    <h2>Nhắn tin nhóm</h2>
 
     <EditForm Model="@messageModel" OnValidSubmit="Send">
         <div class="form-group">
@@ -35,7 +34,6 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         userName = authState.User.Identity?.Name ?? "Anonymous";
-        await HubService.Initialize(userName);
 
         HubService.OnMessageReceived += (message) =>
         {

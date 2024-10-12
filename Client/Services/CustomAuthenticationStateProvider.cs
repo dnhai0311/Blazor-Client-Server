@@ -1,20 +1,22 @@
-﻿using Blazored.LocalStorage;
+﻿using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using Shared.Models;
 using System.Security.Claims;
 using System.Text.Json;
 
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
-    private readonly ILocalStorageService LocalStorage;
+    private readonly HubService HubService;
+    private readonly TokenHandler TokenHandler;
 
-    public CustomAuthenticationStateProvider(ILocalStorageService localStorage)
+    public CustomAuthenticationStateProvider(HubService hubService, TokenHandler tokenHandler)
     {
-        LocalStorage = localStorage;
+        HubService = hubService;
+        TokenHandler = tokenHandler;
     }
-
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var savedToken = await LocalStorage.GetItemAsync<string>("authToken");
+        var savedToken = await TokenHandler.GetTokenAsync();
 
         if (string.IsNullOrWhiteSpace(savedToken))
         {
@@ -22,21 +24,38 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         }
 
         var claims = ParseClaimsFromJwt(savedToken);
+
+        await HubService.DisposeAsync();
+        await HubService.Initialize();
+
+        var currentId = await GetUserIdAsync();
+        HubService.OnRoleChanged += async (userId) =>
+        {
+            if (currentId == userId)
+            {
+                await MarkUserAsLoggedOut();
+            }
+        };
+
         return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt")));
     }
 
-    public void MarkUserAsAuthenticated(string token)
+
+    public async Task MarkUserAsAuthenticated(string token)
     {
+        await TokenHandler.SaveTokenAsync(token);
         var claims = ParseClaimsFromJwt(token);
         var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(authenticatedUser)));
     }
 
-    public void MarkUserAsLoggedOut()
+    public async Task MarkUserAsLoggedOut()
     {
+        await TokenHandler.DeleteTokenAsync();
         var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymousUser)));
     }
+
 
     private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {
@@ -85,5 +104,18 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
             case 3: base64 += "="; break;
         }
         return Convert.FromBase64String(base64);
+    }
+
+    public async Task<string> GetUserIdAsync()
+    {
+        var savedToken = await TokenHandler.GetTokenAsync();
+        if (string.IsNullOrWhiteSpace(savedToken))
+        {
+            return null;
+        }
+
+        var claims = ParseClaimsFromJwt(savedToken);
+        var userIdClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        return userIdClaim?.Value;
     }
 }

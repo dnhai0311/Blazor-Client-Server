@@ -10,9 +10,11 @@ public class AuthService : IAuthService
     private readonly ILocalStorageService LocalStorage;
     private readonly AuthenticationStateProvider AuthenticationStateProvider;
 
+
     public AuthService(HttpClient httpClient,
                        ILocalStorageService localStorage,
-                       AuthenticationStateProvider authenticationStateProvider)
+                       AuthenticationStateProvider authenticationStateProvider
+                      )
     {
         HttpClient = httpClient;
         LocalStorage = localStorage;
@@ -27,9 +29,7 @@ public class AuthService : IAuthService
 
         if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
         {
-            await SaveToken(loginResult.Token);
-            ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResult.Token);
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
         }
         else
         {
@@ -39,18 +39,7 @@ public class AuthService : IAuthService
 
     public async Task Logout()
     {
-        await  RemoveToken();
-        ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
-        HttpClient.DefaultRequestHeaders.Authorization = null;
+        await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
     }
 
-    public async Task SaveToken(string token)
-    {
-        await LocalStorage.SetItemAsync("authToken", token);
-    }
-
-    public async Task RemoveToken()
-    {
-        await LocalStorage.RemoveItemAsync("authToken");
-    }
 }

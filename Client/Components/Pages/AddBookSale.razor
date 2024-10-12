@@ -3,7 +3,7 @@
 @inherits AddBookSaleBase
 @attribute [Authorize(Roles = "Admin,Staff")]
 
-<h1>@(bookSale.Id != 0 ? "Edit" : "Add") Book Sale</h1>
+<h1>@(bookSale.Id != 0 ? "Sửa" : "Thêm") Sách</h1>
 
 @if (!string.IsNullOrEmpty(errorMessage))
 
@@ -20,25 +20,25 @@
     <ValidationMessage For="@(() => bookSale.AuthorId)" class="alert alert-danger" />
 
     <div class="form-group row mb-3">
-        <label for="txtTitle" class="col-sm-2 col-form-label">Title</label>
+        <label for="txtTitle" class="col-sm-2 col-form-label">Tên sách</label>
         <div class="col-sm-10">
             <InputText class="form-control" id="txtTitle" placeholder="Title" @bind-Value="bookSale.Title" />
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label for="txtQuantity" class="col-sm-2 col-form-label">Quantity</label>
+        <label for="txtQuantity" class="col-sm-2 col-form-label">Số lượng</label>
         <div class="col-sm-10">
             <InputNumber class="form-control" id="txtQuantity" placeholder="Quantity" @bind-Value="bookSale.Quantity" />
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label for="txtPrice" class="col-sm-2 col-form-label">Price</label>
+        <label for="txtPrice" class="col-sm-2 col-form-label">Giá</label>
         <div class="col-sm-10">
-            <InputNumber class="form-control" id="txtPrice" placeholder="Price" @bind-Value="bookSale.Price" />
+            <InputNumber class="form-control" id="txtPrice" placeholder="Giá" @bind-Value="bookSale.Price" />
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label for="selectAuthor" class="col-sm-2 col-form-label">Author</label>
+        <label for="selectAuthor" class="col-sm-2 col-form-label">Tác giả</label>
         <div class="col-sm-10">
             <select id="selectAuthor" class="form-select" @bind="bookSale.AuthorId">
                 <option value="">-- Chọn Author --</option>
@@ -51,7 +51,7 @@
     </div>
     <div class="form-group row">
         <div class="col-sm-10">
-            <input type="submit" class="btn btn-primary w-25" value="Submit" />
+            <input type="submit" class="btn btn-primary w-25" value="Hoàn tất" />
         </div>
     </div>
 </EditForm>

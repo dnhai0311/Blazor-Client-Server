@@ -1,4 +1,5 @@
-﻿using Shared.Models;
+﻿using Client.Services;
+using Shared.Models;
 using Shared.Repositories;
 
 namespace Client.Repositories
@@ -6,10 +7,12 @@ namespace Client.Repositories
     public class UserRepository : IUserClientRepository
     {
         private readonly HttpClient HttpClient;
+        private readonly HubService HubService;
 
-        public UserRepository(HttpClient httpClient)
+        public UserRepository(HttpClient httpClient, HubService hubService)
         {
             HttpClient = httpClient;
+            HubService = hubService;
         }
 
         public async Task<List<User>> GetAllUsers()
@@ -102,6 +105,7 @@ namespace Client.Repositories
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 throw new ApplicationException($"Lỗi từ API: {errorMessage}");
             }
+            await HubService.ChangeRole(id.ToString());
         }
     }
 }

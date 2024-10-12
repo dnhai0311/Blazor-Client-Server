@@ -7,7 +7,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Bill Details</h5>
+                    <h5 class="modal-title">Chi tiết hóa đơn</h5>
                     <button type="button" class="btn-close" @onclick="CloseModal"></button>
                 </div>
                 <div class="modal-body">
@@ -16,7 +16,7 @@
                     <p>Date Created: @SelectedBill?.DateCreated</p>
                     @if (CalculateTotal() > SelectedBill?.TotalPrice)
                     {
-                        <p>Discount: @(Math.Round(1 - (SelectedBill?.TotalPrice ?? 0.0) / CalculateTotal(),1)*100)%</p>
+                        <p>Giảm giá: @(Math.Round(1 - (SelectedBill?.TotalPrice ?? 0.0) / CalculateTotal(),1)*100)%</p>
                     }
                     <h6>Details:</h6>
                     @if (SelectedBill?.BillDetails != null && SelectedBill.BillDetails.Any())
@@ -36,7 +36,7 @@
                     }
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Close</button>
+                    <button type="button" class="btn btn-secondary" @onclick="CloseModal">Đóng</button>
                 </div>
             </div>
         </div>
