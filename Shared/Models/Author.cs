@@ -7,7 +7,7 @@ namespace Shared.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Bạn phải nhập tên tác giả.")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Author Name có độ dài từ 5 -> 50 ký tự")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Tên tác giả phải có độ dài từ 5 -> 50 ký tự")]
         public string AuthorName { get; set; } = string.Empty;
 
         [JsonIgnore]

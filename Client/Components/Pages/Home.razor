@@ -2,15 +2,23 @@
 @using System.Security.Claims
 
 <CascadingAuthenticationState>
-    <AuthorizeView>
-        <Authorized>
-            <h1>Xin chào, @context?.User?.Identity?.Name!</h1>
-            <h2>Role: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</h2>
-        </Authorized>
-        <NotAuthorized>
-            <h1>Hãy đăng nhập~~</h1>
-        </NotAuthorized>
-    </AuthorizeView>
+    <div class="container mt-5">
+        <AuthorizeView>
+            <Authorized>
+                <div class="card text-center shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="display-4">Xin chào, @context?.User?.Identity?.Name!</h1>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">Vai trò: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</h2>
+                    </div>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="alert alert-warning text-center">
+                    <h1>Hãy đăng nhập~~</h1>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
 </CascadingAuthenticationState>
-
-

@@ -94,6 +94,7 @@ namespace Client.Repositories
                 var errorMessage = await response.Content.ReadAsStringAsync();
                 throw new ApplicationException($"Lỗi từ API: {errorMessage}");
             }
+            await HubService.ChangeRole(id.ToString());
         }
 
         public async Task ChangeRole(int id, int roleId)

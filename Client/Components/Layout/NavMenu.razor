@@ -10,26 +10,26 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Trang chủ
             </NavLink>
         </div>
         <AuthorizeView>
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="chat">
-                    <span class="bi bi-chat-left-dots-nav-menu" aria-hidden="true"></span> Chat
+                    <span class="bi bi-chat-left-dots-nav-menu" aria-hidden="true"></span> Nhắn tin
                 </NavLink>
             </div>
         </AuthorizeView>
         <AuthorizeView Roles="Admin,Staff">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="add-booksale">
-                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Booksale
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Thêm sách mới
                 </NavLink>
             </div>
 
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="add-author">
-                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Author
+                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Thêm tác giả mới
                 </NavLink>
             </div>
         </AuthorizeView>
@@ -37,24 +37,24 @@
             <Authorized>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="add-bill">
-                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Add new Bill
+                        <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Tạo hóa đơn
                     </NavLink>
                 </div>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="booksales">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list BookSales
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Sách
                     </NavLink>
                 </div>
 
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="authors">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Authors
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Tác giả
                     </NavLink>
                 </div>
 
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="bills">
-                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Bills
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Hóa đơn
                     </NavLink>
                 </div>
             </Authorized>
@@ -62,7 +62,7 @@
         <AuthorizeView Roles="Admin">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="users">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Show list Users
+                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Người dùng
                 </NavLink>
             </div>
         </AuthorizeView>

@@ -2,28 +2,24 @@
 @attribute [Authorize]
 @inject CustomAuthenticationStateProvider AuthenticationStateProvider
 @inject HubService HubService
+@inject IJSRuntime JS
 
 <div class="container mt-4">
-    <h2>Nhắn tin nhóm</h2>
-
-    <EditForm Model="@messageModel" OnValidSubmit="Send">
-        <div class="form-group">
-            <label>
-                Message:
-                <InputText @bind-Value="messageModel.Message" size="50" class="form-control" />
-            </label>
-        </div>
-        <button type="submit" disabled="@(!HubService.IsConnected)" class="btn btn-primary mt-3">Send</button>
-    </EditForm>
-
+    <h1>Nhắn tin nhóm</h1>
     <hr>
-
-    <ul id="messagesList" class="list-group mt-3">
+    <ul id="messagesList" class="list-group mt-3 overflow-auto" style="height: 300px;">
         @foreach (var message in HubService.GetMessages())
         {
             <li class="list-group-item">@message</li>
         }
     </ul>
+
+    <EditForm Model="@messageModel" OnValidSubmit="Send" class="mt-3">
+        <div class="form-group">
+                <InputText @bind-Value="messageModel.Message" size="50" class="form-control" />
+        </div>
+        <button type="submit" disabled="@(!HubService.IsConnected)" class="btn btn-primary mt-3">Send</button>
+    </EditForm>
 </div>
 
 @code {
@@ -35,10 +31,16 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         userName = authState.User.Identity?.Name ?? "Anonymous";
 
-        HubService.OnMessageReceived += (message) =>
+        HubService.OnMessageReceived += OnMessageReceived;
+    }
+
+    private void OnMessageReceived(string message)
+    {
+        InvokeAsync(() =>
         {
-            InvokeAsync(StateHasChanged);
-        };
+            StateHasChanged();
+            JS.InvokeVoidAsync("scrollToBottom");
+        });
     }
 
     private async Task Send()
@@ -46,4 +48,16 @@
         await HubService.SendMessage(userName, messageModel.Message);
         messageModel.Message = string.Empty;
     }
+
+    public void Dispose()
+    {
+        HubService.OnMessageReceived -= OnMessageReceived;
+    }
 }
+
+<script>
+    function scrollToBottom() {
+        var messagesList = document.getElementById("messagesList");
+        messagesList.scrollTop = messagesList.scrollHeight;
+    }
+</script>

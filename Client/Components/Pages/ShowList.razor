@@ -1,7 +1,18 @@
 ﻿@inherits ShowListBase
 
 <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h1>Show list @Type</h1>
+    <h1>
+        @(
+            Type switch
+            {
+                "booksales" => "Sách",
+                "authors" => "Tác giả",
+                "bills" => "Hóa đơn",
+                "users" => "Người dùng",
+                _ => "Không xác định"
+            }
+            )
+    </h1>
     <div class="d-flex align-content-center">
         <div class="d-flex align-items-center me-3">
             <label for="pageSize" class="me-2 text-nowrap">Hiển thị:</label>
@@ -65,7 +76,7 @@ else
                     <th>Tên đăng nhập</th>
                     <th>Email</th>
                     <th>Vai trò</th>
-                    <th>Trạng thái</th>            
+                    <th>Trạng thái</th>
                     <th>Thay đổi vai trò</th>
                     <th>Khóa</th>
 
@@ -85,10 +96,10 @@ else
                         <td>@sale.Author?.AuthorName</td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
-                                <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Edit</button>
+                                <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Sửa</button>
                             </td>
                             <td>
-                                <button class="btn btn-danger" @onclick="() => DeleteItem(sale.Id)">Delete</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteItem(sale.Id)">Xóa</button>
                             </td>
                         </AuthorizeView>
                     </tr>
@@ -102,14 +113,14 @@ else
                         <td>@author.Id</td>
                         <td>@author.AuthorName</td>
                         <td>
-                            <button class="btn btn-info" @onclick="() => ShowAllBookSalesFromAuthor(author.Id)">Show</button>
+                            <button class="btn btn-info" @onclick="() => ShowAllBookSalesFromAuthor(author.Id)">Xem</button>
                         </td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
-                                <button class="btn btn-success" @onclick="() => UpdateItem(author.Id)">Edit</button>
+                                <button class="btn btn-success" @onclick="() => UpdateItem(author.Id)">Sửa</button>
                             </td>
                             <td>
-                                <button class="btn btn-danger" @onclick="() => DeleteItem(author.Id)">Delete</button>
+                                <button class="btn btn-danger" @onclick="() => DeleteItem(author.Id)">Xóa</button>
                             </td>
                         </AuthorizeView>
                     </tr>
@@ -124,7 +135,7 @@ else
                         <td>@bill.TotalPrice.ToString("c0")</td>
                         <td>@bill.DateCreated</td>
                         <td>
-                            <button class="btn btn-success" @onclick="() => ShowBillDetails(bill.Id)">Detail</button>
+                            <button class="btn btn-success" @onclick="() => ShowBillDetails(bill.Id)">Chi tiết</button>
                         </td>
                     </tr>
                 }
@@ -140,10 +151,10 @@ else
                         <td>@user.Role?.RoleName</td>
                         <td class="@(user.IsActive ? "" : "text-danger")">@(user.IsActive ? "Đang hoạt động" : "Bị khóa")</td>
                         <td>
-                            <button class="btn btn-success" @onclick="() => ShowChangeRole(user.Id)">Change</button>
+                            <button class="btn btn-success" @onclick="() => ShowChangeRole(user.Id)">Thay đổi</button>
                         </td>
                         <td>
-                            <button class="btn btn-warning" @onclick="() => SetUserStatus(user.Id, !user.IsActive)">@(user.IsActive ? "Lock" : "Unlock")</button>
+                            <button class="btn btn-warning" @onclick="() => SetUserStatus(user.Id, !user.IsActive)">@(user.IsActive ? "Khóa" : "Mở khóa")</button>
                         </td>
                     </tr>
                 }
@@ -169,5 +180,5 @@ else
 }
 else if (Type == "bills")
 {
-    <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal"/>
+    <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal" />
 }

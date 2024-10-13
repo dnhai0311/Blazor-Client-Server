@@ -1,6 +1,8 @@
-﻿using Client.Services;
+﻿using Client.Repositories;
+using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Shared.Models;
+using Shared.Repositories;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -8,11 +10,13 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly HubService HubService;
     private readonly TokenHandler TokenHandler;
+    private readonly IUserClientRepository UserRepository;
 
-    public CustomAuthenticationStateProvider(HubService hubService, TokenHandler tokenHandler)
+    public CustomAuthenticationStateProvider(HubService hubService, TokenHandler tokenHandler, IUserClientRepository userClientRepository)
     {
         HubService = hubService;
         TokenHandler = tokenHandler;
+        UserRepository = userClientRepository;
     }
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
@@ -23,12 +27,28 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
+
         var claims = ParseClaimsFromJwt(savedToken);
+
+        var currentId = await GetUserIdAsync();
+        var currentRole = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+        if (Int32.Parse(currentId) <= 0)
+        {
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        }
+
+        var user = await UserRepository.GetUserById(Int32.Parse(currentId));
+
+        if (user.Role?.RoleName != currentRole)
+        {
+            await MarkUserAsLoggedOut();
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        }
 
         await HubService.DisposeAsync();
         await HubService.Initialize();
 
-        var currentId = await GetUserIdAsync();
         HubService.OnRoleChanged += async (userId) =>
         {
             if (currentId == userId)
@@ -51,6 +71,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public async Task MarkUserAsLoggedOut()
     {
+        await HubService.DisposeAsync();
         await TokenHandler.DeleteTokenAsync();
         var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymousUser)));
@@ -111,11 +132,10 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         var savedToken = await TokenHandler.GetTokenAsync();
         if (string.IsNullOrWhiteSpace(savedToken))
         {
-            return null;
+            return "0";
         }
-
         var claims = ParseClaimsFromJwt(savedToken);
         var userIdClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-        return userIdClaim?.Value;
+        return userIdClaim?.Value ?? "0";
     }
 }

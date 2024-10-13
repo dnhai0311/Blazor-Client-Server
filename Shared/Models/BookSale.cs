@@ -7,20 +7,20 @@ namespace Shared.Models
     {
         public int Id { get; set; } = 0;
 
-        [Required(ErrorMessage = "Bạn phải nhập Title")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Title có độ dài từ 5 -> 50 ký tự")]
+        [Required(ErrorMessage = "Bạn phải nhập tên sách")]
+        [StringLength(50, MinimumLength = 5, ErrorMessage = "Tên sách có độ dài từ 5 -> 50 ký tự")]
         public string Title { get; set; } = String.Empty;
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity phải lớn hơn 0")]
+        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải lớn hơn 0")]
         public int Quantity { get; set; } = 0;
 
         [Required]
-        [Range(1, double.MaxValue, ErrorMessage = "Price phải lớn hơn 0")]
+        [Range(1, double.MaxValue, ErrorMessage = "Giá phải lớn hơn 0")]
         public double Price { get; set; } = 0;
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Bạn phải chọn Author")]
+        [Range(1, int.MaxValue, ErrorMessage = "Bạn phải chọn tác giả")]
         public int AuthorId { get; set; } = 0;
         public Author? Author { get; set; }
         [JsonIgnore]

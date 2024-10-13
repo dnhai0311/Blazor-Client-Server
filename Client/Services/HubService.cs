@@ -5,7 +5,7 @@ namespace Client.Services
     public class HubService : IAsyncDisposable
     {
         private HubConnection? HubConnection;
-        private List<string> messages = new();
+        private List<string> messages;
 
         public event Action<string> OnMessageReceived;
         public event Action<string> OnRoleChanged;
@@ -13,6 +13,7 @@ namespace Client.Services
 
         public async Task Initialize()
         {
+            messages = new();
             HubConnection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:7103/hubs")
                 .Build();

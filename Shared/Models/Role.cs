@@ -7,8 +7,8 @@ namespace Shared.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Bạn phải nhập RoleName")]
-        [StringLength(20, MinimumLength = 4, ErrorMessage = "RoleName có độ dài từ 4 -> 20 ký tự")]
+        [Required(ErrorMessage = "Bạn phải nhập tên vai trò")]
+        [StringLength(20, MinimumLength = 4, ErrorMessage = "Tên vai trò có độ dài từ 4 -> 20 ký tự")]
         public string RoleName { get; set; } = string.Empty;
 
         [JsonIgnore]
