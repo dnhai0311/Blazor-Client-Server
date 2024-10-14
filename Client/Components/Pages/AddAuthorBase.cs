@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shared.Repositories;
 using Shared.Models;
+using Client.Services;
 
 namespace Client.Components.Pages
 {
@@ -10,6 +11,8 @@ namespace Client.Components.Pages
         public required IAuthorRepository AuthorRepository { get; set; }
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public required NotificationService NotificationService { get; set; }
         [Parameter]
         public int? Id { get; set; }
 
@@ -33,10 +36,14 @@ namespace Client.Components.Pages
                 if (author.Id == 0)
                 {
                     await AuthorRepository.AddAuthor(author);
+                    NotificationService.ShowSuccessMessage("Thêm mới tác giả thành công!");
+
                 }
                 else
                 {
                     await AuthorRepository.UpdateAuthor(author);
+                    NotificationService.ShowSuccessMessage("Sửa đổi tác giả thành công!");
+
                 }
 
                 NavigationManager.NavigateTo("/authors");
@@ -44,10 +51,13 @@ namespace Client.Components.Pages
             catch (ApplicationException ex)
             {
                 errorMessage = ex.Message;
+                NotificationService.ShowErrorMessage(errorMessage);
             }
             catch (Exception ex)
             {
                 errorMessage = $"Có lỗi xảy ra: {ex.Message}";
+                NotificationService.ShowErrorMessage(errorMessage);
+
             }
         }
     }

@@ -52,10 +52,6 @@
             <ValidationMessage For="@(() => bookSale.Quantity)" class="alert alert-danger" />
             <ValidationMessage For="@(() => bookSale.Price)" class="alert alert-danger" />
             <ValidationMessage For="@(() => bookSale.AuthorId)" class="alert alert-danger" />
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
-            }
         </MudItem>
     </MudGrid>
 </EditForm>

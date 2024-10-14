@@ -28,7 +28,7 @@ namespace Client.Repositories
             else
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+                throw new ApplicationException(errorMessage);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Client.Repositories
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+                throw new ApplicationException(errorMessage);
             }
         }
 
@@ -50,7 +50,7 @@ namespace Client.Repositories
             if (!response.IsSuccessStatusCode)
             {
                 var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException($"Lỗi từ API: {errorMessage}");
+                throw new ApplicationException(errorMessage);
             }
         }
 

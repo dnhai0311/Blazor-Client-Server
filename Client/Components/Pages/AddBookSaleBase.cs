@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shared.Repositories;
 using Shared.Models;
+using Client.Services;
 
 namespace Client.Components.Pages
 {
@@ -13,6 +14,8 @@ namespace Client.Components.Pages
 
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public required NotificationService NotificationService { get; set; }
 
         [Parameter]
         public int? Id { get; set; }
@@ -43,20 +46,25 @@ namespace Client.Components.Pages
                 if (bookSale.Id == 0)
                 {
                     await BookSaleRepository.AddBookSale(bookSale);
+                    NotificationService.ShowSuccessMessage("Thêm mới tác phẩm thành công!");
+
                 }
                 else
                 {
                     await BookSaleRepository.UpdateBookSale(bookSale);
+                    NotificationService.ShowSuccessMessage("Sửa tác phẩm thành công!");
                 }
                 NavigationManager.NavigateTo("/booksales");
             }
             catch (ApplicationException ex)
             {
                 errorMessage = ex.Message;
+                NotificationService.ShowErrorMessage(errorMessage);
             }
             catch (Exception ex)
             {
                 errorMessage = $"Có lỗi xảy ra: {ex.Message}";
+                NotificationService.ShowErrorMessage(errorMessage);
             }
         }
     }

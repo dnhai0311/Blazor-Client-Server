@@ -58,13 +58,17 @@ else
                 {
                     <th>Tên tác giả</th>
                     <th>Xem Sách</th>
+                     <AuthorizeView Roles="Admin,Staff">
                     <th>Hành động</th>
+                    </AuthorizeView>
                 }
                 else if (Type == "bills")
                 {
                     <th>Tổng giá</th>
                     <th>Ngày tạo</th>
+                     <AuthorizeView Roles="Admin,Staff">
                     <th>Chi tiết</th>
+                    </AuthorizeView>
                 }
                 else if (Type == "users")
                 {

@@ -19,10 +19,6 @@
         </MudItem>
         <MudItem xs="12">
             <ValidationMessage For="@(() => author.AuthorName)" Class="alert alert-danger" />
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
-            }
         </MudItem>
     </MudGrid>
 </EditForm>

@@ -2,6 +2,7 @@
 using Shared.Repositories;
 using Shared.Models;
 using Unidecode.NET;
+using Client.Services;
 
 namespace Client.Components.Pages
 {
@@ -13,6 +14,8 @@ namespace Client.Components.Pages
         public required IBookSaleRepository BookSaleRepository { get; set; }
         [Inject]
         public required NavigationManager NavigationManager { get; set; }
+        [Inject]
+        public required NotificationService NotificationService { get; set; }
 
         public Bill bill { get; set; } = new Bill();
         public List<BookSale> bookSales { get; set; } = new List<BookSale>();
@@ -61,29 +64,27 @@ namespace Client.Components.Pages
 
                 return;
             }
-            else
+
+            if (quantity > selectedBookSale.Quantity)
             {
-                if (quantity > selectedBookSale.Quantity)
-                {
-                    ValidationMessage = $"Số lượng không đủ cho sách: {selectedBookSale.Title}. " +
-                        $"Có sẵn: {selectedBookSale.Quantity}, Yêu cầu: {quantity}.";
-                    return;
-                }
-
-                var billDetail = new BillDetail
-                {
-                    BookSaleId = selectedBookSale.Id,
-                    BookSale = selectedBookSale,
-                    Quantity = quantity,
-                    Price = selectedBookSale.Price * quantity
-                };
-
-                await Task.Run(() =>
-                {
-                    bill.BillDetails.Add(billDetail);
-                    bill.TotalPrice += billDetail.Price;
-                });
+                ValidationMessage = $"Số lượng không đủ cho sách: {selectedBookSale.Title}. " +
+                    $"Có sẵn: {selectedBookSale.Quantity}, Yêu cầu: {quantity}.";
+                return;
             }
+
+            var billDetail = new BillDetail
+            {
+                BookSaleId = selectedBookSale.Id,
+                BookSale = selectedBookSale,
+                Quantity = quantity,
+                Price = selectedBookSale.Price * quantity
+            };
+
+            await Task.Run(() =>
+            {
+                bill.BillDetails.Add(billDetail);
+                bill.TotalPrice += billDetail.Price;
+            });
 
             ValidationMessage = string.Empty;
             quantity = 0;
@@ -109,6 +110,7 @@ namespace Client.Components.Pages
             }
             bill.TotalPrice = totalPriceWithDiscount;
             await BillRepository.AddBill(bill);
+            NotificationService.ShowSuccessMessage("Thêm mới hóa đơn thành công!");
             NavigationManager.NavigateTo("/bills");
         }
     }

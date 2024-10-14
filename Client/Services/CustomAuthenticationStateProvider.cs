@@ -1,7 +1,5 @@
-﻿using Client.Repositories;
-using Client.Services;
+﻿using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
-using Shared.Models;
 using Shared.Repositories;
 using System.Security.Claims;
 using System.Text.Json;
@@ -72,6 +70,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     public async Task MarkUserAsLoggedOut()
     {
         await HubService.DisposeAsync();
+        HubService.messages.Clear();
         await TokenHandler.DeleteTokenAsync();
         var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymousUser)));
