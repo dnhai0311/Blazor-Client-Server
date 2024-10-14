@@ -95,8 +95,10 @@ else
                         <td>@sale.Author?.AuthorName</td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
+                                <MudButton Color="Color.Success" OnClick="() => ViewItem(sale.Id)">Xem</MudButton>
                                 <MudButton Color="Color.Primary" OnClick="() => UpdateItem(sale.Id)" >Sửa</MudButton>
                                 <MudButton Color="Color.Error" OnClick="() => DeleteItem(sale.Id)" >Xóa</MudButton>
+
                             </td>
                         </AuthorizeView>
                     </tr>

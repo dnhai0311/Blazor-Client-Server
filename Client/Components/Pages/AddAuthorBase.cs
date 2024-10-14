@@ -15,15 +15,27 @@ namespace Client.Components.Pages
         public required NotificationService NotificationService { get; set; }
         [Parameter]
         public int? Id { get; set; }
+        [Parameter]
+        public bool IsDetail { get; set; }
 
         public Author author { get; set; } = new Author();
         public string errorMessage { get; set; } = string.Empty;
+
+
 
         protected override async Task OnInitializedAsync()
         {
             if (Id.HasValue)
             {
-                author = await AuthorRepository.GetAuthorById(Id.Value);
+                try
+                {
+                    author = await AuthorRepository.GetAuthorById(Id.Value);
+                }
+                catch (ApplicationException ex)
+                {
+                    NotificationService.ShowErrorMessage(ex.Message);
+                    NavigationManager.NavigateTo("/");
+                }
             }
         }
 

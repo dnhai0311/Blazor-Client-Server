@@ -2,6 +2,8 @@
 using Shared.Repositories;
 using Shared.Models;
 using Client.Services;
+using Microsoft.AspNetCore.Components.Forms;
+using MudBlazor;
 
 namespace Client.Components.Pages
 {
@@ -19,6 +21,8 @@ namespace Client.Components.Pages
 
         [Parameter]
         public int? Id { get; set; }
+        [Parameter]
+        public bool IsView { get; set; }
 
         public BookSale bookSale { get; set; } = new BookSale();
         public List<Author> authors { get; set; } = new List<Author>();
@@ -27,19 +31,31 @@ namespace Client.Components.Pages
 
         public string errorMessage { get; set; } = string.Empty;
 
+        public IBrowserFile file;
+        public string imagePreview = string.Empty;
+
         protected override async Task OnInitializedAsync()
         {
             authors = await AuthorRepository.GetAllAuthors();
 
             if (Id.HasValue)
             {
-                bookSale = await BookSaleRepository.GetBookSaleById(Id.Value);
+                try
+                {
+                    bookSale = await BookSaleRepository.GetBookSaleById(Id.Value);
+                }
+                catch (ApplicationException ex)
+                {
+                    NotificationService.ShowErrorMessage(ex.Message);
+                    NavigationManager.NavigateTo("/");
+                }
             }
         }
 
         public async Task HandleValidSubmit()
         {
             errorMessage = string.Empty;
+            if (file == null && bookSale.Id == 0) return; 
 
             try
             {
@@ -47,7 +63,6 @@ namespace Client.Components.Pages
                 {
                     await BookSaleRepository.AddBookSale(bookSale);
                     NotificationService.ShowSuccessMessage("Thêm mới tác phẩm thành công!");
-
                 }
                 else
                 {
@@ -60,6 +75,7 @@ namespace Client.Components.Pages
             {
                 errorMessage = ex.Message;
                 NotificationService.ShowErrorMessage(errorMessage);
+
             }
             catch (Exception ex)
             {
@@ -67,5 +83,27 @@ namespace Client.Components.Pages
                 NotificationService.ShowErrorMessage(errorMessage);
             }
         }
+
+        public async Task UploadFiles(IBrowserFile selectedFile)
+        {
+            if (selectedFile == null) return;
+            file = selectedFile;
+            imagePreview = string.Empty;
+
+            using (var stream = file.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(memoryStream);
+                    var buffer = memoryStream.ToArray();
+                    var base64String = Convert.ToBase64String(buffer);
+
+                    imagePreview = $"data:{file.ContentType};base64,{base64String}";
+                    bookSale.ImgUrl = imagePreview;
+                }
+            }
+        }
+
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿@page "/add-author"
-@page "/authors/{Id:int}"
 @inherits AddAuthorBase
 @attribute [Authorize(Roles = "Admin,Staff")]
 
@@ -10,7 +9,7 @@
 
     <MudGrid>
         <MudItem xs="12">
-            <MudTextField @bind-Value="@author.AuthorName" Label="Tên tác giả"/>
+            <MudTextField @bind-Value="@author.AuthorName" Label="Tên tác giả" />
         </MudItem>
         <MudItem xs="12">
             <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Variant="Variant.Filled">

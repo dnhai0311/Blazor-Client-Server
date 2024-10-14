@@ -148,6 +148,11 @@ namespace Client.Components.Pages
 
         public void UpdateItem(int id)
         {
+            NavigationManager.NavigateTo($"/{Type}/{id}/edit");
+        }
+
+        public void ViewItem(int id)
+        {
             NavigationManager.NavigateTo($"/{Type}/{id}");
         }
 

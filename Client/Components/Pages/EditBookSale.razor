@@ -1,0 +1,8 @@
+﻿@page "/booksales/{Id:int}/edit"
+
+<AddBookSale Id="@Id"/>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

@@ -1,50 +1,85 @@
 ﻿@page "/add-booksale"
-@page "/booksales/{Id:int}"
 @using Unidecode.NET
 @inherits AddBookSaleBase
 @attribute [Authorize(Roles = "Admin,Staff")]
 
-
-<h1>@(bookSale.Id != 0 ? "Sửa" : "Thêm") Sách</h1>
+<h1>@(IsView ? "Xem" : (bookSale.Id != 0 ? "Sửa" : "Thêm")) Sách</h1>
 
 <EditForm Model="bookSale" OnValidSubmit="HandleValidSubmit" FormName="addBookSaleForm">
     <DataAnnotationsValidator />
 
     <MudGrid>
-        <MudItem xs="12">
-            <MudTextField @bind-Value="bookSale.Title" Label="Tên sách" />
+        <MudItem xs="4">
+            <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles" MaximumFileCount="1" Class="mb-3">
+                <ActivatorContent>
+                    @if (!IsView)
+                    {
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload" ReadOnly="IsView">
+                            Chọn ảnh bìa sách
+                        </MudButton>
+                    }
+                </ActivatorContent>
+            </MudFileUpload>
+            @if (!string.IsNullOrEmpty(imagePreview) || !string.IsNullOrEmpty(bookSale.ImgUrl))
+            {
+                <MudPaper Class="d-flex justify-content-center align-items-center" Style="height: 216px;">
+                    <MudImage ObjectFit="ObjectFit.Contain"
+                              Src="@(string.IsNullOrEmpty(bookSale.ImgUrl) ? imagePreview : bookSale.ImgUrl)"
+                              Height="200" Alt="Booksale" Elevation="25" Class="rounded-lg" />
+                </MudPaper>
+            }
         </MudItem>
 
-        <MudItem xs="12">
-            <MudNumericField @bind-Value="bookSale.Quantity" Label="Số lượng" />
-        </MudItem>
-
-        <MudItem xs="12">
-            <MudNumericField @bind-Value="bookSale.Price" Label="Giá" />
-        </MudItem>
-
-        <MudItem xs="12">
+        <MudItem xs="8">
             <MudGrid>
-                <MudItem xs="4">
-                    <MudTextField @bind-Value="searchText" Label="Tìm kiếm tác giả" />
+                <MudItem xs="12">
+                    <MudTextField @bind-Value="bookSale.Title" Label="Tên sách" ReadOnly="IsView" />
                 </MudItem>
-                <MudItem xs="8">
-                    <MudSelect T="int" @bind-Value="bookSale.AuthorId" Label="Tác giả">
-                        <MudSelectItem Value="0">-- Chọn tác giả --</MudSelectItem>
-                        @foreach (var author in authors
-                        .Where(a => string.IsNullOrEmpty(searchText) || a.AuthorName.Unidecode().Contains(searchText.Unidecode(), StringComparison.OrdinalIgnoreCase)))
+
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="bookSale.Quantity" Label="Số lượng" ReadOnly="IsView" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudNumericField @bind-Value="bookSale.Price" Label="Giá" ReadOnly="IsView" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <MudGrid>
+                        @if (!IsView)
                         {
-                            <MudSelectItem Value="@author.Id">@author.AuthorName</MudSelectItem>
+                            <MudItem xs="4">
+                                <MudTextField @bind-Value="searchText" Label="Tìm kiếm tác giả" ReadOnly="IsView" />
+                            </MudItem>
                         }
-                    </MudSelect>
+                        <MudItem xs="8">
+                            <MudSelect T="int" @bind-Value="bookSale.AuthorId" Label="Tác giả" ReadOnly="IsView">
+                                <MudSelectItem Value="0">-- Chọn tác giả --</MudSelectItem>
+                                @foreach (var author in authors
+                                .Where(a => string.IsNullOrEmpty(searchText) || a.AuthorName.Unidecode().Contains(searchText.Unidecode(), StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    <MudSelectItem Value="@author.Id">@author.AuthorName</MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
                 </MudItem>
             </MudGrid>
         </MudItem>
 
         <MudItem xs="12">
-            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Variant="Variant.Filled">
-                Hoàn tất
-            </MudButton>
+            <MudTextField T="string" @bind-Value="bookSale.Description" Label="Mô tả cho Booksale" Lines="5" ReadOnly="IsView" />
+        </MudItem>
+
+        <MudItem xs="12">
+            @if (!IsView && !IsView)
+            {
+                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Variant="Variant.Filled">
+                    Hoàn tất
+                </MudButton>
+            }
         </MudItem>
 
         <MudItem xs="12">
@@ -52,6 +87,8 @@
             <ValidationMessage For="@(() => bookSale.Quantity)" class="alert alert-danger" />
             <ValidationMessage For="@(() => bookSale.Price)" class="alert alert-danger" />
             <ValidationMessage For="@(() => bookSale.AuthorId)" class="alert alert-danger" />
+            <ValidationMessage For="@(() => bookSale.ImgUrl)" class="alert alert-danger" />
+            <ValidationMessage For="@(() => bookSale.Description)" class="alert alert-danger" />
         </MudItem>
     </MudGrid>
 </EditForm>

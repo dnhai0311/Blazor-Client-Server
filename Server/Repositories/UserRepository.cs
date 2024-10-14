@@ -32,13 +32,11 @@ namespace Server.Repositories
             var user = await bookSalesContext.Users
                             .Include(u => u.Role)
                             .FirstOrDefaultAsync(u => u.Id == id);
-
-            user.Password = null;
-
             if (user == null)
             {
                 throw new KeyNotFoundException($"User với ID: {id} không tìm thấy.");
             }
+            user.Password = null;
             return user;
         }
 

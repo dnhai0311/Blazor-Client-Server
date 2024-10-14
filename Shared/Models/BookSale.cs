@@ -22,6 +22,10 @@ namespace Shared.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Bạn phải chọn tác giả")]
         public int AuthorId { get; set; } = 0;
+        [Required]
+        public string ImgUrl { get; set; } = String.Empty;
+        [Required]
+        public string Description { get; set; } = String.Empty;
         public Author? Author { get; set; }
         [JsonIgnore]
         public List<BillDetail> BillDetails { get; set; } = new List<BillDetail>();

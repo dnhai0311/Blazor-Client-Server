@@ -1,0 +1,8 @@
+﻿@page "/authors/{Id:int}/edit"
+
+<AddAuthor Id="@Id"/>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}
