@@ -4,23 +4,27 @@
 @inject HubService HubService
 @inject IJSRuntime JS
 
-<div class="container mt-4">
-    <h1>Nhắn tin nhóm</h1>
-    <hr>
-    <ul id="messagesList" class="list-group mt-3 overflow-auto" style="height: 300px;">
+
+<h1>Nhắn tin nhóm</h1>
+<MudPaper id="messagesList" Class="overflow-auto" Style="height: 300px;" Elevation="1">
+    <MudList T="string">
         @foreach (var message in HubService.GetMessages())
         {
-            <li class="list-group-item">@message</li>
+            <MudListItem>
+                @message
+            </MudListItem>
         }
-    </ul>
+    </MudList>
+</MudPaper>
 
-    <EditForm Model="@messageModel" OnValidSubmit="Send" class="mt-3">
-        <div class="form-group">
-                <InputText @bind-Value="messageModel.Message" size="50" class="form-control" />
-        </div>
-        <button type="submit" disabled="@(!HubService.IsConnected)" class="btn btn-primary mt-3">Send</button>
-    </EditForm>
-</div>
+<EditForm Model="@messageModel" OnValidSubmit="Send" class="mt-3 position-relative">
+    <MudTextField TextUpdateSuppression=false @bind-Value="messageModel.Message" Label="Tin nhắn" Variant="Variant.Outlined" FullWidth="true" />
+    <MudButton ButtonType="ButtonType.Submit" Disabled="@(!HubService.IsConnected)"
+               class="position-absolute top-50 translate-middle-y" Color="Color.Primary" Variant="Variant.Filled"
+               style="right: 10px;">
+        Send
+    </MudButton>
+</EditForm>
 
 @code {
     private ChatMessageModel messageModel = new();

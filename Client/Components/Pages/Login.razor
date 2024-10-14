@@ -1,30 +1,26 @@
 ﻿@page "/login"
 @inherits LoginBase
 
-<h3>Đăng Nhập</h3>
+<h1>Đăng Nhập</h1>
 
 <EditForm Model="loginRequest" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
-
-    <div class="mb-3">
-        <label for="UserName" class="form-label">Tên:</label>
-        <InputText id="UserName" class="form-control" @bind-Value="loginRequest.UserName" />
-        <ValidationMessage For="@(() => loginRequest.UserName)" />
-    </div>
-    <div class="mb-3">
-        <label for="Password" class="form-label">Mật khẩu:</label>
-        <InputText id="Password" class="form-control" @bind-Value="loginRequest.Password" Type="password" />
-        <ValidationMessage For="@(() => loginRequest.Password)" />
-    </div>
-    <div class="mb-3">
-        <label>
-            <InputCheckbox @bind-Value="loginRequest.RememberMe" class="form-check-input" /> Lưu mật khẩu
-        </label>
-    </div>
-    <button type="submit" class="btn btn-primary">Đăng Nhập</button>
-
-    @if (!string.IsNullOrEmpty(message))
-    {
-        <div class="alert alert-danger mt-3">@message</div>
-    }
+    <MudGrid>
+        <MudItem xs="12">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Tên đăng nhập"
+                                  @bind-Value="loginRequest.UserName" For="@(() => loginRequest.UserName)" autocomplete="username" />
+                    <MudTextField Label="Mật khẩu" Class="mt-3"
+                                  @bind-Value="loginRequest.Password" For="@(() => loginRequest.Password)" InputType="InputType.Password" />
+                    <MudCheckBox Label="Lưu tài khoản" LabelPosition="LabelPosition.Start" @bind-Value="loginRequest.RememberMe" Class="mt-3" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="w-100" Disabled="@isLoading">
+                        @(!isLoading ? "Đăng nhập" : "Đang đăng nhập")
+                    </MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
 </EditForm>

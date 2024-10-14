@@ -1,57 +1,61 @@
 ﻿@page "/add-booksale"
 @page "/booksales/{Id:int}"
+@using Unidecode.NET
 @inherits AddBookSaleBase
 @attribute [Authorize(Roles = "Admin,Staff")]
 
+
 <h1>@(bookSale.Id != 0 ? "Sửa" : "Thêm") Sách</h1>
-
-@if (!string.IsNullOrEmpty(errorMessage))
-
-{
-    <div class="alert alert-danger">@errorMessage</div>
-}
 
 <EditForm Model="bookSale" OnValidSubmit="HandleValidSubmit" FormName="addBookSaleForm">
     <DataAnnotationsValidator />
 
-    <ValidationMessage For="@(() => bookSale.Title)" class="alert alert-danger" />
-    <ValidationMessage For="@(() => bookSale.Quantity)" class="alert alert-danger" />
-    <ValidationMessage For="@(() => bookSale.Price)" class="alert alert-danger" />
-    <ValidationMessage For="@(() => bookSale.AuthorId)" class="alert alert-danger" />
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="bookSale.Title" Label="Tên sách" />
+        </MudItem>
 
-    <div class="form-group row mb-3">
-        <label for="txtTitle" class="col-sm-2 col-form-label">Tên sách</label>
-        <div class="col-sm-10">
-            <InputText class="form-control" id="txtTitle" placeholder="Tên sách" @bind-Value="bookSale.Title" />
-        </div>
-    </div>
-    <div class="form-group row mb-3">
-        <label for="txtQuantity" class="col-sm-2 col-form-label">Số lượng</label>
-        <div class="col-sm-10">
-            <InputNumber class="form-control" id="txtQuantity" placeholder="Số lượng" @bind-Value="bookSale.Quantity" />
-        </div>
-    </div>
-    <div class="form-group row mb-3">
-        <label for="txtPrice" class="col-sm-2 col-form-label">Giá</label>
-        <div class="col-sm-10">
-            <InputNumber class="form-control" id="txtPrice" placeholder="Giá" @bind-Value="bookSale.Price" />
-        </div>
-    </div>
-    <div class="form-group row mb-3">
-        <label for="selectAuthor" class="col-sm-2 col-form-label">Tác giả</label>
-        <div class="col-sm-10">
-            <select id="selectAuthor" class="form-select" @bind="bookSale.AuthorId">
-                <option value="">-- Chọn tác giả --</option>
-                @foreach (var author in authors)
-                {
-                    <option value="@author.Id">@author.AuthorName</option>
-                }
-            </select>
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-10">
-            <input type="submit" class="btn btn-primary w-25" value="Hoàn tất" />
-        </div>
-    </div>
+        <MudItem xs="12">
+            <MudNumericField @bind-Value="bookSale.Quantity" Label="Số lượng" />
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudNumericField @bind-Value="bookSale.Price" Label="Giá" />
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudGrid>
+                <MudItem xs="4">
+                    <MudTextField @bind-Value="searchText" Label="Tìm kiếm tác giả" />
+                </MudItem>
+                <MudItem xs="8">
+                    <MudSelect T="int" @bind-Value="bookSale.AuthorId" Label="Tác giả">
+                        <MudSelectItem Value="0">-- Chọn tác giả --</MudSelectItem>
+                        @foreach (var author in authors
+                        .Where(a => string.IsNullOrEmpty(searchText) || a.AuthorName.Unidecode().Contains(searchText.Unidecode(), StringComparison.OrdinalIgnoreCase)))
+                        {
+                            <MudSelectItem Value="@author.Id">@author.AuthorName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+            </MudGrid>
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Variant="Variant.Filled">
+                Hoàn tất
+            </MudButton>
+        </MudItem>
+
+        <MudItem xs="12">
+            <ValidationMessage For="@(() => bookSale.Title)" class="alert alert-danger" />
+            <ValidationMessage For="@(() => bookSale.Quantity)" class="alert alert-danger" />
+            <ValidationMessage For="@(() => bookSale.Price)" class="alert alert-danger" />
+            <ValidationMessage For="@(() => bookSale.AuthorId)" class="alert alert-danger" />
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+            }
+        </MudItem>
+    </MudGrid>
 </EditForm>

@@ -1,11 +1,12 @@
 ﻿<AuthorizeView>
     <Authorized>
         Chào, @context?.User?.Identity?.Name!
-        <a href="/change-password" class="btn btn-link">Đổi mật khẩu</a>
-        <a href="/logout" class="btn btn-link">Đăng xuất</a>
+        <MudButton Href="/change-password" Color="Color.Primary" Class="text-decoration-none">Đổi mật khẩu</MudButton>
+        <MudButton Href="/logout" Color="Color.Secondary" Class="text-decoration-none">Đăng xuất</MudButton>
     </Authorized>
     <NotAuthorized>
-        <a href="/register" class="btn btn-link">Đăng ký</a>
-        <a href="/login" class="btn btn-link">Đăng nhập</a>
+        <MudButton Href="/register" Color="Color.Primary" Class="text-decoration-none">Đăng ký</MudButton>
+        <MudButton Href="/login" Color="Color.Secondary" Class="text-decoration-none">Đăng nhập</MudButton>
+
     </NotAuthorized>
 </AuthorizeView>

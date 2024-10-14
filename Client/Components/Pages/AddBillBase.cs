@@ -23,11 +23,6 @@ namespace Client.Components.Pages
         public bool isDiscountApplied { get; set; } = false;
         public double totalPriceWithDiscount => isDiscountApplied ? bill.TotalPrice * 0.9 : bill.TotalPrice;
 
-        public List<BookSale> filteredBookSales =>
-            bookSales.Where(bs => string.IsNullOrEmpty(searchText) ||
-            bs.Title.Unidecode().Contains(searchText.Unidecode(), StringComparison.OrdinalIgnoreCase))
-            .ToList();
-
         protected override async Task OnInitializedAsync()
         {
             bookSales = await BookSaleRepository.GetAllBookSales();

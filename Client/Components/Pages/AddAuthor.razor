@@ -5,24 +5,24 @@
 
 <h1>@(author.Id != 0 ? "Sửa" : "Thêm") Tác giả</h1>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <div class="alert alert-danger">@errorMessage</div>
-}
-
 <EditForm Model="author" OnValidSubmit="HandleValidSubmit" FormName="addAuthorForm">
     <DataAnnotationsValidator />
-    <ValidationMessage For="@(() => author.AuthorName)" class="alert alert-danger" />
 
-    <div class="form-group row mb-3">
-        <label for="txtTitle" class="col-sm-2 col-form-label">Tên tác gỉả</label>
-        <div class="col-sm-10">
-            <InputText class="form-control" id="txtTitle" placeholder="Tên tác giả" @bind-Value="@author.AuthorName" />
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-sm-10">
-            <input type="submit" class="btn btn-primary w-25" value="Hoàn tất" />
-        </div>
-    </div>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudTextField @bind-Value="@author.AuthorName" Label="Tên tác giả"/>
+        </MudItem>
+        <MudItem xs="12">
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Variant="Variant.Filled">
+                Hoàn tất
+            </MudButton>
+        </MudItem>
+        <MudItem xs="12">
+            <ValidationMessage For="@(() => author.AuthorName)" Class="alert alert-danger" />
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <MudAlert Severity="Severity.Error">@errorMessage</MudAlert>
+            }
+        </MudItem>
+    </MudGrid>
 </EditForm>

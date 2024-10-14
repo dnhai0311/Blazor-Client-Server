@@ -1,56 +1,76 @@
 ﻿@page "/add-bill"
+@using Unidecode.NET
 @inherits AddBillBase
 @attribute [Authorize]
 
-<h1>Thêm hóa đơn</h1>
+<h1>@(bill.Id != 0 ? "Sửa" : "Thêm") hóa đơn</h1>
+
 <EditForm Model="@bill" OnValidSubmit="HandleValidSubmit" FormName="addBillForm">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
-    @if (!string.IsNullOrEmpty(ValidationMessage))
-    {
-        <div class="alert alert-danger">@ValidationMessage</div>
-    }
+    <MudGrid>
+        <MudItem xs="7">
+            <MudItem xs="12">
+                <MudGrid Class="mb-3">
+                    <MudItem xs="4">
+                        <MudTextField @bind-Value="searchText" Label="Tìm kiếm tác phẩm" />
+                    </MudItem>
+                    <MudItem xs="8">
+                        <MudSelect T="int" @bind-Value="selectedBookSaleId" Label="Tác phẩm">
+                            <MudSelectItem Value="0">-- Chọn tác phẩm --</MudSelectItem>
+                            @foreach (var booksale in bookSales
+                            .Where(a => string.IsNullOrEmpty(searchText) || a.Title.Unidecode().Contains(searchText.Unidecode(), StringComparison.OrdinalIgnoreCase)))
+                            {
+                                <MudSelectItem Value="@booksale.Id">@booksale.Title</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
 
-    <div class="mb-3">
-        <label class="form-label">Tìm kiếm sách:</label>
-        <InputText @bind-Value="searchText" class="form-control" placeholder="Nhập tên sách để tìm kiếm" onkeydown="return event.key !== 'Enter'" />
-    </div>
+            <MudTextField @bind-Value="quantity" Label="Số lượng" Disabled="@(selectedBookSaleId == 0)" Class="mb-3" />
 
-    <div class="mb-3">
-        <label class="form-label">Chọn sách:</label>
-        <select @bind="selectedBookSaleId" class="form-select">
-            <option value="">-- Chọn sách --</option>
-            @foreach (var bookSale in filteredBookSales)
+            <MudCheckBox Label="Giảm giá 10%" LabelPosition="LabelPosition.Start" @bind-Value="isDiscountApplied" Class="mt-3" />
+
+            <MudButton @onclick="AddBookToBill" Variant="Variant.Filled" Color="Color.Success" Disabled="@(selectedBookSaleId == 0)">
+                Thêm sách
+            </MudButton>
+
+            @if (!string.IsNullOrEmpty(ValidationMessage))
             {
-                <option value="@bookSale.Id">@bookSale.Title</option>
+                <div class="alert alert-danger">@ValidationMessage</div>
             }
-        </select>
-    </div>
 
-    <div class="mb-3">
-        <label class="form-label">Số lượng:</label>
-        <InputNumber @bind-Value="quantity" class="form-control" disabled="@(selectedBookSaleId == 0)" onkeydown="return event.key !== 'Enter'" />
-    </div>
+        </MudItem>
 
-    <div class="form-check mb-3">
-        <InputCheckbox @bind-Value="isDiscountApplied" class="form-check-input" />
-        <label class="form-check-label">Giảm 10% hóa đơn</label>
-    </div>
+        <MudItem MudItem xs="5">
+            <MudItem>
+                <h4 class="mt-4">Chi tiết hóa đơn</h4>
+                <MudList T="string" Class="mb-3">
+                    @foreach (var detail in bill.BillDetails)
+                    {
+                        <MudListItem>
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <span>
+                                    @detail?.BookSale?.Title - Số lượng: @detail?.Quantity.ToString("n0") - Giá: @detail?.Price.ToString("c0")
+                                </span>
+                                <MudButton Color="Color.Error"
+                                           Size="Size.Small"
+                                           OnClick="(() => RemoveBookFromBill(detail!))">
+                                    Xóa
+                                </MudButton>
+                            </div>
+                        </MudListItem>
+                    }
+                </MudList>
+            </MudItem>
 
-    <button type="button" @onclick="AddBookToBill" class="btn btn-success" disabled="@(selectedBookSaleId == 0)">Thêm sách</button>
+            <p><strong>Tổng tiền:</strong> @totalPriceWithDiscount.ToString("c0")</p>
 
-    <h4 class="mt-4">Chi tiết hóa đơn</h4>
-    <ul class="list-group mb-3">
-        @foreach (var detail in bill.BillDetails)
-        {
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                @detail?.BookSale?.Title - Số lượng: @detail?.Quantity.ToString("n0") - Giá: @detail?.Price.ToString("c0")
-                <button type="button" @onclick="(() => RemoveBookFromBill(detail!))" class="btn btn-danger btn-sm">Xóa</button>
-            </li>
-        }
-    </ul>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mb-5" Disabled="@(bill.BillDetails.Count() == 0)">
+                Tạo hóa đơn
+            </MudButton>
 
-    <p><strong>Tổng tiền:</strong> @totalPriceWithDiscount.ToString("c0")</p>
-    <button type="submit" class="btn btn-primary" disabled="@(bill.BillDetails.Count() == 0 )">Tạo hóa đơn</button>
+        </MudItem>
+    </MudGrid>
 </EditForm>

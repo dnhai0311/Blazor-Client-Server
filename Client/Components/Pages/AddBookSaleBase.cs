@@ -20,6 +20,8 @@ namespace Client.Components.Pages
         public BookSale bookSale { get; set; } = new BookSale();
         public List<Author> authors { get; set; } = new List<Author>();
 
+        public string searchText = string.Empty;
+
         public string errorMessage { get; set; } = string.Empty;
 
         protected override async Task OnInitializedAsync()

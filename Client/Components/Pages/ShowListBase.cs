@@ -76,6 +76,7 @@ namespace Client.Components.Pages
             {
                 BookSale bookSale => bookSale.Title,
                 Author author => author.AuthorName,
+                User user => user.UserName,
                 _ => string.Empty
             };
         }

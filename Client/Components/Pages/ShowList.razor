@@ -15,18 +15,19 @@
     </h1>
     <div class="d-flex align-content-center">
         <div class="d-flex align-items-center me-3">
-            <label for="pageSize" class="me-2 text-nowrap">Hiển thị:</label>
-            <select id="pageSize" class="form-select" @bind="pageSize" style="width: 75px;">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-            </select>
+            <MudSelect @bind-Value="pageSize" Style="width: 75px;" Variant="Variant.Outlined">
+                <MudSelectItem Value="5">5</MudSelectItem>
+                <MudSelectItem Value="10">10</MudSelectItem>
+                <MudSelectItem Value="15">15</MudSelectItem>
+                <MudSelectItem Value="20">20</MudSelectItem>
+            </MudSelect>
         </div>
-
         @if (Type != "bills")
         {
-            <InputText @bind-Value="searchText" class="form-control" placeholder="Tìm kiếm" />
+            <MudTextField @bind-Value="searchText"
+                          Label="Tìm kiếm"
+                          Variant="Variant.Outlined"
+                          Style="width: 200px;" />
         }
     </div>
 </div>
@@ -51,19 +52,13 @@ else
                     <th>Số lượng</th>
                     <th>Giá</th>
                     <th>Tên tác giả</th>
-                    <AuthorizeView Roles="Admin,Staff">
-                        <th>Sửa</th>
-                        <th>Xóa</th>
-                    </AuthorizeView>
+                    <th>Hành động</th>
                 }
                 else if (Type == "authors")
                 {
                     <th>Tên tác giả</th>
                     <th>Xem Sách</th>
-                    <AuthorizeView Roles="Admin,Staff">
-                        <th>Sửa</th>
-                        <th>Xóa</th>
-                    </AuthorizeView>
+                    <th>Hành động</th>
                 }
                 else if (Type == "bills")
                 {
@@ -96,10 +91,8 @@ else
                         <td>@sale.Author?.AuthorName</td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
-                                <button class="btn btn-success" @onclick="() => UpdateItem(sale.Id)">Sửa</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" @onclick="() => DeleteItem(sale.Id)">Xóa</button>
+                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(sale.Id)" >Sửa</MudButton>
+                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(sale.Id)" >Xóa</MudButton>
                             </td>
                         </AuthorizeView>
                     </tr>
@@ -113,14 +106,13 @@ else
                         <td>@author.Id</td>
                         <td>@author.AuthorName</td>
                         <td>
-                            <button class="btn btn-info" @onclick="() => ShowAllBookSalesFromAuthor(author.Id)">Xem</button>
+                            <MudButton Color="Color.Info" OnClick="() => ShowAllBookSalesFromAuthor(author.Id)" >Xem</MudButton>
                         </td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
-                                <button class="btn btn-success" @onclick="() => UpdateItem(author.Id)">Sửa</button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" @onclick="() => DeleteItem(author.Id)">Xóa</button>
+                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(author.Id)" >Sửa</MudButton>
+                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(author.Id)" >Xóa</MudButton>
+
                             </td>
                         </AuthorizeView>
                     </tr>
@@ -135,7 +127,7 @@ else
                         <td>@bill.TotalPrice.ToString("c0")</td>
                         <td>@bill.DateCreated</td>
                         <td>
-                            <button class="btn btn-success" @onclick="() => ShowBillDetails(bill.Id)">Chi tiết</button>
+                            <MudButton Color="Color.Success" OnClick="() => ShowBillDetails(bill.Id)" >Chi tiết</MudButton>
                         </td>
                     </tr>
                 }
@@ -151,10 +143,12 @@ else
                         <td>@user.Role?.RoleName</td>
                         <td class="@(user.IsActive ? "" : "text-danger")">@(user.IsActive ? "Đang hoạt động" : "Bị khóa")</td>
                         <td>
-                            <button class="btn btn-success" @onclick="() => ShowChangeRole(user.Id)">Thay đổi</button>
+                            <MudButton Color="Color.Primary" OnClick="() => ShowChangeRole(user.Id)" >Thay đổi</MudButton>
                         </td>
                         <td>
-                            <button class="btn btn-warning" @onclick="() => SetUserStatus(user.Id, !user.IsActive)">@(user.IsActive ? "Khóa" : "Mở khóa")</button>
+                            <MudButton Color="Color.Warning" OnClick="() => SetUserStatus(user.Id, !user.IsActive)" >
+                                @(user.IsActive ? "Khóa" : "Mở khóa")
+                            </MudButton>
                         </td>
                     </tr>
                 }
