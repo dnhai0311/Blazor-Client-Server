@@ -32,7 +32,7 @@
 
             <MudCheckBox Label="Giảm giá 10%" LabelPosition="LabelPosition.Start" @bind-Value="isDiscountApplied" Class="mt-3" />
 
-            <MudButton @onclick="AddBookToBill" Variant="Variant.Filled" Color="Color.Success" Disabled="@(selectedBookSaleId == 0)">
+            <MudButton Class="mb-3" @onclick="AddBookToBill" Variant="Variant.Filled" Color="Color.Success" Disabled="@(selectedBookSaleId == 0)">
                 Thêm sách
             </MudButton>
 

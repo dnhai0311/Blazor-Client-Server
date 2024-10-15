@@ -3,7 +3,7 @@ using Shared.Repositories;
 using Shared.Models;
 using Client.Services;
 using Microsoft.AspNetCore.Components.Forms;
-using MudBlazor;
+using System.Text.Json;
 
 namespace Client.Components.Pages
 {
@@ -31,8 +31,8 @@ namespace Client.Components.Pages
 
         public string errorMessage { get; set; } = string.Empty;
 
-        public IBrowserFile file;
-        public string imagePreview = string.Empty;
+        public List<IBrowserFile> files = new List<IBrowserFile>();
+        public List<string> imagePreviews = new List<string>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,6 +43,7 @@ namespace Client.Components.Pages
                 try
                 {
                     bookSale = await BookSaleRepository.GetBookSaleById(Id.Value);
+                    imagePreviews = JsonSerializer.Deserialize<List<string>>(bookSale.ImgUrl)!;
                 }
                 catch (ApplicationException ex)
                 {
@@ -55,7 +56,12 @@ namespace Client.Components.Pages
         public async Task HandleValidSubmit()
         {
             errorMessage = string.Empty;
-            if (file == null && bookSale.Id == 0) return; 
+
+            if(imagePreviews.Count == 0 )
+            {
+                NotificationService.ShowErrorMessage("Vui lòng tải lên ít nhất 1 ảnh");
+                return;
+            }
 
             try
             {
@@ -84,26 +90,57 @@ namespace Client.Components.Pages
             }
         }
 
-        public async Task UploadFiles(IBrowserFile selectedFile)
+        public async Task UploadFiles(IReadOnlyList<IBrowserFile> selectedFiles)
         {
-            if (selectedFile == null) return;
-            file = selectedFile;
-            imagePreview = string.Empty;
+            if (selectedFiles.Count == 0) return;
 
-            using (var stream = file.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024))
+            if (files.Count + selectedFiles.Count > 4)
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await stream.CopyToAsync(memoryStream);
-                    var buffer = memoryStream.ToArray();
-                    var base64String = Convert.ToBase64String(buffer);
+                NotificationService.ShowErrorMessage($"Chỉ nhận tối đã 4 ảnh~~\n Còn có thể tải lên {4-files.Count} ảnh~~");
+                return;
+            }
 
-                    imagePreview = $"data:{file.ContentType};base64,{base64String}";
-                    bookSale.ImgUrl = imagePreview;
+            foreach (var file in selectedFiles)
+            {
+                if (files.Any(existingFile => existingFile.Name == file.Name))
+                {
+                    continue;
+                }
+
+                files.Add(file);
+
+                var resizedFile = await file.RequestImageFileAsync(file.ContentType, 640, 480);
+
+                using (var stream = resizedFile.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024))
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+                        var buffer = memoryStream.ToArray();
+                        var base64String = Convert.ToBase64String(buffer);
+
+                        var imagePreview = $"data:{file.ContentType};base64,{base64String}";
+                        imagePreviews.Add(imagePreview);
+                    }
                 }
             }
+
+            bookSale.ImgUrl = JsonSerializer.Serialize(imagePreviews, new JsonSerializerOptions { WriteIndented = true });
         }
 
+        public void RemoveImage(int index)
+        {
+            if (index < 0 || index >= imagePreviews.Count)
+            {
+                return;
+            }
+
+            files.RemoveAt(index);
+            imagePreviews.RemoveAt(index);
+
+            bookSale.ImgUrl = JsonSerializer.Serialize(imagePreviews, new JsonSerializerOptions { WriteIndented = true });
+
+        }
 
     }
 }

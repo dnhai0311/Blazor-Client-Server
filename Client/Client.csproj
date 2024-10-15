@@ -10,6 +10,7 @@
     <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.10" />
     <PackageReference Include="MudBlazor" Version="7.11.0" />
+    <PackageReference Include="TinyMCE.Blazor" Version="1.0.4" />
     <PackageReference Include="Unidecode.NET" Version="2.1.0" />
   </ItemGroup>
 

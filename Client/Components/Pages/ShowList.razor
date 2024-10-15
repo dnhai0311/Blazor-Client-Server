@@ -66,6 +66,7 @@ else
                 {
                     <th>Tổng giá</th>
                     <th>Ngày tạo</th>
+                    <th>Người tạo</th>
                      <AuthorizeView Roles="Admin,Staff">
                     <th>Chi tiết</th>
                     </AuthorizeView>
@@ -132,6 +133,7 @@ else
                         <td>@bill.Id</td>
                         <td>@bill.TotalPrice.ToString("c0")</td>
                         <td>@bill.DateCreated</td>
+                        <td>@bill.User?.UserName</td>
                         <td>
                             <MudButton Color="Color.Success" OnClick="() => ShowBillDetails(bill.Id)" >Chi tiết</MudButton>
                         </td>

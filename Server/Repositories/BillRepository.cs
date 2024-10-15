@@ -16,15 +16,18 @@ namespace Server.Repositories
 
         public async Task<List<Bill>> GetAllBills()
         {
-            return await bookSalesContext.Bills.ToListAsync();
+            return await bookSalesContext.Bills
+                .Include(user => user.User)
+                .ToListAsync();
         }
 
         public async Task<Bill> GetAllBillDetailsByBillId(int id)
         {
             var bill = await bookSalesContext.Bills
-                .Include(b => b.BillDetails)
-                    .ThenInclude(bd => bd.BookSale)
-                .FirstOrDefaultAsync(b => b.Id == id);
+                    .Include(b => b.BillDetails)
+                        .ThenInclude(bd => bd.BookSale)
+                    .Include(user => user.User)
+                    .FirstOrDefaultAsync(b => b.Id == id);
 
             if (bill == null)
             {
@@ -36,6 +39,15 @@ namespace Server.Repositories
 
         public async Task AddBill(Bill bill)
         {
+
+            var user = await bookSalesContext.Users
+                    .FindAsync(bill.UserId);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException($"User với ID: {bill.UserId} không tìm thấy.");
+            }
+
             foreach (var detail in bill.BillDetails)
             {
                 var bookSale = await bookSalesContext.BookSales

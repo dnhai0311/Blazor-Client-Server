@@ -16,6 +16,8 @@ namespace Client.Components.Pages
         public required NavigationManager NavigationManager { get; set; }
         [Inject]
         public required NotificationService NotificationService { get; set; }
+        [Inject]
+        public required CustomAuthenticationStateProvider CustomAuthenticationStateProvider { get; set; }
 
         public Bill bill { get; set; } = new Bill();
         public List<BookSale> bookSales { get; set; } = new List<BookSale>();
@@ -109,6 +111,8 @@ namespace Client.Components.Pages
                 detail.BookSale = null;
             }
             bill.TotalPrice = totalPriceWithDiscount;
+            bill.UserId = Int32.Parse(await CustomAuthenticationStateProvider.GetUserIdAsync());
+            bill.User = null;
             await BillRepository.AddBill(bill);
             NotificationService.ShowSuccessMessage("Thêm mới hóa đơn thành công!");
             NavigationManager.NavigateTo("/bills");

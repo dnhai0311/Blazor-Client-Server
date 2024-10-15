@@ -3,6 +3,7 @@ using Shared.Repositories;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Unidecode.NET;
+using MudBlazor;
 
 namespace Client.Components.Pages
 {
@@ -27,7 +28,7 @@ namespace Client.Components.Pages
         public required NavigationManager NavigationManager { get; set; }
 
         [Inject]
-        public required IJSRuntime JS { get; set; }
+        public required IDialogService DialogService { get; set; }
 
         public string SearchText = string.Empty;
         public string searchText
@@ -158,9 +159,13 @@ namespace Client.Components.Pages
 
         public async Task SetUserStatus(int id, bool IsActive)
         {
-            bool confirmed = await JS.InvokeAsync<bool>("confirm",
-                $"Bạn muốn {(IsActive ? "Mở khóa" : "Khóa")} user với ID: {id}?");
-            if (confirmed)
+            bool? confirmed = await DialogService.ShowMessageBox(
+                "Warning",
+                $"Bạn muốn {(IsActive ? "Mở khóa" : "Khóa")} user với ID: {id}?",
+                yesText: "Yes",
+                cancelText: "No"
+            );
+            if (confirmed == true)
             {
                 await UserRepository.SetUserStatus(id, IsActive);
 
@@ -205,8 +210,12 @@ namespace Client.Components.Pages
         {
             if (Type == "booksales")
             {
-                bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Bạn muốn xóa Booksale với ID: {id}?");
-                if (confirmed)
+                bool? confirmed = await DialogService.ShowMessageBox(
+                    "Xác nhận xóa",
+                    $"Bạn muốn xóa Booksale với ID: {id}?",
+                    yesText: "Xóa",
+                    cancelText: "Hủy"
+                ); if (confirmed == true)
                 {
                     await BookSaleRepository.DeleteBookSale(id);
                     items.RemoveAll(item => (item as BookSale)?.Id == id);
@@ -215,9 +224,13 @@ namespace Client.Components.Pages
             }
             else if (Type == "authors")
             {
-                bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Bạn muốn xóa Author với ID: {id}?" +
-                    $"\nĐiều này sẽ xóa toàn bộ BookSale thuộc Author này!!!");
-                if (confirmed)
+                bool? confirmed = await DialogService.ShowMessageBox(
+                    "Xác nhận xóa",
+                    (MarkupString)$"Bạn muốn xóa Author với ID: {id}?<br />Điều này sẽ xóa toàn bộ BookSale thuộc Author này!!!",
+                    yesText: "Xóa",
+                    cancelText: "Hủy"
+                );
+                if (confirmed == true)
                 {
                     await AuthorRepository.DeleteAuthor(id);
                     items.RemoveAll(item => (item as Author)?.Id == id);

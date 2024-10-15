@@ -11,9 +11,10 @@
                     <button type="button" class="btn-close" @onclick="CloseModal"></button>
                 </div>
                 <div class="modal-body">
-                    <p>ID: @SelectedBill?.Id</p>
-                    <p>Total Price: @SelectedBill?.TotalPrice.ToString("c0")</p>
-                    <p>Date Created: @SelectedBill?.DateCreated</p>
+                    <p>Mã hóa đơn: @SelectedBill?.Id</p>
+                    <p>Tổng giá: @SelectedBill?.TotalPrice.ToString("c0")</p>
+                    <p>Ngày tạo: @SelectedBill?.DateCreated</p>
+                    <p>Người tạo tạo: @SelectedBill?.User?.UserName</p>
                     @if (CalculateTotal() > SelectedBill?.TotalPrice)
                     {
                         <p>Giảm giá: @(Math.Round(1 - (SelectedBill?.TotalPrice ?? 0.0) / CalculateTotal(),1)*100)%</p>

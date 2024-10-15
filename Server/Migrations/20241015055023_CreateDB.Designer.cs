@@ -11,7 +11,7 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(BookSalesContext))]
-    [Migration("20241014151240_CreateDB")]
+    [Migration("20241015055023_CreateDB")]
     partial class CreateDB
     {
         /// <inheritdoc />
@@ -96,7 +96,12 @@ namespace Server.Migrations
                     b.Property<double>("TotalPrice")
                         .HasColumnType("double");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bills");
                 });
@@ -243,6 +248,17 @@ namespace Server.Migrations
                         .HasDatabaseName("UX_User_UserName");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Shared.Models.Bill", b =>
+                {
+                    b.HasOne("Shared.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Shared.Models.BillDetail", b =>

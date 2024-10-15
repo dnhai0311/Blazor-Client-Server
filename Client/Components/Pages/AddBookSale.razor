@@ -10,26 +10,77 @@
 
     <MudGrid>
         <MudItem xs="4">
-            <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFiles" MaximumFileCount="1" Class="mb-3">
-                <ActivatorContent>
-                    @if (!IsView)
-                    {
-                        <MudButton Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   StartIcon="@Icons.Material.Filled.CloudUpload" ReadOnly="IsView">
-                            Chọn ảnh bìa sách
-                        </MudButton>
-                    }
-                </ActivatorContent>
-            </MudFileUpload>
-            @if (!string.IsNullOrEmpty(imagePreview) || !string.IsNullOrEmpty(bookSale.ImgUrl))
+            @if (!IsView)
             {
-                <MudPaper Class="d-flex justify-content-center align-items-center" Style="height: 216px;">
-                    <MudImage ObjectFit="ObjectFit.Contain"
-                              Src="@(string.IsNullOrEmpty(bookSale.ImgUrl) ? imagePreview : bookSale.ImgUrl)"
-                              Height="200" Alt="Booksale" Elevation="25" Class="rounded-lg" />
+                <div class="d-flex">
+                    <MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".png, .jpg" FilesChanged="UploadFiles" MaximumFileCount="4" Class="mb-3">
+                        <ActivatorContent>
+                            <MudFab Color="Color.Secondary"
+                                    StartIcon="@Icons.Material.Filled.Image"
+                                    Label="Tải ảnh lên"
+                                    Size="Size.Small"
+                                    Class="me-5" />
+                        </ActivatorContent>
+                    </MudFileUpload>
+                </div>
+            }
+
+            @if (imagePreviews.Count > 0)
+            {
+                <MudPaper Class="d-flex justify-content-center align-items-center">
+                    <div class="position-relative">
+                        <MudImage ObjectFit="ObjectFit.Contain"
+                                  Src="@(imagePreviews[0])"
+                                  Height="@(IsView ? 245 : 200)"
+                                  Width="375"
+                                  Alt="Booksale"
+                                  Elevation="25"
+                                  Class="rounded-lg my-2" />
+                        @if (!IsView)
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           OnClick="@(() => RemoveImage(0))"
+                                           Color="Color.Error"
+                                           Size="Size.Small"
+                                           Class="position-absolute top-0 end-0" />
+                        }
+                    </div>
+
+                </MudPaper>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                    @foreach (var image in imagePreviews.Skip(1).Select((img, idx) => new { img, idx }))
+                    {
+                        <MudPaper Class="m-2">
+                            <div class="position-relative">
+                                <MudImage ObjectFit="ObjectFit.Contain"
+                                          Src="@image.img"
+                                          Height="100"
+                                          Alt="Booksale"
+                                          Elevation="25"
+                                          Class="rounded-lg" />
+                                @if (!IsView)
+                                {
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                   OnClick="@(() => RemoveImage(image.idx))"
+                                                   Color="Color.Error"
+                                                   Size="Size.Small"
+                                                   Class="position-absolute top-0 end-0"/>
+                                }
+                            </div>
+
+                        </MudPaper>
+                    }
+                </div>
+            }
+            else
+            {
+                <MudPaper Class="d-flex justify-content-center align-items-center">
+                    <p>Không có hình ảnh nào để hiển thị.</p>
                 </MudPaper>
             }
+
+
         </MudItem>
 
         <MudItem xs="8">
@@ -70,7 +121,18 @@
         </MudItem>
 
         <MudItem xs="12">
-            <MudTextField T="string" @bind-Value="bookSale.Description" Label="Mô tả cho Booksale" Lines="5" ReadOnly="IsView" />
+            <MudItem xs="12">
+                @if (IsView)
+                {
+                    @((MarkupString)bookSale.Description)
+                }
+                else
+                {
+                    <Editor Field="() => bookSale.Description"
+                            @bind-Value="@bookSale.Description" />
+                }
+            </MudItem>
+
         </MudItem>
 
         <MudItem xs="12">
