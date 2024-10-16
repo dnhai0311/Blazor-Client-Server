@@ -1,0 +1,45 @@
+﻿<MudDialog Style="width: 300px;">
+    <DialogContent>
+        <MudSelect Label="Role" @bind-Value="SelectedUser.RoleId">
+            @foreach (var role in Roles)
+            {
+                <MudSelectItem Value="@role.Id">@role.RoleName</MudSelectItem>
+            }
+        </MudSelect>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="ChangeUserRole">Thay đổi</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public User SelectedUser { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<(int id, int roleId)> OnChangeRole { get; set; }
+
+    [Inject]
+    public required IRoleRepository RoleRepository { get; set; }
+
+    public List<Role> Roles { get; set; } = new List<Role>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Roles = await RoleRepository.GetAllRoles();
+        StateHasChanged();
+    }
+
+    private async Task ChangeUserRole()
+    {
+        if (SelectedUser != null)
+        {
+            await OnChangeRole.InvokeAsync((SelectedUser.Id, SelectedUser.RoleId));
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+}

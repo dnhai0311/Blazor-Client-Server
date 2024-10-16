@@ -1,7 +1,7 @@
 ﻿@inherits ShowListBase
 
 <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h1>
+    <MudText Typo="Typo.h3">
         @(
             Type switch
             {
@@ -12,7 +12,7 @@
                 _ => "Không xác định"
             }
             )
-    </h1>
+    </MudText>
     <div class="d-flex align-content-center">
         <div class="d-flex align-items-center me-3">
             <MudSelect @bind-Value="pageSize" Style="width: 75px;" Variant="Variant.Outlined">
@@ -34,51 +34,49 @@
 
 @if (items == null)
 {
-    <p><em>Loading...</em></p>
+    <MudText><em>Loading...</em></MudText>
 }
 else if (!items.Any())
 {
-    <p>Không có dữ liệu~~</p>
+    <MudAlert>Không có dữ liệu~~</MudAlert>
 }
 else
 {
-    <table class="table table-striped">
+    <table class="table table-hover mud-typography mud-typography-body1">
         <thead>
             <tr>
-                <th>ID</th>
+                <th scope="col">ID</th>
                 @if (Type == "booksales")
                 {
-                    <th>Tên sách</th>
-                    <th>Số lượng</th>
-                    <th>Giá</th>
-                    <th>Tên tác giả</th>
-                    <th>Hành động</th>
+                    <th scope="col">Tên sách</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Tên tác giả</th>
+                    <th scope="col">Hành động</th>
                 }
                 else if (Type == "authors")
                 {
-                    <th>Tên tác giả</th>
-                    <th>Xem Sách</th>
-                     <AuthorizeView Roles="Admin,Staff">
-                    <th>Hành động</th>
+                    <th scope="col">Tên tác giả</th>
+                    <th scope="col">Xem Sách</th>
+                    <AuthorizeView Roles="Admin,Staff">
+                        <th scope="col">Hành động</th>
                     </AuthorizeView>
                 }
                 else if (Type == "bills")
                 {
-                    <th>Tổng giá</th>
-                    <th>Ngày tạo</th>
-                    <th>Người tạo</th>
-                     <AuthorizeView Roles="Admin,Staff">
-                    <th>Chi tiết</th>
-                    </AuthorizeView>
+                    <th scope="col">Tổng giá</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Người tạo</th>
+                    <th scope="col">Chi tiết</th>
                 }
                 else if (Type == "users")
                 {
-                    <th>Tên đăng nhập</th>
-                    <th>Email</th>
-                    <th>Vai trò</th>
-                    <th>Trạng thái</th>
-                    <th>Thay đổi vai trò</th>
-                    <th>Khóa</th>
+                    <th scope="col">Tên đăng nhập</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Vai trò</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Thay đổi vai trò</th>
+                    <th scope="col">Khóa</th>
 
                 }
             </tr>
@@ -89,19 +87,18 @@ else
                 foreach (BookSale sale in pagedItems)
                 {
                     <tr>
-                        <td>@sale.Id</td>
+                        <th scope="row">@sale.Id</th>
                         <td>@sale.Title</td>
                         <td>@sale.Quantity.ToString("n0")</td>
                         <td>@sale.Price.ToString("c0")</td>
                         <td>@sale.Author?.AuthorName</td>
-                        <AuthorizeView Roles="Admin,Staff">
-                            <td>
-                                <MudButton Color="Color.Success" OnClick="() => ViewItem(sale.Id)">Xem</MudButton>
-                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(sale.Id)" >Sửa</MudButton>
-                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(sale.Id)" >Xóa</MudButton>
-
-                            </td>
-                        </AuthorizeView>
+                        <td>
+                            <MudButton Color="Color.Success" OnClick="() => ViewItem(sale.Id)">Xem</MudButton>
+                            <AuthorizeView Roles="Admin,Staff">
+                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(sale.Id)">Sửa</MudButton>
+                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(sale.Id)">Xóa</MudButton>
+                            </AuthorizeView>
+                        </td>
                     </tr>
                 }
             }
@@ -113,12 +110,12 @@ else
                         <td>@author.Id</td>
                         <td>@author.AuthorName</td>
                         <td>
-                            <MudButton Color="Color.Info" OnClick="() => ShowAllBookSalesFromAuthor(author.Id)" >Xem</MudButton>
+                            <MudButton Color="Color.Info" OnClick="() => ShowAllBookSalesFromAuthor(author.Id)">Xem</MudButton>
                         </td>
                         <AuthorizeView Roles="Admin,Staff">
                             <td>
-                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(author.Id)" >Sửa</MudButton>
-                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(author.Id)" >Xóa</MudButton>
+                                <MudButton Color="Color.Primary" OnClick="() => UpdateItem(author.Id)">Sửa</MudButton>
+                                <MudButton Color="Color.Error" OnClick="() => DeleteItem(author.Id)">Xóa</MudButton>
 
                             </td>
                         </AuthorizeView>
@@ -130,12 +127,14 @@ else
                 foreach (Bill bill in pagedItems)
                 {
                     <tr>
-                        <td>@bill.Id</td>
+                        <th scope="row">@bill.Id</th>
                         <td>@bill.TotalPrice.ToString("c0")</td>
                         <td>@bill.DateCreated</td>
                         <td>@bill.User?.UserName</td>
                         <td>
-                            <MudButton Color="Color.Success" OnClick="() => ShowBillDetails(bill.Id)" >Chi tiết</MudButton>
+                            <MudButton @onclick="@((e) => OpenBillDetailDialog(bill.Id))" Color="Color.Success">
+                                Chi tiết
+                            </MudButton>
                         </td>
                     </tr>
                 }
@@ -145,16 +144,18 @@ else
                 foreach (User user in pagedItems)
                 {
                     <tr>
-                        <td>@user.Id</td>
+                        <th scope="row">@user.Id</th>
                         <td>@user.UserName</td>
                         <td>@user.Email</td>
                         <td>@user.Role?.RoleName</td>
                         <td class="@(user.IsActive ? "" : "text-danger")">@(user.IsActive ? "Đang hoạt động" : "Bị khóa")</td>
                         <td>
-                            <MudButton Color="Color.Primary" OnClick="() => ShowChangeRole(user.Id)" >Thay đổi</MudButton>
+                            <MudButton @onclick="@((e) => OpenChangeRoleDialog(user.Id))" Color="Color.Success">
+                                Chi tiết
+                            </MudButton>
                         </td>
                         <td>
-                            <MudButton Color="Color.Warning" OnClick="() => SetUserStatus(user.Id, !user.IsActive)" >
+                            <MudButton Color="Color.Warning" OnClick="() => SetUserStatus(user.Id, !user.IsActive)">
                                 @(user.IsActive ? "Khóa" : "Mở khóa")
                             </MudButton>
                         </td>
@@ -163,24 +164,15 @@ else
             }
         </tbody>
     </table>
-
-    <div class="d-flex justify-content-center align-items-center">
-        <button class="btn btn-secondary me-2" @onclick="PreviousPage" disabled="@(currentPage == 1)">Prev</button>
-        <span class="text-center py-2">Page @currentPage of @((totalItems + pageSize - 1) / pageSize)</span>
-        <button class="btn btn-secondary ms-2" @onclick="NextPage" disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)">Next</button>
+    <div class="d-flex justify-content-center align-items-center mt-5">
+        <MudButton Variant="Variant.Outlined" @onclick="PreviousPage" Disabled="@(currentPage == 1)">Prev</MudButton>
+        <MudText Typo="Typo.body1" Class="mx-2">Page @currentPage of @((totalItems + pageSize - 1) / pageSize)</MudText>
+        <MudButton Variant="Variant.Outlined" @onclick="NextPage" Disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)">Next</MudButton>
     </div>
 
-    <div class="d-flex justify-content-center align-items-center mt-3">
-        <label for="pageNumber" class="me-2">Đi đến trang:</label>
-        <input type="number" id="pageNumber" min="1" max="@((totalItems + pageSize - 1) / pageSize)" @bind="currentPage" class="form-control" style="width: 75px;" />
+    <div class="d-flex justify-content-center align-items-center mt-1">
+        <MudText Class="me-2 mb-1">Đi đến trang:</MudText>
+        <MudInput Type="number" id="pageNumber" Min="1" Max="@((totalItems + pageSize - 1) / pageSize)" @bind-Value="currentPage" Style="width: 40px;" />
     </div>
-}
 
-@if (Type == "users")
-{
-    <ChageRoleModal IsVisible="IsModalVisible" OnClose="CloseModal" SelectedUser="SelectedUser" OnChangeRole="HandleChangeRole" />
-}
-else if (Type == "bills")
-{
-    <BillDetailModal IsVisible="IsModalVisible" SelectedBill="SelectedBill" OnClose="CloseModal" />
 }

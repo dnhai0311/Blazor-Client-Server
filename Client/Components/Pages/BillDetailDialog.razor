@@ -1,0 +1,45 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>Mã hóa đơn: @SelectedBill.Id</MudText>
+        <MudText>Tổng giá: @SelectedBill.TotalPrice.ToString("c0")</MudText>
+        <MudText>Ngày tạo: @SelectedBill.DateCreated</MudText>
+        <MudText>Người tạo tạo: @SelectedBill.User?.UserName</MudText>
+        @if (CalculateTotal() > SelectedBill?.TotalPrice)
+        {
+            <MudText Typo="Typo.body2">
+                Giảm giá: @(Math.Round(1 - (SelectedBill?.TotalPrice ?? 0.0) / CalculateTotal(), 1) * 100)%
+            </MudText>
+        }
+        <MudText Typo="Typo.subtitle1">Chi tiết:</MudText>
+        @if (SelectedBill?.BillDetails != null && SelectedBill.BillDetails.Any())
+        {
+            @foreach (var detail in SelectedBill.BillDetails)
+            {
+                <MudText Class="ms-2">
+                    @detail?.BookSale?.Title - SL: @detail?.Quantity.ToString("n0") - Giá: @detail?.Price.ToString("c0")
+                </MudText>
+            }
+        }
+        else
+        {
+            <MudText>Booksale bị xóa ~~</MudText>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public Bill SelectedBill { get; set; } = new();
+
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+
+    private double CalculateTotal()
+    {
+        return SelectedBill?.BillDetails?.Sum(detail => detail.Price) ?? 0;
+    }
+}

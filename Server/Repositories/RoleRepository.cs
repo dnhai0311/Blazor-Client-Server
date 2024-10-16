@@ -16,7 +16,9 @@ namespace Server.Repositories
 
         public async Task<List<Role>> GetAllRoles()
         {
-            return await BookSaleContext.Roles.ToListAsync();
+            return await BookSaleContext.Roles
+                .OrderBy(role => role.Id)
+                .ToListAsync();
         }
 
         public async Task<Role> GetRoleById(int id)

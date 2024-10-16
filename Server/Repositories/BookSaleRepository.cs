@@ -17,6 +17,7 @@ namespace Server.Repositories
         public async Task<List<BookSale>> GetAllBookSales()
         {
             return await bookSalesContext.BookSales
+                .OrderBy(sale => sale.Id)
                 .Include(sale => sale.Author)
                 .ToListAsync();
         }

@@ -1,6 +1,6 @@
 ﻿<AuthorizeView>
     <Authorized>
-        Chào, @context?.User?.Identity?.Name!
+        <MudText>Chào, @context?.User?.Identity?.Name!</MudText>
         <MudButton Href="/change-password" Color="Color.Primary" Class="text-decoration-none">Đổi mật khẩu</MudButton>
         <MudButton Href="/logout" Color="Color.Secondary" Class="text-decoration-none">Đăng xuất</MudButton>
     </Authorized>

@@ -18,6 +18,7 @@ namespace Server.Repositories
         public async Task<List<User>> GetAllUsers()
         {
             var users = await bookSalesContext.Users
+                            .OrderBy(user => user.Id)
                             .Include(user => user.Role)
                             .ToListAsync();
             foreach (var user in users)

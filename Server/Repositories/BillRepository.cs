@@ -17,6 +17,7 @@ namespace Server.Repositories
         public async Task<List<Bill>> GetAllBills()
         {
             return await bookSalesContext.Bills
+                .OrderBy(bill => bill.Id)
                 .Include(user => user.User)
                 .ToListAsync();
         }

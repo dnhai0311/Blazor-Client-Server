@@ -31,7 +31,6 @@ namespace Client.Components.Pages
 
         public string errorMessage { get; set; } = string.Empty;
 
-        public List<IBrowserFile> files = new List<IBrowserFile>();
         public List<string> imagePreviews = new List<string>();
 
         protected override async Task OnInitializedAsync()
@@ -94,20 +93,14 @@ namespace Client.Components.Pages
         {
             if (selectedFiles.Count == 0) return;
 
-            if (files.Count + selectedFiles.Count > 4)
+            if (imagePreviews.Count + selectedFiles.Count > 4)
             {
-                NotificationService.ShowErrorMessage($"Chỉ nhận tối đã 4 ảnh~~\n Còn có thể tải lên {4-files.Count} ảnh~~");
+                NotificationService.ShowErrorMessage($"Chỉ nhận tối đã 4 ảnh~~\n Còn có thể tải lên {4-imagePreviews.Count} ảnh~~");
                 return;
             }
 
             foreach (var file in selectedFiles)
             {
-                if (files.Any(existingFile => existingFile.Name == file.Name))
-                {
-                    continue;
-                }
-
-                files.Add(file);
 
                 var resizedFile = await file.RequestImageFileAsync(file.ContentType, 640, 480);
 
@@ -135,7 +128,6 @@ namespace Client.Components.Pages
                 return;
             }
 
-            files.RemoveAt(index);
             imagePreviews.RemoveAt(index);
 
             bookSale.ImgUrl = JsonSerializer.Serialize(imagePreviews, new JsonSerializerOptions { WriteIndented = true });

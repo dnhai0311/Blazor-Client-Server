@@ -16,7 +16,9 @@ namespace Server.Repositories
 
         public async Task<List<Author>> GetAllAuthors()
         {
-            return await bookSalesContext.Authors.ToListAsync();
+            return await bookSalesContext.Authors
+                .OrderBy(author => author.Id)
+                .ToListAsync();
         }
 
         public async Task<Author> GetAuthorById(int id)

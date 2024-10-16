@@ -7,16 +7,16 @@
             <Authorized>
                 <div class="card text-center shadow-lg">
                     <div class="card-header bg-primary text-white">
-                        <h1 class="display-4">Xin chào, @context?.User?.Identity?.Name!</h1>
+                        <MudText Typo="Typo.h3">Xin chào, @context?.User?.Identity?.Name!</MudText>
                     </div>
                     <div class="card-body">
-                        <h2 class="card-title">Vai trò: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</h2>
+                        <MudText Typo="Typo.h4" class="card-title">Vai trò: @(context?.User?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value)</MudText>
                     </div>
                 </div>
             </Authorized>
             <NotAuthorized>
                 <div class="alert alert-warning text-center">
-                    <h1>Hãy đăng nhập~~</h1>
+                    <MudText Typo="Typo.h3">Hãy đăng nhập</MudText>
                 </div>
             </NotAuthorized>
         </AuthorizeView>

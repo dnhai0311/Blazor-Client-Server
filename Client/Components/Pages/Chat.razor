@@ -5,7 +5,7 @@
 @inject IJSRuntime JS
 
 
-<h1>Nhắn tin nhóm</h1>
+<MudText Typo="Typo.h3">Nhắn tin nhóm</MudText>
 <MudPaper id="messagesList" Class="overflow-auto" Style="height: 300px;" Elevation="1">
     <MudList T="string">
         @foreach (var message in HubService.GetMessages())

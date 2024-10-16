@@ -1,7 +1,6 @@
 ﻿using Shared.Models;
 using Shared.Repositories;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 using Unidecode.NET;
 using MudBlazor;
 
@@ -92,25 +91,6 @@ namespace Client.Components.Pages
                 .Take(PageSize)
                 .ToList();
 
-        public bool IsModalVisible { get; set; }
-        public Bill? SelectedBill { get; set; }
-        public User? SelectedUser { get; set; }
-        public async Task ShowBillDetails(int billId)
-        {
-            SelectedBill = await BillRepository.GetAllBillDetailsByBillId(billId);
-            IsModalVisible = true;
-        }
-
-        public async Task ShowChangeRole(int userId)
-        {
-            SelectedUser = await UserRepository.GetUserById(userId);
-            IsModalVisible = true;
-        }
-
-        public void CloseModal(bool isVisible)
-        {
-            IsModalVisible = isVisible;
-        }
         protected override async Task OnInitializedAsync()
         {
             if (Type == "booksales" && AuthorId.HasValue)
@@ -179,33 +159,6 @@ namespace Client.Components.Pages
             }
         }
 
-        public async Task HandleChangeRole((int id, int roleId) args)
-        {
-            int id = args.id;
-            int roleId = args.roleId;
-
-            await ChangeRole(id, roleId);
-
-            IsModalVisible = false;
-        }
-
-        public async Task ChangeRole(int id, int roleId)
-        {
-            await UserRepository.ChangeRole(id, roleId);
-
-            var role = await RoleRepository.GetRoleById(roleId);
-
-            string roleName = role.RoleName;
-
-            var user = (User)pagedItems.FirstOrDefault(item => ((User)item).Id == id);
-            if (user != null)
-            {
-                user.Role.RoleName = roleName;
-            }
-
-            StateHasChanged();
-        }
-
         public async Task DeleteItem(int id)
         {
             if (Type == "booksales")
@@ -261,6 +214,50 @@ namespace Client.Components.Pages
                 CurrentPage++;
                 UpdatePaged();
             }
+        }
+
+        public async Task OpenBillDetailDialog(int billId)
+        {
+            var SelectedBill = await BillRepository.GetAllBillDetailsByBillId(billId);
+
+            var parameters = new DialogParameters { ["SelectedBill"] = SelectedBill };
+
+            var options = new DialogOptions() { CloseButton = true };
+
+            var dialog = await DialogService.ShowAsync<BillDetailDialog>("Chi tiết hóa đơn", parameters, options);
+        }
+        public async Task ChangeRole((int id, int roleId) args)
+        {
+            int id = args.id;
+            int roleId = args.roleId;
+            await UserRepository.ChangeRole(id, roleId);
+
+            var role = await RoleRepository.GetRoleById(roleId);
+
+            string roleName = role.RoleName;
+
+            var user = (User)pagedItems.FirstOrDefault(item => ((User)item).Id == id);
+            if (user != null)
+            {
+                user.Role.RoleName = roleName;
+            }
+
+            StateHasChanged();
+        }
+
+        public async Task OpenChangeRoleDialog(int userId)
+        {
+            var SelectedUser = await UserRepository.GetUserById(userId);
+
+            var parameters = new DialogParameters
+            {
+                ["SelectedUser"] = SelectedUser,
+                ["OnChangeRole"] = EventCallback.Factory.Create<(int id, int roleId)>(this, ChangeRole)
+            };
+
+            var options = new DialogOptions() { CloseButton = true };
+
+            var dialog = await DialogService.ShowAsync<ChangeRoleDialog>("Thay đổi vai trò", parameters, options);
         }
     }
 }
