@@ -1,7 +1,7 @@
 ﻿@inherits ShowListBase
 
 <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <MudText Typo="Typo.h3">
+    <MudText Typo="Typo.h3" Class="mb-4">
         @(
             Type switch
             {
@@ -22,13 +22,10 @@
                 <MudSelectItem Value="20">20</MudSelectItem>
             </MudSelect>
         </div>
-        @if (Type != "bills")
-        {
-            <MudTextField @bind-Value="searchText"
-                          Label="Tìm kiếm"
-                          Variant="Variant.Outlined"
-                          Style="width: 200px;" />
-        }
+        <MudTextField @bind-Value="searchText"
+                      Label="Tìm kiếm"
+                      Variant="Variant.Outlined"
+                      Style="width: 200px;" />
     </div>
 </div>
 
@@ -42,7 +39,7 @@ else if (!items.Any())
 }
 else
 {
-    <table class="table table-hover mud-typography mud-typography-body1">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">ID</th>

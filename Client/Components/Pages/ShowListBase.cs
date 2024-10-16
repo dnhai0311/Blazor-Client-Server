@@ -77,6 +77,7 @@ namespace Client.Components.Pages
                 BookSale bookSale => bookSale.Title,
                 Author author => author.AuthorName,
                 User user => user.UserName,
+                Bill bill => bill.User.UserName,
                 _ => string.Empty
             };
         }

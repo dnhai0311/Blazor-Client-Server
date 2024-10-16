@@ -2,7 +2,7 @@
 @inherits AddAuthorBase
 @attribute [Authorize(Roles = "Admin,Staff")]
 
-<MudText Typo="Typo.h3">@(author.Id != 0 ? "Sửa" : "Thêm") Tác giả</MudText>
+<MudText Typo="Typo.h3" Class="mb-4">@(author.Id != 0 ? "Sửa" : "Thêm") Tác giả</MudText>
 
 <EditForm Model="author" OnValidSubmit="HandleValidSubmit" FormName="addAuthorForm">
     <DataAnnotationsValidator />

@@ -3,7 +3,7 @@
 @inherits AddBillBase
 @attribute [Authorize]
 
-<MudText Typo="Typo.h3">@(bill.Id != 0 ? "Sửa" : "Thêm") hóa đơn</MudText>
+<MudText Typo="Typo.h3" Class="mb-4">@(bill.Id != 0 ? "Sửa" : "Thêm") hóa đơn</MudText>
 
 <EditForm Model="@bill" OnValidSubmit="HandleValidSubmit" FormName="addBillForm">
     <DataAnnotationsValidator />
