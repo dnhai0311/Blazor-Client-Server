@@ -14,12 +14,18 @@
                     <MudTextField Label="Mật khẩu" Class="mt-3"
                                   @bind-Value="loginRequest.Password" For="@(() => loginRequest.Password)" InputType="InputType.Password" />
                     <MudCheckBox Label="Lưu tài khoản" LabelPosition="LabelPosition.Start" @bind-Value="loginRequest.RememberMe" Class="mt-3" />
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="w-100" Disabled="@isLoading">
-                        @(!isLoading ? "Đăng nhập" : "Đang đăng nhập")
+                    <MudButton Disabled="@isLoading" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="w-100">
+                        @if (isLoading)
+                        {
+                            <MudProgressCircular Size="Size.Small" Class="ms-n1" Indeterminate="true" />
+                            <MudText Class="ms-2">Đang đăng nhập</MudText>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.inherit">Đăng nhập</MudText>
+                        }
                     </MudButton>
-                </MudCardActions>
+                </MudCardContent>
             </MudCard>
         </MudItem>
     </MudGrid>

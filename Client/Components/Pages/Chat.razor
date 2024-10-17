@@ -20,10 +20,12 @@
 <EditForm Model="@messageModel" OnValidSubmit="Send" class="mt-3 position-relative">
     <MudTextField TextUpdateSuppression=false @bind-Value="messageModel.Message" Label="Tin nhắn" Variant="Variant.Outlined" FullWidth="true" />
     <MudButton ButtonType="ButtonType.Submit" Disabled="@(!HubService.IsConnected)"
-               class="position-absolute top-50 translate-middle-y" Color="Color.Primary" Variant="Variant.Filled"
-               style="right: 10px;">
+               Class="position-absolute top-50 translate-middle-y" Color="Color.Primary" Variant="Variant.Filled"
+               Style="right: 10px;"
+               EndIcon="@Icons.Material.Filled.Send">
         Send
     </MudButton>
+
 </EditForm>
 
 @code {

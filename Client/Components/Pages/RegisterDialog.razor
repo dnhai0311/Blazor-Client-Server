@@ -1,0 +1,11 @@
+﻿<MudDialog>
+    <DialogContent>
+        <Register IsAdminCreate="true" OnSubmit="Submit" />
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+    private void Submit() => MudDialog.Close(DialogResult.Ok(true));
+}

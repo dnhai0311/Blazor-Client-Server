@@ -132,6 +132,8 @@ namespace Client.Components.Pages
 
             bookSale.ImgUrl = JsonSerializer.Serialize(imagePreviews, new JsonSerializerOptions { WriteIndented = true });
 
+            Console.WriteLine(index);
+
         }
 
     }

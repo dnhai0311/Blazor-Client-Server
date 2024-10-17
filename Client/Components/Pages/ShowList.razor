@@ -13,15 +13,17 @@
             }
             )
     </MudText>
-    <div class="d-flex align-content-center">
-        <div class="d-flex align-items-center me-3">
-            <MudSelect @bind-Value="pageSize" Style="width: 75px;" Variant="Variant.Outlined">
-                <MudSelectItem Value="5">5</MudSelectItem>
-                <MudSelectItem Value="10">10</MudSelectItem>
-                <MudSelectItem Value="15">15</MudSelectItem>
-                <MudSelectItem Value="20">20</MudSelectItem>
-            </MudSelect>
-        </div>
+    <div class="d-flex align-items-center">
+        @if (Type == "users")
+        {
+            <MudButton OnClick="OpenRegisterDialog" Variant="Variant.Text" Size="Size.Large" Class="me-1 mt-1">Thêm mới</MudButton>
+        }
+        <MudSelect @bind-Value="pageSize" Style="width: 75px;" Variant="Variant.Outlined" Class="me-1 mt-1">
+            <MudSelectItem Value="5">5</MudSelectItem>
+            <MudSelectItem Value="10">10</MudSelectItem>
+            <MudSelectItem Value="15">15</MudSelectItem>
+            <MudSelectItem Value="20">20</MudSelectItem>
+        </MudSelect>
         <MudTextField @bind-Value="searchText"
                       Label="Tìm kiếm"
                       Variant="Variant.Outlined"
@@ -162,9 +164,16 @@ else
         </tbody>
     </table>
     <div class="d-flex justify-content-center align-items-center mt-5">
-        <MudButton Variant="Variant.Outlined" @onclick="PreviousPage" Disabled="@(currentPage == 1)">Prev</MudButton>
-        <MudText Typo="Typo.body1" Class="mx-2">Page @currentPage of @((totalItems + pageSize - 1) / pageSize)</MudText>
-        <MudButton Variant="Variant.Outlined" @onclick="NextPage" Disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)">Next</MudButton>
+        <MudButton Variant="Variant.Outlined" @onclick="PreviousPage" Disabled="@(currentPage == 1)"
+                   StartIcon="@Icons.Material.Filled.ArrowBack">
+            Prev
+        </MudButton>
+        <MudText Class="mx-2">Trang @currentPage of @((totalItems + pageSize - 1) / pageSize)</MudText>
+        <MudButton Variant="Variant.Outlined" @onclick="NextPage"
+                   Disabled="@(currentPage >= (totalItems + pageSize - 1) / pageSize)"
+                   EndIcon="@Icons.Material.Filled.ArrowForward">
+            Next
+        </MudButton>
     </div>
 
     <div class="d-flex justify-content-center align-items-center mt-1">

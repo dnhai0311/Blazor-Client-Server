@@ -45,13 +45,12 @@
                                            Class="position-absolute top-0 end-0" />
                         }
                     </div>
-
                 </MudPaper>
 
-                <div class="d-flex flex-wrap justify-content-center">
+                <div class="d-flex justify-content-center mt-1">
                     @foreach (var image in imagePreviews.Skip(1).Select((img, idx) => new { img, idx }))
                     {
-                        <MudPaper Class="m-2">
+                        <MudPaper Class="m-1">
                             <div class="position-relative">
                                 <MudImage ObjectFit="ObjectFit.Contain"
                                           Src="@image.img"
@@ -62,7 +61,7 @@
                                 @if (!IsView)
                                 {
                                     <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                                   OnClick="@(() => RemoveImage(image.idx))"
+                                                   OnClick="@(() => RemoveImage(image.idx+1))"
                                                    Color="Color.Error"
                                                    Size="Size.Small"
                                                    Class="position-absolute top-0 end-0"/>
@@ -75,8 +74,8 @@
             }
             else
             {
-                <MudPaper Class="d-flex justify-content-center align-items-center">
-                    <p>Không có hình ảnh nào để hiển thị.</p>
+                <MudPaper>
+                    <MudText Class="p-3 text-center">Không có hình ảnh nào để hiển thị.</MudText>
                 </MudPaper>
             }
 

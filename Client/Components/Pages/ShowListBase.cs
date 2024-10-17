@@ -260,5 +260,24 @@ namespace Client.Components.Pages
 
             var dialog = await DialogService.ShowAsync<ChangeRoleDialog>("Thay đổi vai trò", parameters, options);
         }
+
+        public async Task OpenRegisterDialog()
+        {
+
+            var options = new DialogOptions() { CloseButton = true, FullWidth=true};
+
+            var dialog = await DialogService.ShowAsync<RegisterDialog>("Thêm mới người dùng", options);
+
+            var result = await dialog.Result;
+
+            if(!result.Canceled)
+            {
+                items.Clear();
+                var users = await UserRepository.GetAllUsers();
+                items.AddRange(users);
+                UpdatePaged();
+            }
+
+        }
     }
 }

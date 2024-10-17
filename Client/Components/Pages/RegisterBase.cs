@@ -1,13 +1,18 @@
 ﻿using Shared.Repositories;
 using Microsoft.AspNetCore.Components;
 using Shared.Models;
-using MudBlazor;
 using Client.Services;
 
 namespace Client.Components.Pages
 {
     public class RegisterBase : ComponentBase
     {
+        [Parameter]
+        public bool IsAdminCreate { get; set; } = false;
+        [Parameter]
+        public EventCallback OnSubmit { get; set; }
+
+        [Parameter]
         [Inject]
         public required IUserClientRepository UserRepository { get; set; }
         [Inject]
@@ -27,10 +32,13 @@ namespace Client.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            if (user.User.Identity.IsAuthenticated)
+            if (!IsAdminCreate)
             {
-                NavigationManager.NavigateTo("/");
+                var user = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                if (user.User.Identity.IsAuthenticated)
+                {
+                    NavigationManager.NavigateTo("/");
+                }
             }
             try
             {
@@ -55,7 +63,15 @@ namespace Client.Components.Pages
             try
             {
                 await UserRepository.AddUser(registerRequest);
-                NotificationService.ShowSuccessMessage("Đăng ký thành công!"); 
+                NotificationService.ShowSuccessMessage("Đăng ký thành công!");
+                if (IsAdminCreate)
+                {
+                    if (OnSubmit.HasDelegate)
+                    {
+                        await OnSubmit.InvokeAsync();
+                    }
+                    return;
+                }
                 NavigationManager.NavigateTo("/login");
             }
             catch (Exception ex)

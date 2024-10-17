@@ -1,7 +1,10 @@
 ﻿@page "/register"
 @inherits RegisterBase
 
-<MudText Typo="Typo.h3" Class="mb-4">Đăng Ký</MudText>
+@if(!IsAdminCreate)
+{
+    <MudText Typo="Typo.h3" Class="mb-4">Đăng Ký</MudText>
+}
 
 <EditForm Model="registerRequest" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
@@ -15,31 +18,36 @@
                                   autocomplete="username" />
                     <MudTextField Label="Email" Class="mt-3"
                                   @bind-Value="registerRequest.Email"
-                                  For="@(() => registerRequest.Email)"
-                                  />
+                                  For="@(() => registerRequest.Email)" />
                     <MudTextField Label="Mật khẩu" Class="mt-3"
                                   @bind-Value="registerRequest.Password"
                                   For="@(() => registerRequest.Password)"
-                                  InputType="InputType.Password"
-                                  />
+                                  InputType="InputType.Password" />
                     <MudTextField Label="Nhập lại mật khẩu" Class="mt-3"
                                   @bind-Value="registerRequest.ConfirmPassword"
                                   For="@(() => registerRequest.ConfirmPassword)"
-                                  InputType="InputType.Password"
-                                  />
-                </MudCardContent>
-                <div class="d-flex ms-5">
-                    <MudRadioGroup T="int" @bind-Value="registerRequest.RoleId"
-                                   Label="Vai trò" For="@(() => registerRequest.RoleId)">
-                        @foreach (var role in Roles)
+                                  InputType="InputType.Password" />
+                    <MudItem Class="mt-3">
+                        <MudRadioGroup T="int" @bind-Value="registerRequest.RoleId"
+                                       Label="Vai trò" For="@(() => registerRequest.RoleId)">
+                            @foreach (var role in Roles)
+                            {
+                                <MudRadio Value="@role.Id">@role.RoleName</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </MudItem>
+                    <MudButton Disabled="@isLoading" ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="w-100">
+                        @if (isLoading)
                         {
-                            <MudRadio Value="@role.Id">@role.RoleName</MudRadio>
+                            <MudProgressCircular Size="Size.Small" Class="ms-n1" Indeterminate="true" />
+                            <MudText Class="ms-2">Đang đăng ký</MudText>
                         }
-                    </MudRadioGroup>
-                </div>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="w-100" Disabled="@isLoading">
-                    @(!isLoading ? "Đăng ký" : "Đang đăng ký")
-                </MudButton>
+                        else
+                        {
+                            <MudText Typo="Typo.inherit">Đăng ký</MudText>
+                        }
+                    </MudButton>
+                </MudCardContent>
             </MudCard>
         </MudItem>
     </MudGrid>

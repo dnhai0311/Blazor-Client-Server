@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Server.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class UpdateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -168,6 +168,53 @@ namespace Server.Migrations
                     { 1, "Admin" },
                     { 2, "Staff" },
                     { 3, "Seller" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BookSales",
+                columns: new[] { "Id", "AuthorId", "Description", "ImgUrl", "Price", "Quantity", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, "", "[]", 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 1" },
+                    { 2, 1, "", "[]", 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 2" },
+                    { 3, 1, "", "[]", 120000.0, 500, "Đường Hầm Mùa Hạ Tập 3" },
+                    { 4, 1, "", "[]", 120000.0, 2000, "Đường Hầm Mùa Hạ Tập 4" },
+                    { 5, 1, "", "[]", 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 5" },
+                    { 6, 1, "", "[]", 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 6" },
+                    { 7, 1, "", "[]", 120000.0, 500, "Đường Hầm Mùa Hạ Tập 7" },
+                    { 8, 1, "", "[]", 120000.0, 2000, "Đường Hầm Mùa Hạ Tập 8" },
+                    { 9, 1, "", "[]", 120000.0, 1000, "Đường Hầm Mùa Hạ Tập 9" },
+                    { 10, 1, "", "[]", 120000.0, 1500, "Đường Hầm Mùa Hạ Tập 10" },
+                    { 11, 2, "", "[]", 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 1" },
+                    { 12, 2, "", "[]", 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 2" },
+                    { 13, 2, "", "[]", 130000.0, 1500, "Dế Mèo Phiêu Lưu Ký Tập 3" },
+                    { 14, 2, "", "[]", 130000.0, 2000, "Dế Mèo Phiêu Lưu Ký Tập 4" },
+                    { 15, 2, "", "[]", 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 5" },
+                    { 16, 2, "", "[]", 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 6" },
+                    { 17, 2, "", "[]", 130000.0, 1500, "Dế Mèo Phiêu Lưu Ký Tập 7" },
+                    { 18, 2, "", "[]", 130000.0, 2000, "Dế Mèo Phiêu Lưu Ký Tập 8" },
+                    { 19, 2, "", "[]", 130000.0, 500, "Dế Mèo Phiêu Lưu Ký Tập 9" },
+                    { 20, 2, "", "[]", 130000.0, 1000, "Dế Mèo Phiêu Lưu Ký Tập 10" },
+                    { 21, 3, "", "[]", 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 1" },
+                    { 22, 3, "", "[]", 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 2" },
+                    { 23, 3, "", "[]", 140000.0, 500, "Hành Trình Đến Bắc Cực Tập 3" },
+                    { 24, 3, "", "[]", 140000.0, 1000, "Hành Trình Đến Bắc Cực Tập 4" },
+                    { 25, 3, "", "[]", 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 5" },
+                    { 26, 3, "", "[]", 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 6" },
+                    { 27, 3, "", "[]", 140000.0, 500, "Hành Trình Đến Bắc Cực Tập 7" },
+                    { 28, 3, "", "[]", 140000.0, 1000, "Hành Trình Đến Bắc Cực Tập 8" },
+                    { 29, 3, "", "[]", 140000.0, 1500, "Hành Trình Đến Bắc Cực Tập 9" },
+                    { 30, 3, "", "[]", 140000.0, 2000, "Hành Trình Đến Bắc Cực Tập 10" },
+                    { 31, 4, "", "[]", 150000.0, 500, "Thế Giới Huyền Bí Tập 1" },
+                    { 32, 4, "", "[]", 150000.0, 1000, "Thế Giới Huyền Bí Tập 2" },
+                    { 33, 4, "", "[]", 150000.0, 1500, "Thế Giới Huyền Bí Tập 3" },
+                    { 34, 4, "", "[]", 150000.0, 2000, "Thế Giới Huyền Bí Tập 4" },
+                    { 35, 4, "", "[]", 150000.0, 500, "Thế Giới Huyền Bí Tập 5" },
+                    { 36, 4, "", "[]", 150000.0, 1000, "Thế Giới Huyền Bí Tập 6" },
+                    { 37, 4, "", "[]", 150000.0, 1500, "Thế Giới Huyền Bí Tập 7" },
+                    { 38, 4, "", "[]", 150000.0, 2000, "Thế Giới Huyền Bí Tập 8" },
+                    { 39, 4, "", "[]", 150000.0, 500, "Thế Giới Huyền Bí Tập 9" },
+                    { 40, 4, "", "[]", 150000.0, 1000, "Thế Giới Huyền Bí Tập 10" }
                 });
 
             migrationBuilder.CreateIndex(
