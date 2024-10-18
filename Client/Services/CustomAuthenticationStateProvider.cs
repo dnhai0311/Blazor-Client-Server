@@ -16,13 +16,19 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         TokenHandler = tokenHandler;
         UserRepository = userClientRepository;
     }
+
+    private AuthenticationState AnonymousState()
+    {
+        return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+    }
+
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var savedToken = await TokenHandler.GetTokenAsync();
 
         if (string.IsNullOrWhiteSpace(savedToken))
         {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            return AnonymousState();
         }
 
 
@@ -33,7 +39,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
         if (Int32.Parse(currentId) <= 0)
         {
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            return AnonymousState();
         }
 
         var user = await UserRepository.GetUserById(Int32.Parse(currentId));
@@ -41,7 +47,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         if (user.Role?.RoleName != currentRole)
         {
             await MarkUserAsLoggedOut();
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            return AnonymousState();
         }
 
         await HubService.DisposeAsync();
@@ -72,10 +78,8 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         await HubService.DisposeAsync();
         HubService.messages.Clear();
         await TokenHandler.DeleteTokenAsync();
-        var anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
-        NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(anonymousUser)));
+        NotifyAuthenticationStateChanged(Task.FromResult(AnonymousState()));
     }
-
 
     private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {

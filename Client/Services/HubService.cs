@@ -7,8 +7,8 @@ namespace Client.Services
         private HubConnection? HubConnection;
         public List<string> messages = new();
 
-        public event Action<string> OnMessageReceived;
-        public event Action<string> OnRoleChanged;
+        public event Action<string>? OnMessageReceived;
+        public event Action<string>? OnRoleChanged;
 
 
         public async Task Initialize()

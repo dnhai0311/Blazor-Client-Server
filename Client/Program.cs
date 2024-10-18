@@ -3,7 +3,6 @@ using Client.Repositories;
 using Client.Components;
 using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using MudBlazor.Services;
@@ -16,7 +15,6 @@ builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddScoped<HubService>();
 
-builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthentication("CustomScheme")
     .AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("CustomScheme", null);

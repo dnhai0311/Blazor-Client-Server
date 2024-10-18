@@ -1,23 +1,19 @@
 ﻿using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
-using Blazored.LocalStorage;
-using System.Net.Http.Headers;
+
 using Shared.Models;
 
 public class AuthService : IAuthService
 {
     private readonly HttpClient HttpClient;
-    private readonly ILocalStorageService LocalStorage;
     private readonly AuthenticationStateProvider AuthenticationStateProvider;
 
 
     public AuthService(HttpClient httpClient,
-                       ILocalStorageService localStorage,
                        AuthenticationStateProvider authenticationStateProvider
                       )
     {
         HttpClient = httpClient;
-        LocalStorage = localStorage;
         AuthenticationStateProvider = authenticationStateProvider;
     }
 

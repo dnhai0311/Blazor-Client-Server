@@ -1,23 +1,24 @@
-﻿using Blazored.LocalStorage;
-using Client.Services;
+﻿using Client.Services;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 
 public class TokenHandler : DelegatingHandler
 {
-    private readonly CircuitServicesAccessor _servicesAccessor;
+    private readonly CircuitServicesAccessor ServicesAccessor;
 
     public TokenHandler(CircuitServicesAccessor servicesAccessor)
     {
-        _servicesAccessor = servicesAccessor;
+        ServicesAccessor = servicesAccessor;
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
-        var localStorage = _servicesAccessor.Services?.GetService<ILocalStorageService>();
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
+        var authProvider = ServicesAccessor.Services?.GetService<CustomAuthenticationStateProvider>();
 
-        if (localStorage != null)
+        if (localStorage != null && authProvider != null)
         {
-            var token = await localStorage.GetItemAsync<string>("authToken");
+            var token = (await localStorage.GetAsync<string>("authToken")).Value;
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -28,27 +29,27 @@ public class TokenHandler : DelegatingHandler
         return await base.SendAsync(request, cancellationToken);
     }
 
-    public async Task<string> GetTokenAsync()
+    public async Task<string?> GetTokenAsync()
     {
-        var localStorage = _servicesAccessor.Services?.GetService<ILocalStorageService>();
-        return localStorage != null ? await localStorage.GetItemAsync<string>("authToken") : null;
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
+        return localStorage != null ? (await localStorage.GetAsync<string>("authToken")).Value : null;
     }
 
     public async Task SaveTokenAsync(string token)
     {
-        var localStorage = _servicesAccessor.Services?.GetService<ILocalStorageService>();
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
         if (localStorage != null && !string.IsNullOrEmpty(token))
         {
-            await localStorage.SetItemAsync("authToken", token);
+            await localStorage.SetAsync("authToken", token);
         }
     }
 
     public async Task DeleteTokenAsync()
     {
-        var localStorage = _servicesAccessor.Services?.GetService<ILocalStorageService>();
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
         if (localStorage != null)
         {
-            await localStorage.RemoveItemAsync("authToken");
+            await localStorage.DeleteAsync("authToken");
         }
     }
 }

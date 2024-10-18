@@ -1,13 +1,12 @@
 **/bin/
 **/obj/
-**/.vs/
-.vs/
+
+
 Server/bin/
 Server/obj/
-Server/.vs/
+
 Client/bin/
 Client/obj/
-Client/.vs/
+
 Shared/bin/
 Shared/obj/
-Shared/.vs/
