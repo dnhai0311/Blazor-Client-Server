@@ -9,6 +9,8 @@ using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var baseAddress = new Uri("https://localhost:7103");
+
 builder.Services.AddMudServices();
 
 builder.Services.AddScoped<NotificationService>();
@@ -22,14 +24,13 @@ builder.Services.AddAuthorizationCore();
 
 builder.Services.AddScoped<CircuitServicesAccessor>();
 builder.Services.AddScoped<CircuitHandler, ServicesAccessorCircuitHandler>();
-builder.Services.AddTransient<TokenHandler>();
+builder.Services.AddHttpClient<TokenHandler>(client =>
+{
+    client.BaseAddress = baseAddress;
+});
 
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());
-
-
-
-var baseAddress = new Uri("https://localhost:7103");
 
 void AddHttpClients<TInterface, TImplementation>()
     where TImplementation : class, TInterface

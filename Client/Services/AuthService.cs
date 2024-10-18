@@ -25,7 +25,7 @@ public class AuthService : IAuthService
 
         if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
         {
-            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult.Token);
+            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult);
         }
         else
         {

@@ -1,5 +1,7 @@
 ﻿using Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using Shared.Models;
 using Shared.Repositories;
 using System.Security.Claims;
 using System.Text.Json;
@@ -7,14 +9,14 @@ using System.Text.Json;
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly HubService HubService;
-    private readonly TokenHandler TokenHandler;
     private readonly IUserClientRepository UserRepository;
+    private readonly CircuitServicesAccessor ServicesAccessor;
 
-    public CustomAuthenticationStateProvider(HubService hubService, TokenHandler tokenHandler, IUserClientRepository userClientRepository)
+    public CustomAuthenticationStateProvider(HubService hubService, IUserClientRepository userClientRepository, CircuitServicesAccessor servicesAccessor)
     {
         HubService = hubService;
-        TokenHandler = tokenHandler;
         UserRepository = userClientRepository;
+        ServicesAccessor = servicesAccessor;
     }
 
     private AuthenticationState AnonymousState()
@@ -24,28 +26,40 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        var savedToken = await TokenHandler.GetTokenAsync();
+        var sessionState = await GetTokenAsync();
 
-        if (string.IsNullOrWhiteSpace(savedToken))
+        if (string.IsNullOrEmpty(sessionState.Token))
         {
             return AnonymousState();
         }
 
-
-        var claims = ParseClaimsFromJwt(savedToken);
+        var claims = ParseClaimsFromJwt(sessionState.Token);
+        var notiService = ServicesAccessor.Services?.GetService<NotificationService>();
 
         var currentId = await GetUserIdAsync();
         var currentRole = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
         if (Int32.Parse(currentId) <= 0)
         {
+            notiService?.ShowErrorMessage("User Id không tồn tại");
+            return AnonymousState();
+        }
+        User user;
+        try
+        {
+            user = await UserRepository.GetUserById(Int32.Parse(currentId));
+
+        }
+         catch
+        {
+            notiService?.ShowErrorMessage("Token không hợp lệ");
+            await MarkUserAsLoggedOut();
             return AnonymousState();
         }
 
-        var user = await UserRepository.GetUserById(Int32.Parse(currentId));
-
         if (user.Role?.RoleName != currentRole)
         {
+            notiService?.ShowErrorMessage("Token không hợp lệ");
             await MarkUserAsLoggedOut();
             return AnonymousState();
         }
@@ -57,6 +71,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         {
             if (currentId == userId)
             {
+                notiService?.ShowErrorMessage("Ai đó vừa thay đổi quyền của bạn");
                 await MarkUserAsLoggedOut();
             }
         };
@@ -65,10 +80,10 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     }
 
 
-    public async Task MarkUserAsAuthenticated(string token)
+    public async Task MarkUserAsAuthenticated(LoginResult model)
     {
-        await TokenHandler.SaveTokenAsync(token);
-        var claims = ParseClaimsFromJwt(token);
+        await SaveTokenAsync(model);
+        var claims = ParseClaimsFromJwt(model.Token);
         var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
         NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(authenticatedUser)));
     }
@@ -77,7 +92,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         await HubService.DisposeAsync();
         HubService.messages.Clear();
-        await TokenHandler.DeleteTokenAsync();
+        await DeleteTokenAsync();
         NotifyAuthenticationStateChanged(Task.FromResult(AnonymousState()));
     }
 
@@ -132,13 +147,72 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
     public async Task<string> GetUserIdAsync()
     {
-        var savedToken = await TokenHandler.GetTokenAsync();
-        if (string.IsNullOrWhiteSpace(savedToken))
+        var sessionState = await GetTokenAsync();
+        if (string.IsNullOrEmpty(sessionState.Token))
         {
             return "0";
         }
-        var claims = ParseClaimsFromJwt(savedToken);
+        var claims = ParseClaimsFromJwt(sessionState.Token);
         var userIdClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
         return userIdClaim?.Value ?? "0";
     }
+
+    public async Task<LoginResult> GetTokenAsync()
+    {
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
+        if (localStorage != null)
+        {
+            var sessionState = (await localStorage.GetAsync<LoginResult>("sessionState")).Value;
+            return sessionState ?? new LoginResult();
+        }
+        return new LoginResult();
+    }
+
+    public async Task SaveTokenAsync(LoginResult model)
+    {
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
+        if (localStorage != null && model.Successful)
+        {
+            await localStorage.SetAsync("sessionState", model);
+        }
+    }
+
+    public async Task DeleteTokenAsync()
+    {
+        var localStorage = ServicesAccessor.Services?.GetService<ProtectedLocalStorage>();
+        if (localStorage != null)
+        {
+            await localStorage.DeleteAsync("sessionState");
+        }
+    }
+
+    public async Task<int> IsTokenExpired()
+    {
+        var sessionState = await GetTokenAsync();
+        if (!string.IsNullOrEmpty(sessionState.Token))
+        {
+            var claims = ParseClaimsFromJwt(sessionState.Token);
+            var expiry = long.Parse(claims.FirstOrDefault(c => c.Type == "exp")?.Value!);
+            var currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+            // Token đã hết hạn
+            if (expiry < currentTime)
+            {
+                return 0;
+            }
+
+            // Token còn hạn nhưng dưới 5 phút
+            if (expiry - currentTime <= 5 * 60)
+            {
+                return 1;
+            }
+
+            // Token còn hạn và trên 5 phút
+            return 2;
+        }
+
+        // Nếu không có token
+        return 0;
+    }
+
 }
