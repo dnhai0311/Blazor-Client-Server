@@ -19,7 +19,7 @@ This is a **Blazor** client-server application using Entity Framework Core for d
 
 Ensure you have the following installed:
 
-- [.NET 7.0 SDK](https://dotnet.microsoft.com/download/dotnet/7.0)
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/vs/) or [VS Code](https://code.visualstudio.com/)
 - [XAMPP](https://www.apachefriends.org/index.html) with MySQL configured
 
