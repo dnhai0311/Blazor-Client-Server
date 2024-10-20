@@ -11,6 +11,7 @@ This is a **Blazor** client-server application using Entity Framework Core for d
 - **JWT authentication** for secure user sessions with access tokens and refresh tokens.
 - **MySQL** as the database with XAMPP setup.
 - Supports automatic database migrations with the `update-database` command.
+- **SignalR** for real-time notifications.
 
 ## Getting Started
 
@@ -71,8 +72,8 @@ This project uses **JWT (JSON Web Token)** for user authentication. Here is the 
   "Audience": "https://localhost:7103",
   "Key": "@@@@@@----duongngochaib2003831----@@@@@@",
   "RefreshKey": "@@@@@@----duongngochaib2003831refreshtoken----@@@@@@",
-  "TokenExpiry": 30, // Access token expiry in minutes (30 minutes)
-  "RefreshTokenExpiry": 7 // Refresh token expiry in days (7 days)
+  "TokenExpiry": 30,
+  "RefreshTokenExpiry": 7
 }
 ```
 
@@ -83,12 +84,45 @@ This project uses **JWT (JSON Web Token)** for user authentication. Here is the 
 - **TokenExpiry**: The access token expiry time is set to 30 minutes.
 - **RefreshTokenExpiry**: The refresh token expiry time is set to 7 days.
 
+### SignalR Setup
+
+SignalR is used in this project for real-time notifications between the client and server.
+
+1. **Client-Side Setup**:
+
+   In the client-side `Program.cs`, ensure you have the base address set for the API:
+
+   ```csharp
+   var baseAddress = new Uri("https://localhost:7103");
+   ```
+
+   In your `HubService.cs`, set up the SignalR `HubConnection`:
+
+   ```csharp
+   HubConnection = new HubConnectionBuilder()
+       .WithUrl("https://localhost:7103/hubs")
+       .Build();
+   ```
+
+2. **Server-Side Setup**:
+
+   In the server's `Program.cs`, map the SignalR hub:
+
+   ```csharp
+   app.MapHub<NotificationHub>("/hubs");
+   ```
+
+   This will ensure that SignalR is correctly set up for the client and server to communicate through real-time notifications.
+
 ### Running the Application
 
 1. **Start XAMPP**:
+
    - Ensure MySQL is running in XAMPP.
 
 2. **Start the server**:
+
+   If you are using Visual Studio, press F5. If you are using the terminal:
 
    ```bash
    dotnet run --project Server
@@ -102,8 +136,7 @@ This project uses **JWT (JSON Web Token)** for user authentication. Here is the 
    dotnet run --project Client
    ```
 
-4. Open your browser and navigate to `https://localhost:5001`.
-
+4. Open your browser and navigate to `https://localhost:5001` or something like that.
 
 ### Database Migrations
 
@@ -126,3 +159,4 @@ dotnet ef database update
 - **Entity Framework Core** - For interacting with the MySQL database.
 - **JWT (JSON Web Token)** - For securing the API with user authentication (access and refresh tokens).
 - **MySQL (XAMPP)** - As the database system.
+- **SignalR** - For real-time client-server communication.
