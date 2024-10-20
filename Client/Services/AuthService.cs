@@ -19,17 +19,23 @@ public class AuthService : IAuthService
 
     public async Task Login(LoginRequest loginRequest)
     {
-        var response = await HttpClient.PostAsJsonAsync("api/auth/login", loginRequest);
-
-        var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
-
-        if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
+        try
         {
-            await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult);
+            var response = await HttpClient.PostAsJsonAsync("api/auth/login", loginRequest);
+
+            var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+            if (response.IsSuccessStatusCode && loginResult != null && loginResult.Successful)
+            {
+                await ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(loginResult);
+            }
+            else
+            {
+                throw new ApplicationException(loginResult?.Error);
+            }
         }
-        else
+         catch
         {
-            throw new ApplicationException(loginResult?.Error);
         }
     }
 

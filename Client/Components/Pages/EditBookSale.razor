@@ -1,4 +1,5 @@
 ﻿@page "/booksales/{Id:int}/edit"
+@attribute [Authorize(Roles = "Admin,Staff")]
 
 <AddBookSale Id="@Id"/>
 

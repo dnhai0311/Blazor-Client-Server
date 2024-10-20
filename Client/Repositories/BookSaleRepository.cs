@@ -14,50 +14,77 @@ namespace Client.Repositories
 
         public async Task<List<BookSale>> GetAllBookSales()
         {
-            return await HttpClient.GetFromJsonAsync<List<BookSale>>("api/booksale") ?? new List<BookSale>();
+            try
+            {
+                return await HttpClient.GetFromJsonAsync<List<BookSale>>("api/booksale") ?? new List<BookSale>();
+            }
+            catch
+            {
+            }
+            return new List<BookSale>();
         }
 
         public async Task<BookSale> GetBookSaleById(int id)
         {
-            var response = await HttpClient.GetAsync($"api/booksale/{id}");
+            try
+            {
+                var response = await HttpClient.GetAsync($"api/booksale/{id}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<BookSale>() ?? new BookSale();
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<BookSale>() ?? new BookSale();
+                }
             }
-            else
+            catch
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException(errorMessage);
             }
+            return new BookSale();
         }
 
         public async Task AddBookSale(BookSale bookSale)
         {
-            var response = await HttpClient.PostAsJsonAsync("api/booksale", bookSale);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException(errorMessage);
+                var response = await HttpClient.PostAsJsonAsync("api/booksale", bookSale);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    throw new ApplicationException(errorMessage);
+                }
+            }
+            catch
+            {
             }
         }
 
         public async Task UpdateBookSale(BookSale bookSale)
         {
-            var response = await HttpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new ApplicationException(errorMessage);
+                var response = await HttpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorMessage = await response.Content.ReadAsStringAsync();
+                    throw new ApplicationException(errorMessage);
+                }
+            }
+            catch
+            {
             }
         }
 
         public async Task DeleteBookSale(int id)
         {
-            var response = await HttpClient.DeleteAsync($"api/booksale/{id}");
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await HttpClient.DeleteAsync($"api/booksale/{id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch
+            {
+            }
         }
     }
 }

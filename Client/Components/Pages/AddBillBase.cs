@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Shared.Repositories;
 using Shared.Models;
-using Unidecode.NET;
 using Client.Services;
 
 namespace Client.Components.Pages

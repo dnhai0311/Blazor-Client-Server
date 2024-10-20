@@ -3,9 +3,9 @@ using Server.Services;
 using Shared.Repositories;
 using Shared.Models;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,13 +13,11 @@ public class AuthController : ControllerBase
 {
     private readonly IUserServerRepository UserRepository;
     private readonly ITokenService TokenService;
-    private readonly IConfiguration Configuration;
 
-    public AuthController(IUserServerRepository userRepository, ITokenService tokenService, IConfiguration configuration)
+    public AuthController(IUserServerRepository userRepository, ITokenService tokenService)
     {
         UserRepository = userRepository;
         TokenService = tokenService;
-        Configuration = configuration;
     }
 
     [HttpPost("login")]
@@ -35,10 +33,7 @@ public class AuthController : ControllerBase
             var refreshToken = TokenService.GenerateToken(authenticatedUser.Id, authenticatedUser.UserName,
                                     authenticatedUser.Role?.RoleName!, isRefreshToken: true);
 
-            if (loginRequest.RememberMe)
-            {
-
-            }
+            await TokenService.StoreRefreshToken(authenticatedUser.Id, refreshToken, DateTime.UtcNow.AddDays(TokenService.RefreshTokenExpiry));
 
             return Ok(new LoginResult
             {
@@ -64,18 +59,26 @@ public class AuthController : ControllerBase
     [HttpGet("refresh-token")]
     public async Task<ActionResult<LoginResult>> LoginByRefreshToken(string refreshToken)
     {
-        var refreshKey = Configuration.GetValue<string>("Jwt:RefreshKey")!;
-        var claims = GetClaimsPrincipalFromToken(refreshToken, refreshKey);
+        if (!await TokenService.ValidateRefreshToken(refreshToken))
+        {
+            return Unauthorized(new LoginResult { Successful = false, Error = "Refresh token không hợp lệ" });
+        }
+
+        var claims = GetClaimsPrincipalFromToken(refreshToken);
         if (claims == null)
         {
             return Unauthorized(new LoginResult { Successful = false, Error = "Refresh token không hợp lệ" });
         }
+
         var userId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
         try
         {
             var user = await UserRepository.GetUserById(int.Parse(userId!));
-            var newToken = TokenService.GenerateToken(user.Id, user.UserName, user.Role?.RoleName!,isRefreshToken:false);
+            var newToken = TokenService.GenerateToken(user.Id, user.UserName, user.Role?.RoleName!, isRefreshToken: false);
             var newRefreshToken = TokenService.GenerateToken(user.Id, user.UserName, user.Role?.RoleName!, isRefreshToken: true);
+
+            await TokenService.StoreRefreshToken(user.Id, newRefreshToken, DateTime.UtcNow.AddDays(TokenService.RefreshTokenExpiry));
+
             return Ok(new LoginResult
             {
                 Successful = true,
@@ -93,12 +96,12 @@ public class AuthController : ControllerBase
         }
     }
 
-    private ClaimsPrincipal GetClaimsPrincipalFromToken(string refreshToken, string refreshKey)
+    private ClaimsPrincipal GetClaimsPrincipalFromToken(string refreshToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(refreshKey);
-        var issuer = Configuration.GetValue<string>("Jwt:Issuer")!;
-        var audience = Configuration.GetValue<string>("Jwt:Audience")!;
+        var refreshKey = TokenService.RefreshKey; 
+        var issuer = TokenService.Issuer;
+        var audience = TokenService.Audience;
 
         try
         {
@@ -110,7 +113,7 @@ public class AuthController : ControllerBase
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = issuer,
                 ValidAudience = audience,
-                IssuerSigningKey = new SymmetricSecurityKey(key)
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(refreshKey))
             }, out var validatedToken);
             return principal;
         }

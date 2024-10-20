@@ -48,7 +48,6 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         try
         {
             user = await UserRepository.GetUserById(Int32.Parse(currentId));
-
         }
          catch
         {
@@ -191,28 +190,28 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         var sessionState = await GetTokenAsync();
         if (!string.IsNullOrEmpty(sessionState.Token))
         {
-            var claims = ParseClaimsFromJwt(sessionState.Token);
-            var expiry = long.Parse(claims.FirstOrDefault(c => c.Type == "exp")?.Value!);
+            var tokenClaims = ParseClaimsFromJwt(sessionState.Token);
+            var tokenExpiry = long.Parse(tokenClaims.FirstOrDefault(c => c.Type == "exp")?.Value!);
+
+            var refreshClaims = ParseClaimsFromJwt(sessionState.RefreshToken);
+            var refreshExpiry = long.Parse(refreshClaims.FirstOrDefault(c => c.Type == "exp")?.Value!);
+
             var currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            // Token đã hết hạn
-            if (expiry < currentTime)
+            // return 0 sẽ logout -> hết hạn token hoặc refresh token
+            // return 1 sẽ gọi api refresh-token
+            // return 2 là token còn hạn
+            if (tokenExpiry < currentTime)
             {
-                return 0;
+                if (refreshExpiry > currentTime) return 1; 
+                else return 0; 
             }
-
-            // Token còn hạn nhưng dưới 5 phút
-            if (expiry - currentTime <= 5 * 60)
+            if (tokenExpiry - currentTime <= 5 * 60)
             {
                 return 1;
             }
-
-            // Token còn hạn và trên 5 phút
             return 2;
         }
-
-        // Nếu không có token
         return 0;
     }
-
 }

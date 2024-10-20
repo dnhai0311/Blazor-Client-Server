@@ -2,7 +2,6 @@
 using Server.Models;
 using Shared.Models;
 using Shared.Repositories;
-using System.Net;
 
 namespace Server.Repositories
 {
@@ -21,10 +20,6 @@ namespace Server.Repositories
                             .OrderBy(user => user.Id)
                             .Include(user => user.Role)
                             .ToListAsync();
-            foreach (var user in users)
-            {
-                user.Password = null;
-            }
             return users;
         }
 
@@ -37,7 +32,6 @@ namespace Server.Repositories
             {
                 throw new KeyNotFoundException($"User với ID: {id} không tìm thấy.");
             }
-            user.Password = null;
             return user;
         }
 

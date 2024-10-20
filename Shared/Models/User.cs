@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Text.Json.Serialization;
 
 namespace Shared.Models
 {
@@ -26,5 +27,7 @@ namespace Shared.Models
         public bool IsActive { get; set; } = true;
 
         public Role? Role { get; set; }
+        [JsonIgnore]
+        public List<RefreshToken>? RefreshTokens { get; set; }
     }
 }

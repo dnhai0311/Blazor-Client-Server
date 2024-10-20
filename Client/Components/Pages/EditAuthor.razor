@@ -1,4 +1,5 @@
 ﻿@page "/authors/{Id:int}/edit"
+@attribute [Authorize(Roles = "Admin,Staff")]
 
 <AddAuthor Id="@Id"/>
 

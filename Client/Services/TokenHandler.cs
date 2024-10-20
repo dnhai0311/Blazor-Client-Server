@@ -1,7 +1,6 @@
 ﻿using Client.Services;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.AspNetCore.Identity.Data;
 using Shared.Models;
 
 public class TokenHandler : DelegatingHandler
@@ -27,17 +26,38 @@ public class TokenHandler : DelegatingHandler
             if (!string.IsNullOrEmpty(sessionState.Token))
             {
                 int stateToken = await authProvider.IsTokenExpired();
-                if(stateToken == 0)
+                if (stateToken == 0)
                 {
                     await authProvider.MarkUserAsLoggedOut();
-                } else if(stateToken == 1)
+                }
+                else if (stateToken == 1)
                 {
-                    var response = await HttpClient.GetFromJsonAsync<LoginResult>($"/api/auth/refresh-token?refreshToken={sessionState.RefreshToken}");
-                    if(response != null && response.Successful)
+                    if (!string.IsNullOrEmpty(sessionState.RefreshToken))
                     {
-                        await authProvider.MarkUserAsAuthenticated(response);
-                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", response.Token);
-                    } else
+                        try
+                        {
+                            var response = await HttpClient.GetFromJsonAsync<LoginResult>($"/api/auth/refresh-token?refreshToken={sessionState.RefreshToken}");
+                            if (response != null && response.Successful)
+                            {
+                                await authProvider.MarkUserAsAuthenticated(response);
+                                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", response.Token);
+                            }
+                            else
+                            {
+                                await authProvider.MarkUserAsLoggedOut();
+                            }
+                        }
+                        catch
+                        {
+                            var notiService = ServicesAccessor.Services?.GetService<NotificationService>();
+                            if(notiService != null)
+                            {
+                                notiService.ShowErrorMessage("Refresh token không hợp lệ");
+                            }
+                            await authProvider.MarkUserAsLoggedOut();
+                        }
+                    }
+                    else
                     {
                         await authProvider.MarkUserAsLoggedOut();
                     }
@@ -47,10 +67,10 @@ public class TokenHandler : DelegatingHandler
                     request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", sessionState.Token);
                 }
             }
+
         }
 
         return await base.SendAsync(request, cancellationToken);
     }
-
     
 }

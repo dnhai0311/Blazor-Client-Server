@@ -14,21 +14,40 @@ namespace Client.Repositories
 
         public async Task<List<Bill>> GetAllBills()
         {
-            var bills = await HttpClient.GetFromJsonAsync<List<Bill>>("api/bill");
-            return bills ?? new List<Bill>();
+            try
+            {
+                var bills = await HttpClient.GetFromJsonAsync<List<Bill>>("api/bill");
+                return bills ?? new List<Bill>();
+            }
+            catch
+            {
+            }
+            return new List<Bill>();
         }
-
 
         public async Task<Bill> GetAllBillDetailsByBillId(int id)
         {
-            var bill = await HttpClient.GetFromJsonAsync<Bill>($"api/bill/{id}");
-            return bill ?? new Bill();
+            try
+            {
+                var bill = await HttpClient.GetFromJsonAsync<Bill>($"api/bill/{id}");
+                return bill ?? new Bill();
+            }
+            catch
+            {
+            }
+            return new Bill();
         }
 
         public async Task AddBill(Bill bill)
         {
-            var response = await HttpClient.PostAsJsonAsync("api/bill", bill);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                var response = await HttpClient.PostAsJsonAsync("api/bill", bill);
+                response.EnsureSuccessStatusCode();
+            }
+            catch
+            {
+            }
         }
     }
 }

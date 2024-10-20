@@ -11,6 +11,7 @@ namespace Server.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<BookSale> BookSales { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Bill> Bills { get; set; }

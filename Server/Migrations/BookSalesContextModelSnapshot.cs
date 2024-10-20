@@ -571,6 +571,38 @@ namespace Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Shared.Models.RefreshToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("RevokedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("Shared.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -690,6 +722,17 @@ namespace Server.Migrations
                     b.Navigation("Author");
                 });
 
+            modelBuilder.Entity("Shared.Models.RefreshToken", b =>
+                {
+                    b.HasOne("Shared.Models.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Shared.Models.User", b =>
                 {
                     b.HasOne("Shared.Models.Role", "Role")
@@ -719,6 +762,11 @@ namespace Server.Migrations
             modelBuilder.Entity("Shared.Models.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Shared.Models.User", b =>
+                {
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

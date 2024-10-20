@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Server.Models;
 using Shared.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,17 +8,25 @@ using System.Text;
 
 namespace Server.Services
 {
-    public class TokenService(IConfiguration configuration) : ITokenService
+    public class TokenService : ITokenService
     {
-        public string Key { get; private set; } = configuration.GetValue<string>("Jwt:Key")!;
-        public string RefreshKey { get; private set; } = configuration.GetValue<string>("Jwt:RefreshKey")!;
-        public string Issuer { get; private set; } = configuration.GetValue<string>("Jwt:Issuer")!;
-        public string Audience { get; private set; } = configuration.GetValue<string>("Jwt:Audience")!;
-        public int TokenExpiry { get; private set; } = configuration.GetValue<int>("Jwt:TokenExpiry");
-        public int RefreshTokenExpiry { get; private set; } = configuration.GetValue<int>("Jwt:RefreshTokenExpiry");
+        private readonly BookSalesContext bookSaleContext;
+        private readonly IConfiguration configuration;
 
+        public TokenService(BookSalesContext bookSalesContext, IConfiguration configuration)
+        {
+            bookSaleContext = bookSalesContext;
+            this.configuration = configuration;
+        }
 
-        public string GenerateToken(int id ,string username, string roleName, bool isRefreshToken)
+        public string Key => configuration.GetValue<string>("Jwt:Key")!;
+        public string RefreshKey => configuration.GetValue<string>("Jwt:RefreshKey")!;
+        public string Issuer => configuration.GetValue<string>("Jwt:Issuer")!;
+        public string Audience => configuration.GetValue<string>("Jwt:Audience")!;
+        public int TokenExpiry => configuration.GetValue<int>("Jwt:TokenExpiry");
+        public int RefreshTokenExpiry => configuration.GetValue<int>("Jwt:RefreshTokenExpiry");
+
+        public string GenerateToken(int id, string username, string roleName, bool isRefreshToken)
         {
             var claims = new[]
             {
@@ -25,13 +35,14 @@ namespace Server.Services
                 new Claim(ClaimTypes.Role, roleName)
             };
 
-            var key = !isRefreshToken ? new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key)) 
-                            : new SymmetricSecurityKey(Encoding.UTF8.GetBytes(RefreshKey));
+            var key = isRefreshToken ? new SymmetricSecurityKey(Encoding.UTF8.GetBytes(RefreshKey))
+                                      : new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var expiry = !isRefreshToken ? DateTime.Now.AddMinutes(Convert.ToInt32(TokenExpiry)) 
-                            : DateTime.Now.AddDays(Convert.ToInt32(RefreshTokenExpiry));
+            var expiry = isRefreshToken ? DateTime.UtcNow.AddDays(RefreshTokenExpiry)
+                                         : DateTime.UtcNow.AddMinutes(TokenExpiry);
 
             var token = new JwtSecurityToken(
                 Issuer,
@@ -40,8 +51,55 @@ namespace Server.Services
                 expires: expiry,
                 signingCredentials: creds
             );
-            return new JwtSecurityTokenHandler().WriteToken(token);
 
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task StoreRefreshToken(int userId, string refreshToken, DateTime expiry)
+        {
+            var existingToken = await bookSaleContext.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.UserId == userId);
+
+            if (existingToken != null)
+            {
+                existingToken.Token = refreshToken;
+                existingToken.ExpiresAt = expiry;
+                existingToken.IsActive = true;
+                bookSaleContext.RefreshTokens.Update(existingToken);
+            }
+            else
+            {
+                var newRefreshToken = new RefreshToken
+                {
+                    UserId = userId,
+                    Token = refreshToken,
+                    ExpiresAt = expiry
+                };
+                await bookSaleContext.RefreshTokens.AddAsync(newRefreshToken);
+            }
+
+            await bookSaleContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> ValidateRefreshToken(string refreshToken)
+        {
+            var token = await bookSaleContext.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken
+                                          && rt.ExpiresAt > DateTime.UtcNow
+                                          && rt.IsActive);
+            return token != null;
+        }
+
+
+        public async Task InvalidateToken(string refreshToken)
+        {
+            var token = await bookSaleContext.RefreshTokens
+                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
+            if (token != null)
+            {
+                bookSaleContext.RefreshTokens.Remove(token);
+                await bookSaleContext.SaveChangesAsync();
+            }
         }
     }
 }
