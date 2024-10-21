@@ -46,112 +46,76 @@ namespace Client.Repositories
 
         public async Task AddUser(RegisterRequest registerRequest)
         {
-            try
+            var response = await HttpClient.PostAsJsonAsync("api/user", registerRequest);
+
+            var registerResult = await response.Content.ReadFromJsonAsync<RegisterResult>();
+
+            if (registerResult != null && !registerResult.Successful)
             {
-                var response = await HttpClient.PostAsJsonAsync("api/user", registerRequest);
-
-                var registerResult = await response.Content.ReadFromJsonAsync<RegisterResult>();
-
-                if (registerResult != null && !registerResult.Successful)
-                {
-                    throw new ApplicationException(registerResult?.Errors[0]);
-                }
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
+                throw new ApplicationException(registerResult?.Errors[0]);
             }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task UpdateUser(User user)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/user/{user.Id}", user);
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{user.Id}", user);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task DeleteUser(int id)
         {
-            try
-            {
-                var response = await HttpClient.DeleteAsync($"api/user/{id}");
+            var response = await HttpClient.DeleteAsync($"api/user/{id}");
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task ChangePassword(int id, ChangePasswordRequest changePasswordRequest)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-password", changePasswordRequest);
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-password", changePasswordRequest);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task SetUserStatus(int id, bool IsActive)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/set-status", IsActive);
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/set-status", IsActive);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-                await HubService.ChangeRole(id.ToString());
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
+            await HubService.ChangeRole(id.ToString());
         }
 
         public async Task ChangeRole(int id, int roleId)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-role", roleId);
+            var response = await HttpClient.PutAsJsonAsync($"api/user/{id}/change-role", roleId);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-                await HubService.ChangeRole(id.ToString());
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
+            await HubService.ChangeRole(id.ToString());
         }
     }
 }

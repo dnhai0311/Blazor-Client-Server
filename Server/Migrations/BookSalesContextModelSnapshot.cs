@@ -583,12 +583,6 @@ namespace Server.Migrations
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("RevokedAt")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasColumnType("longtext");

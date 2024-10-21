@@ -43,48 +43,32 @@ namespace Client.Repositories
 
         public async Task AddBookSale(BookSale bookSale)
         {
-            try
-            {
-                var response = await HttpClient.PostAsJsonAsync("api/booksale", bookSale);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            var response = await HttpClient.PostAsJsonAsync("api/booksale", bookSale);
+
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task UpdateBookSale(BookSale bookSale)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
+            var response = await HttpClient.PutAsJsonAsync($"api/booksale/{bookSale.Id}", bookSale);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task DeleteBookSale(int id)
         {
-            try
-            {
-                var response = await HttpClient.DeleteAsync($"api/booksale/{id}");
-                response.EnsureSuccessStatusCode();
-            }
-            catch
-            {
-            }
+            var response = await HttpClient.DeleteAsync($"api/booksale/{id}");
+            response.EnsureSuccessStatusCode();
+
         }
     }
 }

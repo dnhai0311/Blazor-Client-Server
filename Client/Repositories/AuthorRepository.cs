@@ -61,48 +61,30 @@ namespace Client.Repositories
 
         public async Task AddAuthor(Author author)
         {
-            try
-            {
-                var response = await HttpClient.PostAsJsonAsync("api/author", author);
+            var response = await HttpClient.PostAsJsonAsync("api/author", author);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task UpdateAuthor(Author author)
         {
-            try
-            {
-                var response = await HttpClient.PutAsJsonAsync($"api/author/{author.Id}", author);
+            var response = await HttpClient.PutAsJsonAsync($"api/author/{author.Id}", author);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task DeleteAuthor(int id)
         {
-            try
-            {
-                var response = await HttpClient.DeleteAsync($"api/author/{id}");
-                response.EnsureSuccessStatusCode();
-            }
-            catch
-            {
-            }
+            var response = await HttpClient.DeleteAsync($"api/author/{id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }

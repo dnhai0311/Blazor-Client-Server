@@ -40,14 +40,8 @@ namespace Client.Repositories
 
         public async Task AddBill(Bill bill)
         {
-            try
-            {
-                var response = await HttpClient.PostAsJsonAsync("api/bill", bill);
-                response.EnsureSuccessStatusCode();
-            }
-            catch
-            {
-            }
+            var response = await HttpClient.PostAsJsonAsync("api/bill", bill);
+            response.EnsureSuccessStatusCode();
         }
     }
 }

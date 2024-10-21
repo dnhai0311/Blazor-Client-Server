@@ -44,48 +44,31 @@ namespace Client.Repositories
 
         public async Task AddRole(Role role)
         {
-            try
-            {
-                var response = await httpClient.PostAsJsonAsync("api/role", role);
+            var response = await httpClient.PostAsJsonAsync("api/role", role);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
         }
 
         public async Task UpdateRole(Role role)
         {
-            try
-            {
-                var response = await httpClient.PutAsJsonAsync($"api/role/{role.Id}", role);
+            var response = await httpClient.PutAsJsonAsync($"api/role/{role.Id}", role);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    var errorMessage = await response.Content.ReadAsStringAsync();
-                    throw new ApplicationException(errorMessage);
-                }
-            }
-            catch
+            if (!response.IsSuccessStatusCode)
             {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorMessage);
             }
+
         }
 
         public async Task DeleteRole(int id)
         {
-            try
-            {
-                var response = await httpClient.DeleteAsync($"api/role/{id}");
-                response.EnsureSuccessStatusCode();
-            }
-            catch
-            {
-            }
+            var response = await httpClient.DeleteAsync($"api/role/{id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }

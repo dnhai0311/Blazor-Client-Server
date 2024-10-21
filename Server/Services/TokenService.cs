@@ -64,7 +64,6 @@ namespace Server.Services
             {
                 existingToken.Token = refreshToken;
                 existingToken.ExpiresAt = expiry;
-                existingToken.IsActive = true;
                 bookSaleContext.RefreshTokens.Update(existingToken);
             }
             else
@@ -85,21 +84,23 @@ namespace Server.Services
         {
             var token = await bookSaleContext.RefreshTokens
                 .FirstOrDefaultAsync(rt => rt.Token == refreshToken
-                                          && rt.ExpiresAt > DateTime.UtcNow
-                                          && rt.IsActive);
+                                          && rt.ExpiresAt > DateTime.UtcNow);
             return token != null;
         }
 
 
-        public async Task InvalidateToken(string refreshToken)
+        public async Task RemoveRefreshToken(int userId)
         {
             var token = await bookSaleContext.RefreshTokens
-                .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-            if (token != null)
+                .FirstOrDefaultAsync(rt => rt.UserId == userId);
+
+            if (token == null)
             {
-                bookSaleContext.RefreshTokens.Remove(token);
-                await bookSaleContext.SaveChangesAsync();
+                throw new KeyNotFoundException($"Refresh token không tìm thấy cho userId: {userId}");
             }
+
+            bookSaleContext.RefreshTokens.Remove(token);
+            await bookSaleContext.SaveChangesAsync();
         }
     }
 }

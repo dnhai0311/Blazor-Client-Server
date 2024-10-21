@@ -96,10 +96,29 @@ public class AuthController : ControllerBase
         }
     }
 
+    [HttpPost("remove-token")]
+    public async Task<ActionResult> InvalidateToken(int userId)
+    {
+        try
+        {
+            await TokenService.RemoveRefreshToken(userId);
+            return Ok();
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Có lỗi xảy ra: {ex.Message}");
+        }
+    }
+
+
     private ClaimsPrincipal GetClaimsPrincipalFromToken(string refreshToken)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var refreshKey = TokenService.RefreshKey; 
+        var refreshKey = TokenService.RefreshKey;
         var issuer = TokenService.Issuer;
         var audience = TokenService.Audience;
 

@@ -9,7 +9,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Server.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateDB : Migration
+    public partial class CreateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -125,9 +125,7 @@ namespace Server.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Token = table.Column<string>(type: "longtext", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    RevokedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    ExpiresAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

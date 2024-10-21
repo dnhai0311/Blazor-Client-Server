@@ -11,8 +11,8 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(BookSalesContext))]
-    [Migration("20241020145953_UpdateDB")]
-    partial class UpdateDB
+    [Migration("20241021045548_CreateDB")]
+    partial class CreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -584,12 +584,6 @@ namespace Server.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<DateTime?>("RevokedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Token")
