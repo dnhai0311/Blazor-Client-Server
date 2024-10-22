@@ -24,7 +24,9 @@ namespace Server.Repositories
 
         public async Task<BookSale> GetBookSaleById(int id)
         {
-            var bookSale = await bookSalesContext.BookSales.FindAsync(id);
+            var bookSale = await bookSalesContext.BookSales
+                .Include(sale => sale.Author)
+                .FirstOrDefaultAsync(sale => sale.Id == id);
             if (bookSale == null)
             {
                 throw new KeyNotFoundException($"BookSale với ID: {id} không tìm thấy.");

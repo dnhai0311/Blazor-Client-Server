@@ -1,8 +1,229 @@
 ﻿@page "/booksales/{Id:int}"
+@inherits AddBookSaleBase
+@using System.Text.Json
+@if (bookSale != null)
+{
+    <main>
+        <div class="row">
+            <div class="col-12 col-lg-6 p-4" id="product_image">
+                <div class="carousel-container">
+                    <div class="carousel">
+                        @foreach (var image in imagePreviews)
+                        {
+                            <div class="carousel-item @(image == imagePreviews[CurrentIndex] ? "active" : "")">
+                                <img src="@image" alt="Image @CurrentIndex" />
+                            </div>
+                        }
+                    </div>
 
-<AddBookSale Id="@Id" IsView="true"/>
+                    <button @onclick="PreviousSlide" class="prev">❮</button>
+                    <button @onclick="NextSlide" class="next">❯</button>
 
-@code {
-    [Parameter]
-    public int Id { get; set; }
+                    <div class="carousel-indicators my-3">
+                        @for (int i = 0; i < imagePreviews.Count; i++)
+                        {
+                            var index = i;
+                            <img src="@imagePreviews[i]"
+                                 class="thumbnail-preview @(i == CurrentIndex ? "active-thumbnail" : "")"
+                                 @onclick="@( () => GoToSlide(index) )"
+                                 alt="Thumbnail preview" />
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6 mt-5">
+                <div class="infor_container p-3">
+                    <h3 class="fw-bold">@bookSale.Title</h3>
+                    <div class="d-flex justify-content-between">
+                        <p>Mã sách: <span class="fw-bold">@bookSale.Id</span></p>
+
+                        <span class="ml-3">Tác giả: <span class="fw-bold">@bookSale.Author?.AuthorName</span></span>
+                    </div>
+
+                    <p id="product_price" class="h6" style="color: red;">@bookSale.Price.ToString("N0") đ</p>
+
+                    <p>Tình trạng hàng: <span id="stock_status" class="@(IsInStock ? "greenColor" : "redColor")">@StockStatus</span></p>
+
+                </div>
+
+                <div class="des_containter p-3 mt-2">
+
+                    <h4 class="mt-2 mb-3">Mô tả:</h4>
+                    <div>@((MarkupString)bookSale.Description)</div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </main>
 }
+else
+{
+    <div>Chưa có data</div>
+}
+
+<style>
+    .redColor {
+        color: red;
+    }
+
+    .greenColor {
+        color: green;
+    }
+
+    #stock_status {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-left: 0.3rem;
+    }
+
+
+    #product_id {
+        color: grey;
+        font-size: 0.8rem;
+    }
+
+    #product_price {
+        font-size: 1.7rem;
+        font-weight: bold;
+        font-family: inherit;
+    }
+
+    #product_image {
+        position: sticky;
+    }
+
+
+    #carouselExampleIndicators {
+    }
+
+    .des_containter, .infor_container {
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+        border-radius: 10px;
+    }
+
+    .carousel-container {
+        position: relative;
+        max-width: 600px;
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+        border-radius: 10px;
+        position: sticky;
+    }
+
+    .carousel {
+        display: flex;
+    }
+
+    .carousel-item {
+        min-width: 100%;
+        transition: transform 0.5s ease-in-out;
+        display: none;
+    }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+    .carousel img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    button.prev, button.next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 25px;
+        user-select: none;
+        color: #646cff;
+    }
+
+    button.next {
+        right: 0;
+    }
+
+    button.prev {
+        left: 0;
+    }
+
+        button.prev:hover, button.next:hover {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+    .carousel-indicators {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+        .carousel-indicators .indicator {
+            cursor: pointer;
+            height: 12px;
+            width: 12px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+            .carousel-indicators .indicator.active {
+                background-color: #717171;
+            }
+
+    .thumbnail-preview {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border: 2px solid transparent;
+        margin: 5px;
+        cursor: pointer;
+        transition: border-color 0.3s ease;
+    }
+
+    .active-thumbnail {
+        border-color: #007bff;
+    }
+
+    .thumbnail-preview:hover {
+        border-color: #007bff;
+    }
+
+</style>
+@code {
+    private bool IsInStock => bookSale?.Quantity > 0;
+    private string StockStatus => IsInStock ? "Còn hàng" : "Hết hàng";
+
+    private int CurrentIndex { get; set; } = 0;
+
+    private void PreviousSlide()
+    {
+        CurrentIndex = (CurrentIndex - 1 + imagePreviews.Count) % imagePreviews.Count;
+    }
+
+    private void NextSlide()
+    {
+        CurrentIndex = (CurrentIndex + 1) % imagePreviews.Count;
+    }
+
+    private void GoToSlide(int index)
+    {
+        Console.WriteLine(index.ToString());
+        if (index >= 0 && index < imagePreviews.Count)
+        {
+            CurrentIndex = index;
+        }
+    }
+
+}
+
